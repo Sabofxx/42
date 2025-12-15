@@ -12,121 +12,72 @@
 
 #include "BSQ.h"
 
-static void	ft_free_int_matrix(int **map, int rows)
+static int	ft_cell_value(t_dp_ctx *ctx, int row, int col)
 {
-	int	idx;
-
-	if (map == NULL)
-		return ;
-	idx = 0;
-	while (idx < rows)
-	{
-		free(map[idx]);
-		idx++;
-	}
-	free(map);
-}
-
-int	ft_min(int a, int b, int c)
-{
-	if (a <= b && a <= c)
-		return (a);
-	else if (b <= a && b <= c)
-		return (b);
-	else
-		return (c);
-}
-
-int	**ft_generate_map(int l, int c)
-{
-	int	**map2;
-	int	i;
-
-	i = 0;
-	if ((map2 = malloc(l * sizeof(int *))) == NULL)
-		return (NULL);
-	while (i < l)
-	{
-		if ((map2[i] = malloc(c * sizeof(int))) == NULL)
-		{
-			ft_free_int_matrix(map2, i);
-			return (NULL);
-		}
-		i++;
-	}
-	return (map2);
-}
-
-int	ft_biggest_square(char **map, int c, int l, char o)
-{
-	int	i;
-	int	j;
-	int	**c_m;
-	int	count_max;
-
-	i = 0;
-	count_max = 0;
-	c_m = ft_generate_map(l, c);
-	if (c_m == NULL)
+	if (ctx->map[row][col] == ctx->info.obstacle)
 		return (0);
-	while (i < l)
-	{
-		j = 0;
-		while (j < c - 1)
-		{
-			if (map[i][j] == o)
-				c_m[i][j] = 0;
-			else if (i == 0 || j == 0)
-				c_m[i][j] = 1;
-			else
-				c_m[i][j] = ft_min(c_m[i - 1][j], c_m[i][j - 1], c_m[i - 1][j
-						- 1]) + 1;
-			if (c_m[i][j] > count_max)
-				count_max = c_m[i][j];
-			j++;
-		}
-		i++;
-	}
-	ft_free_int_matrix(c_m, l);
-	return (count_max);
+	if (row == 0 || col == 0)
+		return (1);
+	return (ft_min(ctx->cache[row - 1][col], ctx->cache[row][col - 1],
+			ctx->cache[row - 1][col - 1]) + 1);
 }
 
-int	ft_find_position_square(char **map, int c, int l, char o)
+static void	ft_update_row(t_dp_ctx *ctx, t_square *result, int row)
 {
-	int	i;
-	int	j;
-	int	**c_m;
-	int	count_max;
-	int	p;
+	int	col;
+	int	position;
 
-	i = 0;
-	p = 0;
-	count_max = ft_biggest_square(map, c, l, o);
-	c_m = ft_generate_map(l, c);
-	if (c_m == NULL)
-		return (0);
-	while (i < l)
+	col = 0;
+	while (col < ctx->info.columns - 1)
 	{
-		j = 0;
-		while (j < c - 1)
+		ctx->cache[row][col] = ft_cell_value(ctx, row, col);
+		if (ctx->cache[row][col] > result->size)
 		{
-			if (map[i][j] == o)
-				c_m[i][j] = 0;
-			else if (i == 0 || j == 0)
-				c_m[i][j] = 1;
-			else
-				c_m[i][j] = ft_min(c_m[i - 1][j], c_m[i][j - 1], c_m[i - 1][j
-						- 1]) + 1;
-			if (c_m[i][j] == count_max)
-			{
-				p = i * (c - 1) + j;
-				ft_free_int_matrix(c_m, l);
-				return (p);
-			}
-			j++;
+			result->size = ctx->cache[row][col];
+			position = row * (ctx->info.columns - 1) + col;
+			result->position = position;
 		}
-		i++;
+		col++;
 	}
-	ft_free_int_matrix(c_m, l);
-	return (p);
+}
+
+t_square	ft_find_square(char **map, t_bsq_info info)
+{
+	t_square	result;
+	t_dp_ctx	ctx;
+	int			row;
+
+	result.size = 0;
+	result.position = 0;
+	if (map == NULL || info.columns <= 0 || info.lines <= 0)
+		return (result);
+	ctx.map = map;
+	ctx.info = info;
+	ctx.cache = ft_generate_map(info.lines, info.columns);
+	if (ctx.cache == NULL)
+		return (result);
+	row = 0;
+	while (row < info.lines)
+	{
+		ft_update_row(&ctx, &result, row);
+		row++;
+	}
+	ft_free_int_matrix(ctx.cache, info.lines);
+	return (result);
+}
+
+int	ft_biggest_square(char **map, t_bsq_info info)
+{
+	t_square	result;
+
+	result = ft_find_square(map, info);
+	return (result.size);
+}
+
+int	ft_find_position_square(char **map, t_bsq_info info)
+{
+	t_square	result;
+
+	result = ft_find_square(map, info);
+	return (result.position);
 }

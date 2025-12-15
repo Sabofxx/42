@@ -19,10 +19,16 @@ char	ft_get_char_void(char *argv)
 	int		fd;
 	char	v;
 
-	i = 0;
 	fd = open(argv, O_RDONLY);
-	if ((buf = malloc(80 * sizeof(char))) == NULL)
+	if (fd < 0)
 		return (0);
+	buf = malloc(80 * sizeof(char));
+	if (buf == NULL)
+	{
+		close(fd);
+		return (0);
+	}
+	i = 0;
 	while (read(fd, &buf[i], 1))
 	{
 		if (buf[i] == '\n')
@@ -42,10 +48,16 @@ char	ft_get_char_obst(char *argv)
 	int		fd;
 	char	o;
 
-	i = 0;
 	fd = open(argv, O_RDONLY);
-	if ((buf = malloc(80 * sizeof(char))) == NULL)
+	if (fd < 0)
 		return (0);
+	buf = malloc(80 * sizeof(char));
+	if (buf == NULL)
+	{
+		close(fd);
+		return (0);
+	}
+	i = 0;
 	while (read(fd, &buf[i], 1))
 	{
 		if (buf[i] == '\n')
@@ -65,10 +77,16 @@ char	ft_get_char_full(char *argv)
 	int		fd;
 	char	p;
 
-	i = 0;
 	fd = open(argv, O_RDONLY);
-	if ((buf = malloc(80 * sizeof(char))) == NULL)
+	if (fd < 0)
 		return (0);
+	buf = malloc(80 * sizeof(char));
+	if (buf == NULL)
+	{
+		close(fd);
+		return (0);
+	}
+	i = 0;
 	while (read(fd, &buf[i], 1))
 	{
 		if (buf[i] == '\n')
