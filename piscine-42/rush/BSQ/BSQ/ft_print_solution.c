@@ -12,27 +12,33 @@
 
 #include "BSQ.h"
 
-char	**ft_fill_map(char **map, int c, int l, char o, char p)
-{
-	int	i;
-	int	j;
-	int	length;
-	int	pos;
+t_square	ft_find_square(char **map, t_bsq_info info);
 
-	if (map == NULL || c <= 1 || l <= 0)
+char	**ft_fill_map(char **map, t_bsq_info info)
+{
+	t_square	square;
+	int			base_row;
+	int			base_col;
+	int			row;
+	int			col;
+
+	if (map == NULL || info.columns <= 1 || info.lines <= 0)
 		return (map);
-	length = ft_biggest_square(map, c, l, o);
-	pos = ft_find_position_square(map, c, l, o);
-	i = (pos / (c - 1)) - length + 1;
-	while (i < (pos / (c - 1)) + 1)
+	square = ft_find_square(map, info);
+	if (square.size <= 0)
+		return (map);
+	base_row = (square.position / (info.columns - 1)) - square.size + 1;
+	base_col = (square.position % (info.columns - 1)) - square.size + 1;
+	row = base_row;
+	while (row < base_row + square.size)
 	{
-		j = (pos % (c - 1)) - length + 1;
-		while (j < (pos % (c - 1)) + 1)
+		col = base_col;
+		while (col < base_col + square.size)
 		{
-			map[i][j] = p;
-			j++;
+			map[row][col] = info.full;
+			col++;
 		}
-		i++;
+		row++;
 	}
 	return (map);
 }
@@ -52,54 +58,44 @@ static void	ft_free_char_map(char **map, int l)
 	free(map);
 }
 
-void	ft_print_solution(int i, char **argv)
+void	ft_print_solution(int index, char **argv)
 {
-	char	**map;
-	int		j;
-	int		c;
-	int		l;
-	char	o;
-	char	p;
+	t_bsq_info	info;
+	char		**map;
+	int			row;
 
-	map = NULL;
-	j = 0;
-	o = ft_get_char_obst(argv[i]);
-	p = ft_get_char_full(argv[i]);
-	c = ft_get_number_columns(argv[i]);
-	l = ft_get_number_lines(argv[i]);
-	if (c <= 0 || l <= 0)
+	info.obstacle = ft_get_char_obst(argv[index]);
+	info.full = ft_get_char_full(argv[index]);
+	info.columns = ft_get_number_columns(argv[index]);
+	info.lines = ft_get_number_lines(argv[index]);
+	if (info.columns <= 0 || info.lines <= 0)
 		return ;
-	map = ft_read_file(argv[i]);
+	map = ft_read_file(argv[index]);
 	if (map == NULL)
 		return ;
-	ft_fill_map(map, c, l, o, p);
-	while (j < l)
+	ft_fill_map(map, info);
+	row = 0;
+	while (row < info.lines)
 	{
-		ft_putstr(map[j]);
+		ft_putstr(map[row]);
 		ft_putchar('\n');
-		j++;
+		row++;
 	}
-	ft_free_char_map(map, l);
+	ft_free_char_map(map, info.lines);
 }
 
 int	main(int argc, char **argv)
 {
-	int	i;
+	int	index;
 
-	i = 1;
-	if (argc > 1)
-	{
-		while (i < argc)
-		{
-			if ((ft_verif_map(argv[i])) == 1)
-				;
-			else
-			{
-				ft_print_solution(i, argv);
-			}
-			i++;
-		}
-	}
-	else
+	if (argc < 2)
 		return (0);
+	index = 1;
+	while (index < argc)
+	{
+		if (ft_verif_map(argv[index]) == 0)
+			ft_print_solution(index, argv);
+		index++;
+	}
+	return (0);
 }
