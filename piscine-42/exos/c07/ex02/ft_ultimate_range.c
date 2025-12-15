@@ -18,7 +18,7 @@ int	ft_ultimate_range(int **range, int min, int max)
 	int	*array;
 
 	i = 0;
-	array = (int *)malloc(sizeof(int) * ((max - min) + 1));
+	array = (int *)malloc(sizeof(int) * (max - min);
 	if (min >= max)
 	{
 		array = NULL;
