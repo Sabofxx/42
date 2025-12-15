@@ -25,7 +25,6 @@ int         ft_verif_chars(char *argv);
 int         ft_verif_columns(char *argv);
 int         ft_verif_returns(char *argv);
 int         ft_verif_map(char *argv);
-int         ft_get_next_columns(int fd);
 int         ft_atoi(char *str);
 void        ft_print_names(int i, int argc, char **argv);
 int         ft_size_file(char *argv);
