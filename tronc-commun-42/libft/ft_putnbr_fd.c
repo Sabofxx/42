@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 15:26:29 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 12:54:26 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 19:26:55 by omischle          #+#    #+#             */
+/*   Updated: 2026/01/14 20:08:30 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+static void	print_nb(long nb, int fd)
 {
-	char	*new;
-	size_t	i;
-
-	new = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (s1[i])
+	if (nb / 10)
 	{
-		new[i] = s1[i];
-		i++;
+		print_nb(nb / 10, fd);
+		print_nb(nb % 10, fd);
 	}
-	new[i] = '\0';
-	return (new);
+	else
+		ft_putchar_fd(nb + '0', fd);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	nb;
+
+	nb = n;
+	if (nb < 0)
+	{
+		write(fd, "-", 1);
+		nb = -nb;
+	}
+	print_nb(nb, fd);
 }

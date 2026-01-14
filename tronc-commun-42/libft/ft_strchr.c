@@ -6,7 +6,7 @@
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:03:35 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/13 15:03:38 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/14 12:50:48 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (s == NULL)
