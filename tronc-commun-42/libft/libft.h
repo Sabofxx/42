@@ -6,10 +6,9 @@
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 12:19:36 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/13 16:17:11 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/14 20:08:30 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -18,13 +17,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
+# include <stdio.h>
 
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h> 
 # include <stdint.h>
 
-/* libc functions */
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
@@ -49,7 +48,6 @@ int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);
 
-/* Bonus */
 typedef struct s_list
 {
 	void			*content;

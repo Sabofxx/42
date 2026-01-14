@@ -6,15 +6,19 @@
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:43:35 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/13 11:45:42 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/14 16:24:55 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_isascii(int c)
+int	ft_isascii(int c)
 {
-    if(c >= 0 && c <= 127)
-        return (1);
-    return (0);
+	return (c >= 0 && c <= 127);
 }
+
+/* int main()
+{
+	int c = 'a';
+	printf("%d\n", ft_isascii(c));
+} */
