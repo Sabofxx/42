@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oscarmischler <oscarmischler@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:53:24 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 20:08:30 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:59:18 by oscarmischl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
+	if (!lst || !(*lst) || !del)
+		return ;
 	if ((*lst)->next)
 		ft_lstclear((&(*lst)->next), del);
 	del((*lst)->content);
