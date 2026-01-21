@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pustr_fd.c                                      :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:18:31 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 20:08:30 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:00:12 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char const *s, int fd)
 {
 	size_t	i;
 
 	i = 0;
 	while (s[i])
 		i++;
-	write(fd, s, 1);
+	write(fd, s, i);
 }
