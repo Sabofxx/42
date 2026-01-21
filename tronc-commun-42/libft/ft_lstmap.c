@@ -6,7 +6,7 @@
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 20:32:00 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 20:40:44 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:15:07 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		if (!current)
 			return (NULL);
 		current->next = ft_lstnew(f(lst->next->content));
+		current = current->next;
 		lst = lst->next;
 	}
 	return (start);
