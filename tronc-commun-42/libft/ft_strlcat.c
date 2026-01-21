@@ -6,7 +6,7 @@
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:30:02 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 12:49:39 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:12:31 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ size_t	ft_strlcat(char *d, const char *s, size_t dstsize)
 	while (d[index])
 		index++;
 	i = 0;
-	while (s[i] && (i + index < 1) < (dstsize))
+	while (s[i] && (i + index + 1) < (dstsize))
 	{
-		d[index + 1] = s[i];
+		d[index + i] = s[i];
 		i++;
 	}
 	if (i < dstsize)

@@ -6,19 +6,19 @@
 /*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:20:35 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 20:08:30 by omischle         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:02:21 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void	ft_putendl_fd(char const *s, int fd)
 {
 	size_t	i;
 
 	i = 0;
 	while (s[i])
 		i++;
-	write(fd, s, 1);
+	write(fd, s, i);
 	write(fd, "\n", 1);
 }
