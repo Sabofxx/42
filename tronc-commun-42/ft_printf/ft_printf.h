@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 int	printf_char(int c);
 int	printf_string(char *s);
