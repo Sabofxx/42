@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by Mischler Oscar.*
+*This project has been created as part of the 42 curriculum by omischle.*
 
 # Get Next Line
 
