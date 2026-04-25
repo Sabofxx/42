@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 15:26:29 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 12:54:26 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 16:10:35 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/14 18:41:35 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,32 @@
 
 char	*ft_strdup(const char *s1)
 {
-	char	*new;
+	size_t	len;
 	size_t	i;
+	char	*dup;
 
-	new = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!new)
+	len = 0;
+	while (s1[len])
+		len++;
+	dup = (char *)malloc(len + 1);
+	if (!dup)
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (i < len)
 	{
-		new[i] = s1[i];
+		dup[i] = s1[i];
 		i++;
 	}
-	new[i] = '\0';
-	return (new);
+	dup[i] = '\0';
+	return (dup);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char *s = "driss";
+// 	char *d;
+// 	d = ft_strdup(s);
+// 	printf("%s\n", d);
+// 	free(d);
+// 	return (0);
+// }

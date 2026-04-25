@@ -3,44 +3,40 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omischle <omischle@student.42.fr>          +#+  +:+       +#+         #
+#    By: omischle <omischle@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/01/30 15:06:14 by omischle          #+#    #+#              #
-#    Updated: 2026/01/30 15:06:17 by omischle         ###   ########.fr        #
+#    Created: 2026/02/12 14:37:51 by omischle           #+#    #+#              #
+#    Updated: 2026/02/12 15:41:05 by omischle            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-HEADER 		= ft_printf.h
-SRC 		= ft_printf.c printf_char.c printf_string.c printf_ptr.c \
-				printf_nbr.c printf_hex.c printf_uint.c
-OBJS 		= $(SRC:.c=.o)
+NAME = libftprintf.a
 
-NAME 		= libftprintf.a
-CC 			= cc
-CFLAGS 		= -Wall -Werror -Wextra
-LIB_PATH 	= ./libft 
-LIBFT 		= $(LIB_PATH)/libft.a
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-all: $(LIBFT) $(NAME)
+SRCS = ft_printf.c ft_handle.c ft_print_char.c ft_print_str.c \
+		ft_print_percent.c ft_print_nbr.c ft_print_unsigned.c \
+		ft_print_hex.c ft_print_ptr.c
+
+OBJS = $(SRCS:.c=.o)
+
+AR = ar rcs
+RM = rm -f
+
+all: $(NAME)
 
 $(NAME): $(OBJS)
-	cp libft/libft.a $(NAME)
-	ar -rcs $(NAME) $(OBJS)
+	$(AR) $(NAME) $(OBJS)
 
-$(LIBFT):
-	make -C $(LIB_PATH) all 
-
-%.o: %.c  $(HEADER)
-	$(CC) -c $(CFLAGS) -I ./ $< -o $@  
-
-
-fclean: clean
-	make -C $(LIB_PATH) fclean
-	rm -rf $(NAME)	
+%.o: %.c ft_printf.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	make -C $(LIB_PATH) clean
+	$(RM) $(OBJS)
+
+fclean: clean
+	$(RM) $(NAME)
 
 re: fclean all
 

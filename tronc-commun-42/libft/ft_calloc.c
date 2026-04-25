@@ -3,35 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 15:33:53 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/21 16:15:26 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 16:12:27 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/19 18:59:20 by omischle            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static void	*ft_memalloc(size_t size)
-{
-	void	*new;
-	size_t	i;
-
-	new = (void *) malloc(size);
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		*(unsigned char *)(new + i) = 0;
-		i++;
-	}
-	return (new);
-}
+#include <stdint.h>
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	if (size != 0 && count > ((size_t) -1 / size))
+	void	*ptr;
+	size_t	total;
+
+	if (size != 0 && count > SIZE_MAX / size)
 		return (NULL);
-	return (ft_memalloc(count * size));
+	total = count * size;
+	ptr = malloc(total);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, total);
+	return (ptr);
 }
+// #include <stdlib.h>
+// #include "libft.h"
+// int	main(void)
+// {
+// 	int	*i;
+// 	int	j;
+// 	i = (int *)ft_calloc(5, sizeof(int));
+// 	if (!i)
+// 		return (1);
+// 	j = 0;
+// 	while (j < 5)
+// 	{
+// 		printf("%d ", i[j]);
+// 		j++;
+// 	}
+// 	printf("\n");
+// 	free(i);
+// 	return (0);
+// }

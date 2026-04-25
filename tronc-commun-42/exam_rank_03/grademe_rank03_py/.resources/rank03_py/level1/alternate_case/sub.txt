@@ -1,0 +1,22 @@
+Assignment name: alternate_case
+Expected files: alternate_case.py
+Allowed functions: All built-in string methods
+--------------------------------------------------------------------------------
+
+Write a function:
+
+def alternate_case(s: str) -> str:
+
+Returns a new string where:
+- The first alphabetic character is uppercase.
+- The second alphabetic character is lowercase.
+- Alternates for all letters.
+- Non-alphabetic characters are preserved in their original positions
+  and do not count for alternation.
+
+Examples:
+
+alternate_case("hello world")        -> "HeLlO WoRlD"
+alternate_case("42madrid")           -> "42MaDrId"
+alternate_case("python3.9 rocks!")   -> "PyThOn3.9 RoCkS!"
+alternate_case("a!b?c")              -> "A!b?C"

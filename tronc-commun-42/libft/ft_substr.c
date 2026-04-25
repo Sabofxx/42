@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 12:41:41 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 13:01:08 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 17:38:53 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/14 18:38:47 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,41 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*new;
-	unsigned int	i;
+	size_t	i;
+	size_t	slen;
+	char	*sub;
 
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	new = malloc(sizeof(char) * (len + 1));
-	if (!new)
+	if (!s)
+		return (NULL);
+	slen = 0;
+	while (s[slen])
+		slen++;
+	if (start >= slen)
+		return (ft_strdup(""));
+	if (len > slen - start)
+		len = slen - start;
+	sub = (char *)malloc(len + 1);
+	if (!sub)
 		return (NULL);
 	i = 0;
-	while (start + i < ft_strlen(s) && i < len)
+	while (i < len)
 	{
-		new[i] = s[start + i];
+		sub[i] = s[start + i];
 		i++;
 	}
-	new[i] = '\0';
-	return (new);
+	sub[i] = '\0';
+	return (sub);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char *s = "driss";
+// 	char *sub;
+// 	sub = ft_substr(s, 1, 3);
+// 	printf("%s\n", sub);
+// 	free(sub);
+// 	sub = ft_substr(s, 0, 5);
+// 	printf("%s\n", sub);
+// 	free(sub);
+// 	return (0);
+// }

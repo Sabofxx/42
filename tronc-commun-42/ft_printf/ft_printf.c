@@ -3,64 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 15:02:17 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/30 15:02:20 by omischle         ###   ########.fr       */
+/*   Created: 2026/02/12 14:37:43 by omischle           #+#    #+#             */
+/*   Updated: 2026/02/12 15:46:55 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	process_input(const char *input, unsigned int *i, va_list *args)
+static int	ft_add(int *count, int ret)
 {
-	unsigned int	return_counter;
-
-	return_counter = 0;
-	if (input[*i] == 'c')
-		return_counter += printf_char(va_arg(*args, int));
-	else if (input[*i] == 's')
-		return_counter += printf_string(va_arg(*args, char *));
-	else if (input[*i] == 'p')
-		return_counter += printf_ptr(va_arg(*args, void *));
-	else if (input[*i] == 'd' || input[*i] == 'i')
-		return_counter += printf_nbr(va_arg(*args, int));
-	else if (input[*i] == 'x')
-		return_counter += printf_hex(va_arg(*args, int), 1);
-	else if (input[*i] == 'X')
-		return_counter += printf_hex(va_arg(*args, int), 0);
-	else if (input[*i] == 'u')
-		return_counter += printf_uint(va_arg(*args, int));
-	else if (input[*i] == '%')
-	{
-		printf_char('%');
-		return (1);
-	}
-	return (return_counter);
+	if (ret < 0)
+		return (-1);
+	*count += ret;
+	return (0);
 }
 
-int	ft_printf(const char *input, ...)
+static int	ft_process(const char *format, va_list args, int *count)
 {
-	va_list			args;
-	unsigned int	i;
-	unsigned int	return_length;
+	int	i;
+	int	ret;
 
 	i = 0;
-	return_length = 0;
-	va_start(args, input);
-	while (input[i])
+	while (format[i])
 	{
-		if (input[i] == '%')
+		if (format[i] == '%')
 		{
 			i++;
-			return_length += process_input(input, &i, &args);
+			if (!format[i])
+				break ;
+			ret = ft_handle(format[i], args);
 		}
 		else
-		{
-			return_length += printf_char(input[i]);
-		}
+			ret = (int)write(1, &format[i], 1);
+		if (ft_add(count, ret) < 0)
+			return (-1);
 		i++;
 	}
+	return (0);
+}
+
+int	ft_printf(const char *format, ...)
+{
+	va_list	args;
+	int		count;
+
+	if (!format)
+		return (-1);
+	count = 0;
+	va_start(args, format);
+	if (ft_process(format, args, &count) < 0)
+	{
+		va_end(args);
+		return (-1);
+	}
 	va_end(args);
-	return (return_length);
+	return (count);
 }

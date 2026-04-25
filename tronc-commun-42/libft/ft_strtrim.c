@@ -3,105 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 15:21:11 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 15:27:22 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 19:48:05 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/15 15:24:09 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*find_begin(char const *s1, char const *set)
+static int	ft_in_set(char c, char const *set)
 {
 	size_t	i;
-	size_t	j;
-	int		in_set;
 
-	in_set = 0;
 	i = 0;
-	j = 0;
-	while (s1[i])
+	while (set[i])
 	{
-		in_set = 0;
-		j = 0;
-		while (set[j])
-		{
-			if (s1[i] == set[j])
-				in_set = 1;
-			j++;
-		}
-		if (!in_set)
-			break ;
+		if (set[i] == c)
+			return (1);
 		i++;
 	}
-	return ((char *)s1 + i);
-}
-
-static char	*find_end(char const *s1, char const *set, char const *begin)
-{
-	size_t	i;
-	size_t	j;
-	int		in_set;
-
-	in_set = 0;
-	i = ft_strlen(s1) - 1;
-	j = 0;
-	while (s1 + i >= begin)
-	{
-		in_set = 0;
-		j = 0;
-		while (set[j])
-		{
-			if (s1[i] == set[j])
-				in_set = 1;
-			j++;
-		}
-		if (!in_set)
-			break ;
-		i--;
-	}
-	if (s1 + i < begin)
-		return ((char *)begin);
-	return ((char *)s1 + i);
-}
-
-static char	*fill_str(char const *begin, char const *end)
-{
-	char	*new;
-	size_t	i;
-
-	new = malloc(sizeof(char) * (end - begin + 2));
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (begin + i <= end)
-	{
-		new[i] = begin[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
+	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*begin;
-	char	*end;
-	char	*new;
+	size_t	start;
+	size_t	end;
 
-	begin = find_begin(s1, set);
-	end = find_end(s1, set, s1);
-	if (!s1[0] || end < begin)
-	{
-		new = malloc(sizeof(char) * 1);
-		if (!new)
-			return (NULL);
-		new[0] = '\0';
-	}
-	else
-		new = fill_str(begin, end);
-	if (!new)
+	if (!s1 || !set)
 		return (NULL);
-	return (new);
+	start = 0;
+	while (s1[start] && ft_in_set(s1[start], set))
+		start++;
+	end = ft_strlen(s1);
+	while (end > start && ft_in_set(s1[end - 1], set))
+		end--;
+	return (ft_substr(s1, (unsigned int)start, end - start));
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char *s = "  \t\ndrissssss  \n";
+// 	char *set = " \n\t";
+// 	char *r;
+// 	r = ft_strtrim(s, set);
+// 	printf("%s\n", r);
+// 	free(r);
+// 	r = ft_strtrim("xxxx42xxxxxxxxxxxxxxxxxxxxxx", "x");
+// 	printf("%s\n", r);
+// 	free(r);
+// 	return (0);
+// }

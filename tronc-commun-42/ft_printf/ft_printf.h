@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 15:06:06 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/30 15:19:01 by omischle         ###   ########.fr       */
+/*   Created: 2026/02/12 15:45:31 by omischle           #+#    #+#             */
+/*   Updated: 2026/02/12 16:00:03 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# include <stdarg.h>
-# include <limits.h>
-# include <stdint.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include "../libft/libft.h"
 
-int	printf_char(int c);
-int	printf_string(char *s);
-int	printf_ptr(void *ptr);
-int	ft_printf(const char *s, ...);
-int	printf_nbr(int n);
-int	printf_hex(unsigned int n, int x_switch);
-int	printf_uint(unsigned int n);
+# include <stdarg.h>
+# include <unistd.h>
+# include <stdint.h>
+
+int	ft_printf(const char *format, ...);
+
+int	ft_handle(char spec, va_list args);
+
+int	ft_print_char(int c);
+int	ft_print_str(char *s);
+int	ft_print_percent(void);
+
+int	ft_print_nbr(int n);
+int	ft_print_unsigned(unsigned int n);
+
+int	ft_print_hex(unsigned long n, int uppercase);
+int	ft_print_ptr(void *ptr);
 
 #endif
