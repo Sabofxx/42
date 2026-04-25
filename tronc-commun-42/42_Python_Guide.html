@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python · Exam Rank 03 · 42</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Unbounded:wght@300;400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #080910;
+  --surface:  #0e1018;
+  --card:     #13151f;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.12);
+  --acc:      #c8f542;
+  --acc2:     #a8d620;
+  --acc-dim:  rgba(200,245,66,0.12);
+  --acc-dim2: rgba(200,245,66,0.06);
+  --text:     #eef0f6;
+  --muted:    #7a7f94;
+  --muted2:   #4a4e61;
+  --cyan:     #42e8f5;
+  --pink:     #f542c8;
+  --orange:   #f5a042;
+  --code-bg:  #090b12;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ── NOISE OVERLAY ── */
+body::after {
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.4;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed;
+  top:0;left:0;bottom:0;
+  width: 220px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.logo-wrap {
+  padding: 28px 22px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-badge {
+  display: inline-block;
+  background: var(--acc);
+  color: #080910;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.logo-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  display: block;
+}
+
+.nav-section {
+  padding: 18px 0 4px 22px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 22px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+  cursor: pointer;
+}
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,.03); }
+.nav-link.active { color: var(--acc); border-left-color: var(--acc); background: var(--acc-dim2); }
+
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--muted2);
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.nav-link.active .nav-dot { background: var(--acc); }
+
+/* ── MAIN ── */
+.main {
+  margin-left: 220px;
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 64px 60px 48px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  top: -120px; right: -60px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(200,245,66,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--acc);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-eyebrow::before {
+  content:'';
+  width: 24px; height: 1px;
+  background: var(--acc);
+}
+
+.hero h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--acc);
+}
+
+.hero-desc {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 520px;
+  margin-bottom: 36px;
+}
+
+.hero-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  letter-spacing: .05em;
+}
+.pill.acc { border-color: var(--acc); color: var(--acc); background: var(--acc-dim); }
+
+/* ── CONTENT ── */
+.content { padding: 48px 60px; max-width: 1060px; }
+
+/* ── CHAPTER HEADING ── */
+.chapter {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  scroll-margin-top: 24px;
+}
+
+.chapter-num {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--acc);
+  background: var(--acc-dim);
+  border: 1px solid rgba(200,245,66,.25);
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: .05em;
+}
+
+.chapter h2 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 52px 0; }
+
+/* ── GRID LAYOUTS ── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+
+/* ── CONCEPT CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  transition: border-color .2s;
+}
+.card:hover { border-color: var(--border2); }
+
+.card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--acc);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-label .tag {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 400;
+}
+.tag-easy { background: rgba(66,232,245,.12); color: var(--cyan); }
+.tag-key  { background: rgba(200,245,66,.12); color: var(--acc); }
+.tag-trap { background: rgba(245,80,66,.12); color: #f55042; }
+
+.card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.card p:last-child { margin-bottom: 0; }
+
+/* ── CODE BLOCKS ── */
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.75;
+  overflow-x: auto;
+  margin: 10px 0 0;
+  position: relative;
+}
+
+pre.inline { margin-top: 0; }
+
+code {
+  font-family: 'DM Mono', monospace;
+  font-size: 12.5px;
+  background: rgba(255,255,255,.06);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* syntax */
+.kw  { color: #b29aff; }
+.fn  { color: var(--cyan); }
+.str { color: var(--acc); }
+.num { color: var(--orange); }
+.cm  { color: var(--muted2); font-style: italic; }
+.bi  { color: var(--pink); }
+.op  { color: var(--muted); }
+.cls { color: #ffdc80; }
+
+/* ── EXAMPLES ── */
+.ex-grid { display: grid; gap: 5px; margin-top: 12px; }
+.ex-row {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 12px;
+}
+.ex-in  { color: var(--muted); }
+.ex-arr { color: var(--muted2); text-align: center; }
+.ex-out { color: var(--acc); }
+
+/* ── ALERT BOXES ── */
+.alert {
+  display: flex;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.alert-warn  { background: rgba(245,160,66,.08); border: 1px solid rgba(245,160,66,.2); color: #f5c074; }
+.alert-tip   { background: rgba(200,245,66,.07); border: 1px solid rgba(200,245,66,.18); color: #b8dd3a; }
+.alert-cyan  { background: rgba(66,232,245,.07); border: 1px solid rgba(66,232,245,.18); color: var(--cyan); }
+
+/* ── FORMULA BOX ── */
+.formula {
+  background: var(--acc-dim);
+  border: 1px solid rgba(200,245,66,.25);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--acc);
+  margin: 10px 0;
+  text-align: center;
+  letter-spacing: .02em;
+}
+
+/* ── PATTERN CARD (full-width) ── */
+.pattern {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  transition: border-color .2s;
+}
+.pattern:hover { border-color: var(--border2); }
+
+.pattern-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.pattern-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.pattern-tags { display: flex; gap: 6px; }
+
+.ptag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.ptag-easy   { background: rgba(66,232,245,.12); color: var(--cyan); }
+.ptag-med    { background: rgba(245,160,66,.12); color: var(--orange); }
+.ptag-hard   { background: rgba(245,80,66,.12); color: #f55042; }
+.ptag-str    { background: rgba(200,245,66,.1); color: var(--acc); }
+.ptag-math   { background: rgba(245,160,66,.1); color: var(--orange); }
+.ptag-matrix { background: rgba(245,80,66,.1); color: #f55042; }
+.ptag-lambda { background: rgba(245,66,200,.1); color: var(--pink); }
+
+.pattern-body { padding: 18px 20px; }
+.pattern-desc { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+
+.chevron { color: var(--muted2); font-size: 11px; transition: transform .2s; }
+.chevron.open { transform: rotate(180deg); }
+.pattern-body { display: none; }
+.pattern-body.open { display: block; }
+
+/* ── REF TABLE ── */
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.ref-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted2);
+  text-align: left;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.ref-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  vertical-align: top;
+}
+.ref-table tr:last-child td { border-bottom: none; }
+.ref-table td:first-child {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--cyan);
+  white-space: nowrap;
+  width: 1%;
+}
+.ref-table td:nth-child(2) { color: var(--muted); }
+.ref-table td:nth-child(3) { text-align: right; }
+.ref-table tr:hover td { background: rgba(255,255,255,.02); }
+
+/* ── MATRIX VIZ ── */
+.mat-wrap { display: flex; flex-direction: column; gap: 4px; }
+.mat-row  { display: flex; gap: 4px; }
+.mat-cell {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  transition: all .3s;
+}
+.mat-cell.hl { background: var(--acc-dim); border-color: rgba(200,245,66,.3); color: var(--acc); }
+
+.mat-demo-wrap {
+  display: grid;
+  grid-template-columns: auto 40px auto;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+}
+.mat-arrow { color: var(--acc); font-size: 20px; text-align: center; }
+
+/* ── INTERACTIVE DEMO ── */
+.demo-box {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 10px;
+}
+.demo-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.demo-input-row label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 70px;
+  letter-spacing: .05em;
+}
+.demo-input-row input[type=text] {
+  flex: 1;
+  min-width: 160px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 7px 11px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12.5px;
+  outline: none;
+  transition: border-color .15s;
+}
+.demo-input-row input[type=text]:focus { border-color: var(--acc); }
+.demo-input-row input[type=range] {
+  flex: 1;
+  accent-color: var(--acc);
+  min-width: 100px;
+}
+.demo-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--acc);
+  min-width: 20px;
+}
+.demo-output {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--acc);
+  background: var(--acc-dim2);
+  border: 1px solid rgba(200,245,66,.15);
+  border-radius: 6px;
+  padding: 8px 12px;
+  min-height: 36px;
+  word-break: break-all;
+}
+.demo-output-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+.demo-method-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+.demo-method-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted2);
+  margin-bottom: 4px;
+}
+.demo-method-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  word-break: break-all;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--muted2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--acc); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.chapter { animation: fadeUp .4s ease both; }
+
+@media(max-width:860px) {
+  .sidebar { display:none; }
+  .main { margin-left:0; }
+  .hero, .content { padding: 28px 20px; }
+  .grid2, .grid3, .grid-auto { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="logo-wrap">
+    <span class="logo-badge">42</span>
+    <span class="logo-sub">Exam Rank 03 · Python</span>
+  </div>
+
+  <div class="nav-section">Notions</div>
+  <a class="nav-link" href="#strings" onclick="setActive(this)"><span class="nav-dot"></span>Strings</a>
+  <a class="nav-link" href="#listes"  onclick="setActive(this)"><span class="nav-dot"></span>Listes</a>
+  <a class="nav-link" href="#ascii"   onclick="setActive(this)"><span class="nav-dot"></span>ASCII · ord/chr</a>
+  <a class="nav-link" href="#matrices" onclick="setActive(this)"><span class="nav-dot"></span>Matrices</a>
+  <a class="nav-link" href="#lambda"  onclick="setActive(this)"><span class="nav-dot"></span>sorted & lambda</a>
+  <a class="nav-link" href="#stack"   onclick="setActive(this)"><span class="nav-dot"></span>Stack & dict</a>
+
+  <div class="nav-section">Exercices</div>
+  <a class="nav-link" href="#patterns" onclick="setActive(this)"><span class="nav-dot"></span>13 patterns</a>
+  <a class="nav-link" href="#pieges"   onclick="setActive(this)"><span class="nav-dot"></span>Pièges fréquents</a>
+  <a class="nav-link" href="#ref"      onclick="setActive(this)"><span class="nav-dot"></span>Référence rapide</a>
+</nav>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">42 Luxembourg — omischle</div>
+  <h1>Python<br><em>Exam Rank 03</em></h1>
+  <p class="hero-desc">Tout ce qu'il faut maîtriser pour l'exam — strings, matrices, algorithmes, patterns.</p>
+  <div class="hero-pills">
+    <span class="pill acc">13 exercices</span>
+    <span class="pill">Python 3</span>
+    <span class="pill">3h · 100 pts</span>
+    <span class="pill">Demos interactives</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- ══════════════════════════════════
+     01 · STRINGS
+══════════════════════════════════ -->
+<div class="chapter" id="strings">
+  <span class="chapter-num">01</span>
+  <h2>Strings</h2>
+</div>
+
+<div class="grid3" style="margin-bottom:12px">
+  <div class="card">
+    <div class="card-label">s.isalpha() <span class="tag tag-key">essentiel</span></div>
+    <p>True si TOUS les chars sont des lettres. False si chiffre, espace, ponctuation.</p>
+    <pre><span class="str">"abc"</span>.isalpha()   <span class="cm"># True</span>
+<span class="str">"a1b"</span>.isalpha()   <span class="cm"># False</span>
+<span class="str">"a b"</span>.isalpha()   <span class="cm"># False</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">s.isdigit()</div>
+    <p>True si TOUS les chars sont des chiffres 0–9.</p>
+    <pre><span class="str">"123"</span>.isdigit()   <span class="cm"># True</span>
+<span class="str">"12a"</span>.isdigit()   <span class="cm"># False</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">s.isalnum() <span class="tag tag-key">essentiel</span></div>
+    <p>True si lettres OU chiffres. Exclut espaces et ponctuation.</p>
+    <pre><span class="str">"abc1"</span>.isalnum()  <span class="cm"># True</span>
+<span class="str">"a b"</span>.isalnum()   <span class="cm"># False</span>
+<span class="str">"a!b"</span>.isalnum()   <span class="cm"># False</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">s.upper() / s.lower() <span class="tag tag-key">essentiel</span></div>
+    <p>Retournent une NOUVELLE string. Les strings sont <strong>immutables</strong>.</p>
+    <pre><span class="str">"hello"</span>.upper()   <span class="cm"># "HELLO"</span>
+<span class="str">"WORLD"</span>.lower()   <span class="cm"># "world"</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">s.isupper() / s.islower()</div>
+    <p>True si tous les chars alphabétiques sont en maj/min. Les non-lettres sont ignorés.</p>
+    <pre><span class="str">"ABC"</span>.isupper()   <span class="cm"># True</span>
+<span class="str">"A1C"</span>.isupper()   <span class="cm"># True (1 ignoré)</span>
+<span class="str">"Abc"</span>.isupper()   <span class="cm"># False</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">s.capitalize()</div>
+    <p>1ère lettre majuscule, tout le reste minuscule.</p>
+    <pre><span class="str">"hELLO"</span>.capitalize() <span class="cm"># "Hello"</span>
+<span class="str">"42abc"</span>.capitalize() <span class="cm"># "42abc"</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">s.strip() <span class="tag tag-key">essentiel</span></div>
+    <p>Supprime les espaces, \n, \t en début et fin. Essentiel pour <code>atoi</code>.</p>
+    <pre><span class="str">"  hello  "</span>.strip()  <span class="cm"># "hello"</span>
+<span class="str">"  42\n"</span>.strip()     <span class="cm"># "42"</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">s.split(sep) <span class="tag tag-key">essentiel</span></div>
+    <p><code>split(" ")</code> préserve les espaces multiples. <code>split()</code> sans arg les supprime.</p>
+    <pre><span class="str">"a  b"</span>.split(<span class="str">" "</span>)  <span class="cm"># ["a","","b"]</span>
+<span class="str">"a  b"</span>.split()    <span class="cm"># ["a","b"]</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">sep.join(liste) <span class="tag tag-key">essentiel</span></div>
+    <p>Assemble une liste en string avec un séparateur.</p>
+    <pre><span class="str">" "</span>.join([<span class="str">"A"</span>,<span class="str">"B"</span>])  <span class="cm"># "A B"</span>
+<span class="str">""</span>.join([<span class="str">"x"</span>,<span class="str">"y"</span>])   <span class="cm"># "xy"</span></pre>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">Slicing — <code>s[start:end:step]</code> <span class="tag tag-key">essentiel</span></div>
+  <p>Syntaxe générale. start inclus, end exclu. Step négatif = sens inverse.</p>
+  <pre>s = <span class="str">"Python"</span>
+s[<span class="num">0</span>]      <span class="cm"># "P"       — premier char</span>
+s[<span class="op">-</span><span class="num">1</span>]     <span class="cm"># "n"       — dernier char</span>
+s[<span class="num">1</span>:<span class="num">4</span>]    <span class="cm"># "yth"     — index 1,2,3</span>
+s[::<span class="op">-</span><span class="num">1</span>]   <span class="cm"># "nohtyP"  — INVERSER ← crucial pour palindrome</span>
+s[::<span class="num">2</span>]    <span class="cm"># "Pto"     — un char sur deux</span></pre>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div class="card-label">Pattern fondamental — construire une string</div>
+  <p>Les strings sont immutables : on ne peut pas faire <code>s[i] = 'X'</code>. On reconstruit toujours.</p>
+  <pre>result = <span class="str">""</span>
+<span class="kw">for</span> c <span class="kw">in</span> s:
+    <span class="kw">if</span> c.<span class="fn">isalpha</span>():
+        result += c.<span class="fn">upper</span>()   <span class="cm"># ajouter à la fin</span>
+    <span class="kw">else</span>:
+        result += c
+<span class="kw">return</span> result</pre>
+</div>
+
+<!-- Demo strings -->
+<div class="card" style="margin-top:12px">
+  <div class="card-label">Demo interactive</div>
+  <div class="demo-box">
+    <div class="demo-input-row">
+      <label>string :</label>
+      <input type="text" id="str-in" value="Hello, World! 42" oninput="demoStr()">
+    </div>
+    <div class="demo-output-grid" id="str-out"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     02 · LISTES
+══════════════════════════════════ -->
+<div class="chapter" id="listes">
+  <span class="chapter-num">02</span>
+  <h2>Listes</h2>
+</div>
+
+<div class="grid3" style="margin-bottom:12px">
+  <div class="card">
+    <div class="card-label">Créer & concaténer</div>
+    <pre>lst = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+a + b         <span class="cm"># nouvelle liste</span>
+lst[:]        <span class="cm"># copie</span>
+lst.copy()    <span class="cm"># idem</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">Stack — append / pop</div>
+    <pre>lst.append(x)  <span class="cm"># ajouter à la fin</span>
+lst.pop()      <span class="cm"># enlever le dernier</span>
+lst[-<span class="num">1</span>]        <span class="cm"># lire le dernier</span>
+lst.pop(<span class="num">0</span>)    <span class="cm"># enlever le premier</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">Trier</div>
+    <pre>lst.sort()              <span class="cm"># in-place, None</span>
+lst.sort(reverse=<span class="kw">True</span>)
+<span class="fn">sorted</span>(lst)            <span class="cm"># nouvelle liste</span>
+<span class="fn">sorted</span>(lst, key=...)</pre>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="card-label">List comprehension <span class="tag tag-key">essentiel</span></div>
+  <p>Créer une liste en une ligne. Pattern central pour les matrices.</p>
+  <pre>[<span class="cm">expression</span> <span class="kw">for</span> <span class="cm">item</span> <span class="kw">in</span> <span class="cm">iterable</span> <span class="kw">if</span> <span class="cm">condition</span>]
+
+[x * <span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>]]       <span class="cm"># [2, 4, 6]</span>
+[x <span class="kw">for</span> x <span class="kw">in</span> s <span class="kw">if</span> x.<span class="fn">isalpha</span>()]   <span class="cm"># garder les lettres</span>
+[row[::<span class="op">-</span><span class="num">1</span>] <span class="kw">for</span> row <span class="kw">in</span> matrix]   <span class="cm"># inverser chaque ligne</span></pre>
+</div>
+
+<div class="alert alert-warn">⚠️ &nbsp;<code>list1 + list2</code> crée une nouvelle liste (originaux intacts). <code>list1.extend(list2)</code> modifie list1. <code>lst.sort()</code> retourne <strong>None</strong>, pas la liste triée.</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     03 · ASCII
+══════════════════════════════════ -->
+<div class="chapter" id="ascii">
+  <span class="chapter-num">03</span>
+  <h2>ASCII · ord / chr</h2>
+</div>
+
+<div class="grid2" style="margin-bottom:12px">
+  <div class="card">
+    <div class="card-label">ord(c) → valeur ASCII</div>
+    <pre><span class="fn">ord</span>(<span class="str">'a'</span>)  <span class="cm"># 97</span>
+<span class="fn">ord</span>(<span class="str">'z'</span>)  <span class="cm"># 122</span>
+<span class="fn">ord</span>(<span class="str">'A'</span>)  <span class="cm"># 65</span>
+<span class="fn">ord</span>(<span class="str">'Z'</span>)  <span class="cm"># 90</span>
+<span class="fn">ord</span>(<span class="str">'0'</span>)  <span class="cm"># 48</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">chr(n) → caractère</div>
+    <pre><span class="fn">chr</span>(<span class="num">97</span>)   <span class="cm"># 'a'</span>
+<span class="fn">chr</span>(<span class="num">65</span>)   <span class="cm"># 'A'</span>
+<span class="fn">chr</span>(<span class="num">48</span>)   <span class="cm"># '0'</span>
+<span class="cm"># Astuce sans int() :</span>
+<span class="fn">ord</span>(c) <span class="op">-</span> <span class="fn">ord</span>(<span class="str">'0'</span>)  <span class="cm"># '7' → 7</span></pre>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">Formule César — whisper_lipher <span class="tag tag-key">essentiel</span></div>
+  <div class="formula">(ord(char) − base + shift) % 26 + base</div>
+  <pre><span class="cm"># base = ord('A') si char.isupper() sinon ord('a')</span>
+<span class="cm"># % 26 assure le comportement circulaire (z → a)</span>
+
+<span class="cm"># Exemple : 'H', shift=3</span>
+<span class="cm"># ord('H')=72, base=65</span>
+<span class="cm"># (72 - 65 + 3) % 26 = 10</span>
+<span class="cm"># 10 + 65 = 75 → chr(75) = 'K' ✓</span>
+
+<span class="cm"># Exemple : 'z', shift=2</span>
+<span class="cm"># (122 - 97 + 2) % 26 = 1 → chr(98) = 'b' ✓</span></pre>
+</div>
+
+<!-- Demo César -->
+<div class="card" style="margin-top:12px">
+  <div class="card-label">Demo — Chiffrement César</div>
+  <div class="demo-box">
+    <div class="demo-input-row">
+      <label>texte :</label>
+      <input type="text" id="cesar-in" value="Hello, World!" oninput="demoCesar()">
+    </div>
+    <div class="demo-input-row">
+      <label>décalage :</label>
+      <input type="range" min="1" max="25" value="3" id="cesar-shift" oninput="demoCesar()">
+      <span class="demo-val" id="cesar-sv">3</span>
+    </div>
+    <div class="demo-output" id="cesar-out"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     04 · MATRICES
+══════════════════════════════════ -->
+<div class="chapter" id="matrices">
+  <span class="chapter-num">04</span>
+  <h2>Matrices</h2>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="card-label">Représentation & accès</div>
+  <pre>matrix = [[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>],[<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>],[<span class="num">7</span>,<span class="num">8</span>,<span class="num">9</span>]]
+
+matrix[<span class="num">0</span>]         <span class="cm"># [1, 2, 3]  — première ligne</span>
+matrix[<span class="num">0</span>][<span class="num">2</span>]      <span class="cm"># 3          — ligne 0, col 2</span>
+matrix[<span class="op">-</span><span class="num">1</span>]        <span class="cm"># [7, 8, 9]  — dernière ligne</span>
+<span class="bi">len</span>(matrix)       <span class="cm"># 3          — nb de lignes</span>
+<span class="bi">len</span>(matrix[<span class="num">0</span>])    <span class="cm"># 3          — nb de colonnes</span></pre>
+</div>
+
+<div class="grid3" style="margin-bottom:12px">
+  <div class="card">
+    <div class="card-label">mirror_matrix ↔</div>
+    <p>Chaque ligne inversée horizontalement.</p>
+    <pre>[row[::<span class="op">-</span><span class="num">1</span>] <span class="kw">for</span> row <span class="kw">in</span> matrix]</pre>
+    <div class="mat-demo-wrap">
+      <div class="mat-wrap" id="mh-before"></div>
+      <div class="mat-arrow">→</div>
+      <div class="mat-wrap" id="mh-after"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">mirror_matrix_vertical ↕</div>
+    <p>Ordre des lignes inversé, lignes intactes.</p>
+    <pre>matrix[::<span class="op">-</span><span class="num">1</span>]</pre>
+    <div class="mat-demo-wrap">
+      <div class="mat-wrap" id="mv-before"></div>
+      <div class="mat-arrow">→</div>
+      <div class="mat-wrap" id="mv-after"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">rotate_90 ↻</div>
+    <p>Rotation 90° horaire. Formule : <code>new[i][j] = old[n-1-j][i]</code></p>
+    <pre>n = <span class="bi">len</span>(matrix)
+[[matrix[n<span class="op">-</span><span class="num">1</span><span class="op">-</span>j][i]
+  <span class="kw">for</span> j <span class="kw">in</span> <span class="bi">range</span>(n)]
+ <span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(n)]</pre>
+    <div class="mat-demo-wrap">
+      <div class="mat-wrap" id="mr-before"></div>
+      <div class="mat-arrow">→</div>
+      <div class="mat-wrap" id="mr-after"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">Comprendre rotate_90 <span class="tag tag-trap">à mémoriser</span></div>
+  <pre><span class="cm"># Mnémo : la COLONNE 0 (7,4,1) devient la LIGNE 0 (7,4,1)
+#          la COLONNE 1 (8,5,2) devient la LIGNE 1 (8,5,2)
+
+# Dérivation :
+# Transposer   → new[i][j] = old[j][i]
+# + inverser   → new[i][j] = old[n-1-j][i]  ✓
+
+# Avant            Après rotation 90° horaire
+# [1, 2, 3]   →   [7, 4, 1]
+# [4, 5, 6]   →   [8, 5, 2]
+# [7, 8, 9]   →   [9, 6, 3]</span></pre>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     05 · LAMBDA
+══════════════════════════════════ -->
+<div class="chapter" id="lambda">
+  <span class="chapter-num">05</span>
+  <h2>sorted & lambda</h2>
+</div>
+
+<div class="grid2" style="margin-bottom:12px">
+  <div class="card">
+    <div class="card-label">sorted() <span class="tag tag-key">essentiel</span></div>
+    <p>Retourne une NOUVELLE liste. L'original est intact.</p>
+    <pre><span class="fn">sorted</span>(iterable, key=<span class="kw">None</span>, reverse=<span class="kw">False</span>)
+<span class="cm"># key = fonction appliquée à chaque élément</span>
+<span class="cm"># reverse=True → décroissant</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">lambda <span class="tag tag-key">essentiel</span></div>
+    <p>Fonction anonyme en une ligne.</p>
+    <pre><span class="kw">lambda</span> x: x           <span class="cm"># retourne x</span>
+<span class="kw">lambda</span> x: <span class="bi">len</span>(x)      <span class="cm"># longueur</span>
+<span class="kw">lambda</span> x: x[<span class="num">1</span>]        <span class="cm"># 2ème élément</span>
+<span class="kw">lambda</span> x: (x[<span class="num">1</span>],x[<span class="num">0</span>]) <span class="cm"># multi-critères</span></pre>
+  </div>
+</div>
+
+<div class="grid2" style="margin-bottom:12px">
+  <div class="card">
+    <div class="card-label">Par longueur</div>
+    <pre>words = [<span class="str">"banana"</span>, <span class="str">"kiwi"</span>, <span class="str">"fig"</span>]
+<span class="fn">sorted</span>(words, key=<span class="kw">lambda</span> x: <span class="bi">len</span>(x))
+<span class="cm"># ["fig", "kiwi", "banana"]</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">Par champ de tuple + décroissant</div>
+    <pre>s = [(<span class="str">"Ana"</span>,<span class="num">8.5</span>), (<span class="str">"Luis"</span>,<span class="num">6.0</span>)]
+<span class="fn">sorted</span>(s, key=<span class="kw">lambda</span> x: x[<span class="num">1</span>], reverse=<span class="kw">True</span>)
+<span class="cm"># [("Ana",8.5), ("Luis",6.0)]</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">Critères multiples (tuple)</div>
+    <pre>data = [(<span class="str">"Ana"</span>,<span class="num">20</span>), (<span class="str">"Luis"</span>,<span class="num">20</span>), (<span class="str">"Marta"</span>,<span class="num">18</span>)]
+<span class="fn">sorted</span>(data, key=<span class="kw">lambda</span> x: (x[<span class="num">1</span>], x[<span class="num">0</span>]))
+<span class="cm"># [("Marta",18), ("Ana",20), ("Luis",20)]</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">Objets</div>
+    <pre><span class="kw">class</span> <span class="cls">Student</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, grade):
+        self.name = name; self.grade = grade
+
+<span class="fn">sorted</span>(students, key=<span class="kw">lambda</span> s: s.grade)</pre>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     06 · STACK & DICT
+══════════════════════════════════ -->
+<div class="chapter" id="stack">
+  <span class="chapter-num">06</span>
+  <h2>Stack & dict</h2>
+</div>
+
+<div class="grid2" style="margin-bottom:12px">
+  <div class="card">
+    <div class="card-label">Stack (pile) <span class="tag tag-key">essentiel</span></div>
+    <p>En Python, une liste utilisée comme pile LIFO.</p>
+    <pre>stack = []
+stack.append(<span class="str">'('</span>)   <span class="cm"># push</span>
+stack.append(<span class="str">'['</span>)
+stack[<span class="op">-</span><span class="num">1</span>]          <span class="cm"># lire le sommet : '['</span>
+stack.pop()        <span class="cm"># pop : retourne '[' et l'enlève</span>
+<span class="bi">len</span>(stack) == <span class="num">0</span>    <span class="cm"># stack vide ?</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label">Dict — accès O(1) <span class="tag tag-key">essentiel</span></div>
+    <pre>d = {<span class="str">'a'</span>: <span class="num">1</span>, <span class="str">'b'</span>: <span class="num">2</span>}
+d[<span class="str">'a'</span>]               <span class="cm"># 1</span>
+d.get(<span class="str">'c'</span>, <span class="num">0</span>)        <span class="cm"># 0 si absent</span>
+<span class="str">'a'</span> <span class="kw">in</span> d             <span class="cm"># True</span>
+
+<span class="cm"># Pattern brackets :</span>
+pairs = {<span class="str">')'</span>:<span class="str">'('</span>, <span class="str">']'</span>:<span class="str">'['</span>, <span class="str">'}'</span>:<span class="str">'{'</span>}
+pairs[<span class="str">')'</span>]             <span class="cm"># '('</span></pre>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">Pattern complet — brackets</div>
+  <pre><span class="kw">def</span> <span class="fn">brackets</span>(s: <span class="bi">str</span>) -> <span class="bi">bool</span>:
+    stack = []
+    pairs = {<span class="str">')'</span>: <span class="str">'('</span>, <span class="str">']'</span>: <span class="str">'['</span>, <span class="str">'}'</span>: <span class="str">'{'</span>}
+
+    <span class="kw">for</span> char <span class="kw">in</span> s:
+        <span class="kw">if</span> char <span class="kw">in</span> <span class="str">'([{'</span>:
+            stack.append(char)                <span class="cm"># ouvrant → empiler</span>
+        <span class="kw">elif</span> char <span class="kw">in</span> <span class="str">')]}'</span>:
+            <span class="kw">if not</span> stack <span class="kw">or</span> pairs[char] != stack[<span class="op">-</span><span class="num">1</span>]:
+                <span class="kw">return</span> <span class="kw">False</span>               <span class="cm"># pas de correspondant</span>
+            stack.pop()
+        <span class="cm"># autres chars → ignorés</span>
+
+    <span class="kw">return</span> <span class="bi">len</span>(stack) == <span class="num">0</span>                   <span class="cm"># tout fermé ?</span></pre>
+  <div class="alert alert-tip" style="margin-top:10px">💡 &nbsp;Deux conditions pour False : pile vide (rien à fermer) OU le sommet ne correspond pas.</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     07 · PATTERNS EXAM
+══════════════════════════════════ -->
+<div class="chapter" id="patterns">
+  <span class="chapter-num">07</span>
+  <h2>13 patterns d'exam</h2>
+</div>
+
+<!-- alternate_case -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">alternate_case</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">string</span><span class="ptag ptag-easy">easy</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <p class="pattern-desc">Alterner majuscule/minuscule sur les lettres. Les non-lettres sont copiés tels quels et <strong>ne comptent pas</strong> dans l'alternance.</p>
+    <pre><span class="kw">def</span> <span class="fn">alternate_case</span>(s: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    result = <span class="str">""</span>
+    upper = <span class="kw">True</span>           <span class="cm"># commence par majuscule</span>
+    <span class="kw">for</span> c <span class="kw">in</span> s:
+        <span class="kw">if</span> c.<span class="fn">isalpha</span>():
+            result += c.<span class="fn">upper</span>() <span class="kw">if</span> upper <span class="kw">else</span> c.<span class="fn">lower</span>()
+            upper = <span class="kw">not</span> upper   <span class="cm"># inverser SEULEMENT pour lettres</span>
+        <span class="kw">else</span>:
+            result += c
+    <span class="kw">return</span> result</pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">"hello world"</span><span class="ex-arr">→</span><span class="ex-out">"HeLlO WoRlD"</span></div>
+      <div class="ex-row"><span class="ex-in">"a!b?c"</span><span class="ex-arr">→</span><span class="ex-out">"A!b?C"</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- atoi -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">atoi</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">string</span><span class="ptag ptag-math">math</span><span class="ptag ptag-med">med</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <p class="pattern-desc">Convertir string → int sans <code>int()</code>. Gérer espaces, signe, s'arrêter au premier non-digit.</p>
+    <pre><span class="kw">def</span> <span class="fn">atoi</span>(s: <span class="bi">str</span>) -> <span class="bi">int</span>:
+    s = s.<span class="fn">strip</span>()
+    sign, i, result = <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>
+    <span class="kw">if</span> i < <span class="bi">len</span>(s) <span class="kw">and</span> s[i] <span class="kw">in</span> <span class="str">'+-'</span>:
+        sign = <span class="op">-</span><span class="num">1</span> <span class="kw">if</span> s[i] == <span class="str">'-'</span> <span class="kw">else</span> <span class="num">1</span>
+        i += <span class="num">1</span>
+    <span class="kw">while</span> i < <span class="bi">len</span>(s) <span class="kw">and</span> s[i].<span class="fn">isdigit</span>():
+        result = result * <span class="num">10</span> + (<span class="fn">ord</span>(s[i]) <span class="op">-</span> <span class="fn">ord</span>(<span class="str">'0'</span>))
+        i += <span class="num">1</span>
+    <span class="kw">return</span> sign * result</pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">"  -42abc"</span><span class="ex-arr">→</span><span class="ex-out">-42</span></div>
+      <div class="ex-row"><span class="ex-in">"abc"</span><span class="ex-arr">→</span><span class="ex-out">0</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- brackets -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">brackets</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">stack</span><span class="ptag ptag-med">med</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <p class="pattern-desc">Vérifier que tous les brackets sont correctement appairés et imbriqués. Ignorer les autres caractères.</p>
+    <pre><span class="cm"># Voir section Stack & dict ci-dessus pour la solution complète.</span>
+pairs = {<span class="str">')'</span>:<span class="str">'('</span>, <span class="str">']'</span>:<span class="str">'['</span>, <span class="str">'}'</span>:<span class="str">'{'</span>}
+<span class="cm"># ouvrant → push, fermant → vérifier sommet puis pop</span>
+<span class="cm"># à la fin : len(stack) == 0</span></pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">"([{}])"</span><span class="ex-arr">→</span><span class="ex-out">True</span></div>
+      <div class="ex-row"><span class="ex-in">"([)"</span><span class="ex-arr">→</span><span class="ex-out">False</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- capitalize_words -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">capitalize_words</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">string</span><span class="ptag ptag-easy">easy</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <p class="pattern-desc">Première lettre de chaque mot en majuscule. Préserver espaces multiples → <code>split(" ")</code> obligatoire.</p>
+    <pre><span class="kw">def</span> <span class="fn">capitalize_words</span>(s: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    <span class="kw">return</span> <span class="str">" "</span>.<span class="fn">join</span>(w.<span class="fn">capitalize</span>() <span class="kw">for</span> w <span class="kw">in</span> s.<span class="fn">split</span>(<span class="str">" "</span>))</pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">"hello world"</span><span class="ex-arr">→</span><span class="ex-out">"Hello World"</span></div>
+      <div class="ex-row"><span class="ex-in">"  multiple   spaces "</span><span class="ex-arr">→</span><span class="ex-out">"  Multiple   Spaces "</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- convert_base -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">convert_base</span>
+    <div class="pattern-tags"><span class="ptag ptag-math">math</span><span class="ptag ptag-hard">hard</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <p class="pattern-desc">Convertir un nombre d'une base à une autre (2–36). <strong>print()</strong> le résultat (ne pas return). "ERROR" si invalide.</p>
+    <pre><span class="kw">def</span> <span class="fn">convert_base</span>(number: <span class="bi">str</span>, from_base: <span class="bi">int</span>, to_base: <span class="bi">int</span>) -> <span class="kw">None</span>:
+    digits = <span class="str">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>
+    <span class="kw">try</span>:
+        <span class="kw">if not</span> (<span class="num">2</span> <= from_base <= <span class="num">36</span> <span class="kw">and</span> <span class="num">2</span> <= to_base <= <span class="num">36</span>):
+            <span class="kw">return</span> <span class="bi">print</span>(<span class="str">"ERROR"</span>)
+        decimal = <span class="bi">int</span>(number, from_base)   <span class="cm"># Python gère ça nativement</span>
+    <span class="kw">except</span> <span class="cls">ValueError</span>:
+        <span class="kw">return</span> <span class="bi">print</span>(<span class="str">"ERROR"</span>)
+    <span class="kw">if</span> decimal == <span class="num">0</span>:
+        <span class="kw">return</span> <span class="bi">print</span>(<span class="str">"0"</span>)
+    result = <span class="str">""</span>
+    <span class="kw">while</span> decimal > <span class="num">0</span>:
+        result = digits[decimal % to_base] + result  <span class="cm"># PREPEND</span>
+        decimal //= to_base
+    <span class="bi">print</span>(result)</pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">convert_base("ff", 16, 2)</span><span class="ex-arr">→</span><span class="ex-out">11111111</span></div>
+      <div class="ex-row"><span class="ex-in">convert_base("1g", 16, 10)</span><span class="ex-arr">→</span><span class="ex-out">ERROR</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- merge_and_sort_desc -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">merge_and_sort_desc</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">list</span><span class="ptag ptag-easy">easy</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <pre><span class="kw">def</span> <span class="fn">merge_and_sort_desc</span>(list1, list2):
+    merged = list1 + list2       <span class="cm"># + = nouvelle liste, originaux intacts</span>
+    merged.<span class="fn">sort</span>(reverse=<span class="kw">True</span>)
+    <span class="kw">return</span> merged</pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">[1,3,5], [2,4,6]</span><span class="ex-arr">→</span><span class="ex-out">[6,5,4,3,2,1]</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- mirror_matrix -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">mirror_matrix</span>
+    <div class="pattern-tags"><span class="ptag ptag-matrix">matrix</span><span class="ptag ptag-easy">easy</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <pre><span class="kw">def</span> <span class="fn">mirror_matrix</span>(matrix):
+    <span class="kw">return</span> [row[::<span class="op">-</span><span class="num">1</span>] <span class="kw">for</span> row <span class="kw">in</span> matrix]</pre>
+  </div>
+</div>
+
+<!-- mirror_matrix_vertical -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">mirror_matrix_vertical</span>
+    <div class="pattern-tags"><span class="ptag ptag-matrix">matrix</span><span class="ptag ptag-easy">easy</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <pre><span class="kw">def</span> <span class="fn">mirror_matrix_vertical</span>(matrix):
+    <span class="kw">return</span> matrix[::<span class="op">-</span><span class="num">1</span>]</pre>
+  </div>
+</div>
+
+<!-- rotate_90 -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">rotate_90</span>
+    <div class="pattern-tags"><span class="ptag ptag-matrix">matrix</span><span class="ptag ptag-hard">hard</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <pre><span class="kw">def</span> <span class="fn">rotate_90</span>(matrix):
+    n = <span class="bi">len</span>(matrix)
+    <span class="kw">return</span> [[matrix[n<span class="op">-</span><span class="num">1</span><span class="op">-</span>j][i] <span class="kw">for</span> j <span class="kw">in</span> <span class="bi">range</span>(n)] <span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(n)]
+<span class="cm"># Formule : new[i][j] = old[n-1-j][i]</span></pre>
+  </div>
+</div>
+
+<!-- sorted lambda -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">sorted + lambda</span>
+    <div class="pattern-tags"><span class="ptag ptag-lambda">lambda</span><span class="ptag ptag-med">med</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <p class="pattern-desc">Concept à maîtriser — pas une fonction unique. Savoir trier par longueur, champ, critères multiples, attribut d'objet.</p>
+    <pre><span class="fn">sorted</span>(words, key=<span class="kw">lambda</span> x: <span class="bi">len</span>(x))
+<span class="fn">sorted</span>(students, key=<span class="kw">lambda</span> x: x[<span class="num">1</span>], reverse=<span class="kw">True</span>)
+<span class="fn">sorted</span>(data, key=<span class="kw">lambda</span> x: (x[<span class="num">1</span>], x[<span class="num">0</span>]))   <span class="cm"># multi-critères</span>
+<span class="fn">sorted</span>(objs, key=<span class="kw">lambda</span> s: s.grade)          <span class="cm"># attribut d'objet</span></pre>
+  </div>
+</div>
+
+<!-- valid_anagram -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">valid_anagram</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">string</span><span class="ptag ptag-easy">easy</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <pre><span class="kw">def</span> <span class="fn">valid_anagram</span>(s: <span class="bi">str</span>, t: <span class="bi">str</span>) -> <span class="bi">bool</span>:
+    <span class="kw">return</span> <span class="fn">sorted</span>(s) == <span class="fn">sorted</span>(t)
+<span class="cm"># sorted("listen") == sorted("silent") → True</span></pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">"listen", "silent"</span><span class="ex-arr">→</span><span class="ex-out">True</span></div>
+      <div class="ex-row"><span class="ex-in">"jar", "jam"</span><span class="ex-arr">→</span><span class="ex-out">False</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- valid_palindrome -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">valid_palindrome</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">string</span><span class="ptag ptag-easy">easy</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <pre><span class="kw">def</span> <span class="fn">valid_palindrome</span>(s: <span class="bi">str</span>) -> <span class="bi">bool</span>:
+    clean = <span class="str">""</span>.<span class="fn">join</span>(c.<span class="fn">lower</span>() <span class="kw">for</span> c <span class="kw">in</span> s <span class="kw">if</span> c.<span class="fn">isalnum</span>())
+    <span class="kw">return</span> clean == clean[::<span class="op">-</span><span class="num">1</span>]</pre>
+    <div class="ex-grid">
+      <div class="ex-row"><span class="ex-in">"Was it a car or a cat I saw?"</span><span class="ex-arr">→</span><span class="ex-out">True</span></div>
+      <div class="ex-row"><span class="ex-in">"tab a cat"</span><span class="ex-arr">→</span><span class="ex-out">False</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- whisper_lipher -->
+<div class="pattern">
+  <div class="pattern-header" onclick="togglePattern(this)">
+    <span class="pattern-name">whisper_lipher (César)</span>
+    <div class="pattern-tags"><span class="ptag ptag-str">string</span><span class="ptag ptag-math">math</span><span class="ptag ptag-med">med</span></div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="pattern-body open">
+    <pre><span class="kw">def</span> <span class="fn">whisper_lipher</span>(text: <span class="bi">str</span>, shift: <span class="bi">int</span>) -> <span class="bi">str</span>:
+    result = <span class="str">""</span>
+    <span class="kw">for</span> char <span class="kw">in</span> text:
+        <span class="kw">if</span> char.<span class="fn">isalpha</span>():
+            base = <span class="fn">ord</span>(<span class="str">'A'</span>) <span class="kw">if</span> char.<span class="fn">isupper</span>() <span class="kw">else</span> <span class="fn">ord</span>(<span class="str">'a'</span>)
+            shifted = (<span class="fn">ord</span>(char) <span class="op">-</span> base <span class="op">+</span> shift) % <span class="num">26</span> + base
+            result += <span class="fn">chr</span>(shifted)
+        <span class="kw">else</span>:
+            result += char
+    <span class="kw">return</span> result</pre>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     08 · PIÈGES
+══════════════════════════════════ -->
+<div class="chapter" id="pieges">
+  <span class="chapter-num">08</span>
+  <h2>Pièges fréquents</h2>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <div class="card-label"><span class="tag tag-trap">piège</span> split() vs split(" ")</div>
+    <pre><span class="str">"a  b"</span>.split()    <span class="cm"># ["a","b"]  ← mange les espaces</span>
+<span class="str">"a  b"</span>.split(<span class="str">" "</span>) <span class="cm"># ["a","","b"] ← préserve</span>
+<span class="cm"># → capitalize_words : utiliser split(" ") !</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label"><span class="tag tag-trap">piège</span> sort() retourne None</div>
+    <pre>result = lst.sort()      <span class="cm"># ✗ result = None !</span>
+lst.sort()               <span class="cm"># ✓ modifie in-place</span>
+result = <span class="fn">sorted</span>(lst)    <span class="cm"># ✓ nouvelle liste</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label"><span class="tag tag-trap">piège</span> Strings immutables</div>
+    <pre>s = <span class="str">"hello"</span>
+s[<span class="num">0</span>] = <span class="str">"H"</span>        <span class="cm"># ✗ TypeError !</span>
+s = <span class="str">"H"</span> + s[<span class="num">1</span>:]   <span class="cm"># ✓ reconstruire</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label"><span class="tag tag-trap">piège</span> % 26 — circulaire</div>
+    <pre><span class="cm"># 'z' + 1 → 'a', pas '{'</span>
+<span class="fn">ord</span>(<span class="str">'z'</span>) + <span class="num">1</span>  <span class="cm"># 123 → '{' ✗</span>
+(<span class="num">25</span>+<span class="num">1</span>) % <span class="num">26</span>   <span class="cm"># 0 → 'a' ✓</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label"><span class="tag tag-trap">piège</span> convert_base → print, pas return</div>
+    <pre><span class="kw">def</span> <span class="fn">convert_base</span>(...) -> <span class="kw">None</span>:
+    ...
+    <span class="bi">print</span>(result)   <span class="cm"># ✓</span>
+    <span class="cm"># return result  ← ✗ le sujet dit print !</span></pre>
+  </div>
+  <div class="card">
+    <div class="card-label"><span class="tag tag-trap">piège</span> upper = not upper — timing</div>
+    <pre><span class="cm"># L'inversion doit être DANS le if isalpha()
+# Sinon les espaces cassent l'alternance</span>
+<span class="kw">if</span> c.<span class="fn">isalpha</span>():
+    ...
+    upper = <span class="kw">not</span> upper  <span class="cm"># ← ici, pas dans else !</span></pre>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     09 · RÉFÉRENCE
+══════════════════════════════════ -->
+<div class="chapter" id="ref">
+  <span class="chapter-num">09</span>
+  <h2>Référence rapide</h2>
+</div>
+
+<div class="card">
+  <table class="ref-table">
+    <tr><th>Méthode / Syntaxe</th><th>Ce qu'elle fait</th><th></th></tr>
+    <tr><td>s.isalpha()</td><td>True si tous les chars sont des lettres</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>s.isdigit()</td><td>True si tous les chars sont des chiffres</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>s.isalnum()</td><td>True si lettres ou chiffres</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>s.upper() / s.lower()</td><td>Nouvelle string en maj/min</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>s.isupper() / s.islower()</td><td>True si tous les chars alpha sont en maj/min</td><td><span class="ptag ptag-med">utile</span></td></tr>
+    <tr><td>s.capitalize()</td><td>1ère lettre maj, reste min</td><td><span class="ptag ptag-med">utile</span></td></tr>
+    <tr><td>s.strip()</td><td>Supprimer whitespace début/fin</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>s.split(" ")</td><td>Couper par espace simple (préserve espaces multiples)</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>sep.join(lst)</td><td>Assembler liste en string</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>s[::-1]</td><td>Inverser string ou liste</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>ord(c) / chr(n)</td><td>Valeur ASCII ↔ caractère</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>sorted(iter, key=..., reverse=...)</td><td>Nouvelle liste triée</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>lst.sort(reverse=...)</td><td>Tri in-place, retourne None</td><td><span class="ptag ptag-med">utile</span></td></tr>
+    <tr><td>lst.append(x)</td><td>Ajouter à la fin</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>lst.pop()</td><td>Enlever et retourner le dernier</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>lst[-1]</td><td>Lire le dernier sans dépiler</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>int(s, base)</td><td>String → entier dans une base</td><td><span class="ptag ptag-med">utile</span></td></tr>
+    <tr><td>n % m</td><td>Modulo — reste de division (circulaire)</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>n // m</td><td>Division entière</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>[f(x) for x in lst]</td><td>List comprehension</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>lambda x: expr</td><td>Fonction anonyme pour key=</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+    <tr><td>not / and / or</td><td>Opérateurs booléens</td><td><span class="ptag ptag-easy">essentiel</span></td></tr>
+  </table>
+</div>
+
+<div style="height:48px"></div>
+</div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── NAV ACTIVE ──
+function setActive(el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── PATTERN TOGGLE ──
+function togglePattern(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+// ── MATRICES ──
+const M = [[1,2,3],[4,5,6],[7,8,9]];
+function renderMat(id, mat, hlFn) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.innerHTML = mat.map((row,ri) =>
+    `<div class="mat-row">${row.map((v,ci) =>
+      `<div class="mat-cell ${hlFn && hlFn(ri,ci,mat.length) ? 'hl' : ''}">${v}</div>`
+    ).join('')}</div>`
+  ).join('');
+}
+// Mirror H
+renderMat('mh-before', M, null);
+renderMat('mh-after',  M.map(r => [...r].reverse()), null);
+// Mirror V
+renderMat('mv-before', M, null);
+renderMat('mv-after',  [...M].reverse(), null);
+// Rotate 90
+const n = M.length;
+const rot = Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>M[n-1-j][i]));
+renderMat('mr-before', M, null);
+renderMat('mr-after',  rot, null);
+
+// ── DEMO STRING ──
+function demoStr() {
+  const s = document.getElementById('str-in').value;
+  const methods = [
+    {n:'isalpha()', v: s.length>0 && [...s].every(c=>/[a-zA-Z]/.test(c)) ? 'True':'False'},
+    {n:'isdigit()', v: s.length>0 && /^\d+$/.test(s) ? 'True':'False'},
+    {n:'isalnum()', v: s.length>0 && /^[a-zA-Z0-9]+$/.test(s) ? 'True':'False'},
+    {n:'upper()',   v: '"'+s.toUpperCase()+'"'},
+    {n:'lower()',   v: '"'+s.toLowerCase()+'"'},
+    {n:'strip()',   v: '"'+s.trim()+'"'},
+    {n:'[::-1]',   v: '"'+[...s].reverse().join('')+'"'},
+    {n:'len()',     v: String(s.length)},
+  ];
+  document.getElementById('str-out').innerHTML = methods.map(m=>
+    `<div class="demo-method-card"><div class="demo-method-name">${m.n}</div><div class="demo-method-val">${m.v}</div></div>`
+  ).join('');
+}
+demoStr();
+
+// ── DEMO CÉSAR ──
+function demoCesar() {
+  const text  = document.getElementById('cesar-in').value;
+  const shift = parseInt(document.getElementById('cesar-shift').value);
+  document.getElementById('cesar-sv').textContent = shift;
+  let out = '';
+  for(const c of text) {
+    if(/[a-zA-Z]/.test(c)) {
+      const base = c === c.toUpperCase() ? 65 : 97;
+      out += String.fromCharCode((c.charCodeAt(0)-base+shift)%26+base);
+    } else out += c;
+  }
+  document.getElementById('cesar-out').textContent = out;
+}
+demoCesar();
+
+// ── INTERSECTION OBSERVER pour nav ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#'+id);
+      });
+    }
+  });
+}, {threshold:.3});
+document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
