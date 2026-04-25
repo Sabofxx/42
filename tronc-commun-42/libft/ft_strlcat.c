@@ -3,35 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 14:30:02 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/21 16:12:31 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 16:10:31 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/14 18:43:19 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *d, const char *s, size_t dstsize)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	size_t	dst_len;
-	size_t	index;
+	size_t	dlen;
+	size_t	slen;
 	size_t	i;
 
-	dst_len = ft_strlen(d);
-	index = 0;
-	while (d[index])
-		index++;
+	dlen = 0;
+	while (dlen < dstsize && dst[dlen])
+		dlen++;
+	slen = 0;
+	while (src[slen])
+		slen++;
+	if (dlen == dstsize)
+		return (dstsize + slen);
 	i = 0;
-	while (s[i] && (i + index + 1) < (dstsize))
+	while (src[i] && dlen + i + 1 < dstsize)
 	{
-		d[index + i] = s[i];
+		dst[dlen + i] = src[i];
 		i++;
 	}
-	if (i < dstsize)
-		d[index + i] = '\0';
-	if (dstsize <= dst_len)
-		return (ft_strlen(s) + dstsize);
-	else
-		return (ft_strlen(s) + dst_len);
+	dst[dlen + i] = '\0';
+	return (dlen + slen);
 }
+// #include <stdio.h>
+// #include <string.h>
+// int	main(void)
+// {
+// 	char a[20] = "Driss";
+// 	char b[20] = "Driss";
+// 	printf("%zu | %s\n", ft_strlcat(a, " Ssird", 20), a);
+// 	printf("%zu | %s\n", strlcat(b, " Ssird", 20), b);
+// 	return (0);
+// }

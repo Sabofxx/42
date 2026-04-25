@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 19:27:36 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/21 18:34:03 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/15 17:49:34 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/15 17:50:20 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 t_list	*ft_lstnew(void *content)
 {
-	t_list	*new;
+	t_list	*node;
 
-	new = malloc(sizeof(t_list));
-	if (!new)
+	node = (t_list *)malloc(sizeof(t_list));
+	if (!node)
 		return (NULL);
-	new->content = content;
-	new->next = NULL;
-	return (new);
+	node->content = content;
+	node->next = NULL;
+	return (node);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	t_list *n;
+// 	int x = 42;
+// 	n = ft_lstnew(&x);
+// 	if (!n)
+// 		return (1);
+// 	printf("%d\n", *(int *)n->content);
+// 	free(n);
+// 	return (0);
+// }

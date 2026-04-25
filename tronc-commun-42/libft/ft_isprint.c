@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 12:07:14 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 12:46:30 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/13 11:47:36 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/13 16:26:49 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,12 @@ int	ft_isprint(int c)
 		return (1);
 	return (0);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("%d\n", ft_isprint('A'));  
+// 	printf("%d\n", ft_isprint(' '));   
+// 	printf("%d\n", ft_isprint('\n'));  
+// 	printf("%d\n", ft_isprint(127));   
+// 	return (0);
+// }
