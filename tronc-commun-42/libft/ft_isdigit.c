@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 11:30:11 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 12:45:57 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/13 11:47:14 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/13 14:41:20 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,10 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("%d\n", ft_isdigit('1'));      
+// 	printf("%d\n", ft_isdigit(127));         
+// 	return (0);
+// }

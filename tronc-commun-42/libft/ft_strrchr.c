@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 14:35:05 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/21 15:58:05 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 16:12:03 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/14 16:12:04 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,27 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	unsigned char	ch;
+	char			*last;
 
-	if (!s)
-		return (NULL);
-	i = ft_strlen(s);
-	while (i >= 0)
+	ch = (unsigned char)c;
+	last = NULL;
+	while (*s)
 	{
-		if (s[i] == (char) c)
-			return ((char *) s + i);
-		i--;
+		if ((unsigned char)*s == ch)
+			last = (char *)s;
+		s++;
 	}
-	return (NULL);
+	if (ch == '\0')
+		return ((char *)s);
+	return (last);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char str[] = "hello world";
+// 	printf("%s\n", ft_strrchr(str, 'o'));
+// 	printf("%p\n", ft_strrchr(str, 'z'));
+// 	printf("%s\n", ft_strrchr(str, '\0'));
+// 	return (0);
+// }

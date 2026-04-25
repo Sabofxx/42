@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 11:40:30 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 20:08:30 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/13 11:47:02 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/13 14:30:12 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 int	ft_isalnum(int c)
 {
-	if (ft_isalpha(c) || ft_isdigit(c))
+	if ((c >= 'A' && c <= 'Z')
+		|| (c >= 'a' && c <= 'z')
+		|| (c >= '0' && c <= '9'))
 		return (1);
-	else
-		return (0);
+	return (0);
 }
-
-/* int main()
-{
-	int c = 'a';
-	printf("%d\n", ft_isalnum(c));
-} */
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("%d\n", ft_isalnum('a'));
+// 	printf("%d\n", ft_isalnum('5'));
+// 	printf("%d\n", ft_isalnum(' '));
+// 	return (0);
+// }

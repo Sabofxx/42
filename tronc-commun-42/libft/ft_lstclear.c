@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmischler <oscarmischler@student.42    +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 19:53:24 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/15 16:59:18 by oscarmischl      ###   ########.fr       */
+/*   Created: 2026/01/15 17:58:46 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/15 17:59:14 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,33 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	if (!lst || !(*lst) || !del)
+	t_list	*tmp;
+
+	if (!lst || !del)
 		return ;
-	if ((*lst)->next)
-		ft_lstclear((&(*lst)->next), del);
-	del((*lst)->content);
-	free(*lst);
-	*lst = NULL;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = tmp;
+	}
 }
+// #include <stdio.h>
+// static void	del_int(void *p)
+// {
+// 	(void)p;
+// }
+// int	main(void)
+// {
+// 	t_list *lst;
+// 	int a = 1;
+// 	int b = 2;
+// 	lst = NULL;
+// 	ft_lstadd_front(&lst, ft_lstnew(&a));
+// 	ft_lstadd_front(&lst, ft_lstnew(&b));
+// 	ft_lstclear(&lst, del_int);
+// 	if (!lst)
+// 		printf("list cleared\n");
+// 	return (0);
+// }

@@ -1,0 +1,14 @@
+# Environment secrets - NEVER commit
+.env
+
+# Virtual environments
+matrix_env/
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Analysis output
+*.png

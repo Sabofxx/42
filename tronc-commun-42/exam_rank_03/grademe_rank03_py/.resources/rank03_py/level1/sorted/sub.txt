@@ -1,0 +1,33 @@
+Assignment name: sorted
+Expected files: sorted.py
+Allowed functions: sorted(), lambda
+--------------------------------------------------------------------------------
+
+This exercise tests your mastery of sorted() with key=lambda.
+
+You must be able to sort lists of strings, tuples, or objects by a custom
+criterion using sorted() with a key=lambda argument. No external libraries
+allowed. You must be able to sort by length, by a specific field, in reverse
+order, or by multiple criteria at once.
+
+Write the following functions:
+
+def sort_by_length(words: list[str]) -> list[str]:
+    # Sort strings by length (shortest first)
+
+def sort_by_grade_desc(students: list[tuple]) -> list[tuple]:
+    # Sort (name, grade) tuples by grade descending
+
+def sort_by_multi(data: list[tuple]) -> list[tuple]:
+    # Sort (name, age) tuples by age first, then name alphabetically
+
+Examples:
+
+sort_by_length(["banana", "kiwi", "fig"])
+-> ["fig", "kiwi", "banana"]
+
+sort_by_grade_desc([("Ana", 8.5), ("Luis", 6.0), ("Marta", 9.2)])
+-> [("Marta", 9.2), ("Ana", 8.5), ("Luis", 6.0)]
+
+sort_by_multi([("Ana", 20), ("Luis", 20), ("Marta", 18)])
+-> [("Marta", 18), ("Ana", 20), ("Luis", 20)]

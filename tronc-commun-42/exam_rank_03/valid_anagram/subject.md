@@ -1,0 +1,17 @@
+# Valid Anagram
+---
+Write a function:
+```
+def valid_anagram(s: str, t: str) -> bool:
+```
+Returns True if s and t are anagrams of each other, otherwise False.
+Two strings are anagrams if they contain the exact same characters with the same frequency, but order does not matter.
+
+#### Examples
+```
+valid_anagram("racecar", "carrace") → True
+valid_anagram("jar", "jam")         → False
+valid_anagram("listen", "silent")   → True
+valid_anagram("aabbcc", "abcabc")   → True
+valid_anagram("abc", "ab")          → False
+``

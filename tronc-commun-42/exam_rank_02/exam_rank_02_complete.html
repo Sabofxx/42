@@ -1,0 +1,2611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Rank 02 — Norminette Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07080d;
+  --bg2: #0e1018;
+  --bg3: #161824;
+  --text: #dcd8d0;
+  --text2: #8a8690;
+  --green: #34d399;
+  --purple: #a78bfa;
+  --orange: #fb923c;
+  --pink: #f472b6;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --code-bg: #0b0d14;
+  --border: #1e2030;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; line-height: 1.7; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+.hero {
+  padding: 4rem 2rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.06) 0%, transparent 60%);
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  background: linear-gradient(135deg, var(--orange), var(--pink), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p { color: var(--text2); margin-top: 0.5rem; font-size: 0.95rem; }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(7,8,13,0.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 1rem;
+  display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap;
+}
+nav button {
+  background: 0; border: 1px solid var(--border); color: var(--text2);
+  padding: 0.45rem 1rem; border-radius: 6px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem; transition: all 0.2s;
+}
+nav button:hover, nav button.on { border-color: var(--purple); color: var(--purple); background: rgba(167,139,250,0.08); }
+nav button[data-l="1"].on { border-color: var(--green); color: var(--green); background: rgba(52,211,153,0.08); }
+nav button[data-l="2"].on { border-color: var(--purple); color: var(--purple); }
+nav button[data-l="3"].on { border-color: var(--orange); color: var(--orange); background: rgba(251,146,60,0.08); }
+nav button[data-l="4"].on { border-color: var(--pink); color: var(--pink); background: rgba(244,114,182,0.08); }
+
+.wrap { max-width: 880px; margin: 0 auto; padding: 2rem 1.2rem; }
+.sec { display: none; animation: fi 0.3s; }
+.sec.on { display: block; }
+@keyframes fi { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
+
+.sh { margin-bottom: 2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--border); }
+.sh h2 { font-size: 1.6rem; font-weight: 700; }
+.sh p { color: var(--text2); font-size: 0.9rem; }
+
+.box {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.3rem; margin-bottom: 1.3rem;
+}
+.box h3 { font-size: 1rem; margin-bottom: 0.6rem; }
+.box p, .box li { color: var(--text2); font-size: 0.88rem; }
+
+.ex {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; margin-bottom: 1.5rem; overflow: hidden;
+  transition: border-color 0.2s;
+}
+.ex:hover { border-color: #2a2d44; }
+.exh {
+  padding: 1rem 1.3rem; display: flex; justify-content: space-between;
+  align-items: center; cursor: pointer; user-select: none;
+}
+.exh h3 { font-family: 'JetBrains Mono', monospace; font-size: 0.92rem; font-weight: 700; }
+.exh .d {
+  font-size: 0.7rem; padding: 0.15rem 0.55rem; border-radius: 12px; font-weight: 600;
+}
+.d1 { background: rgba(52,211,153,0.12); color: var(--green); }
+.d2 { background: rgba(167,139,250,0.12); color: var(--purple); }
+.d3 { background: rgba(251,146,60,0.12); color: var(--orange); }
+.d4 { background: rgba(244,114,182,0.12); color: var(--pink); }
+
+.exb { display: none; padding: 0 1.3rem 1.3rem; }
+.exb.open { display: block; animation: fi 0.2s; }
+.exb h4 {
+  font-size: 0.8rem; color: var(--green); margin: 0.8rem 0 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.exb .desc { color: var(--text2); font-size: 0.88rem; margin-bottom: 0.8rem; line-height: 1.7; }
+
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 1rem; overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.65;
+  margin: 0.4rem 0 0.8rem; tab-size: 4;
+}
+.k { color: #ff7b72; } .f { color: #d2a8ff; } .s { color: #a5d6ff; }
+.c { color: #6e7681; font-style: italic; } .n { color: #79c0ff; }
+.t { color: #ff7b72; } .i { color: #ffa657; }
+
+.tip {
+  background: rgba(167,139,250,0.06); border-left: 3px solid var(--purple);
+  padding: 0.8rem 1rem; border-radius: 0 6px 6px 0; margin: 0.8rem 0;
+  font-size: 0.84rem; color: var(--text2);
+}
+.tip b { color: var(--purple); }
+
+.warn {
+  background: rgba(251,146,60,0.06); border-left: 3px solid var(--orange);
+  padding: 0.8rem 1rem; border-radius: 0 6px 6px 0; margin: 0.8rem 0;
+  font-size: 0.84rem; color: var(--text2);
+}
+.warn b { color: var(--orange); }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(120px,1fr)); gap: 0.8rem; margin: 1.2rem 0; }
+.stat { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; }
+.stat .num { font-size: 1.8rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+.stat .lab { font-size: 0.7rem; color: var(--text2); margin-top: 0.2rem; }
+
+.tag { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; margin-left: 0.4rem; }
+.tw { background: rgba(52,211,153,0.12); color: var(--green); }
+.tm { background: rgba(167,139,250,0.12); color: var(--purple); }
+.tp { background: rgba(244,114,182,0.12); color: var(--pink); }
+
+@media(max-width:600px) {
+  .wrap { padding: 1rem 0.8rem; }
+  nav { padding: 0.4rem 0.5rem; }
+  nav button { padding: 0.35rem 0.6rem; font-size: 0.72rem; }
+  pre { font-size: 0.7rem; padding: 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>EXAM RANK 02</h1>
+  <p>Cours complet — 57 exercices — Norminette Edition</p>
+</div>
+
+<nav id="nav">
+  <button class="on" data-s="overview">Overview</button>
+  <button data-s="patterns">Patterns</button>
+  <button data-s="l1" data-l="1">Level 1</button>
+  <button data-s="l2" data-l="2">Level 2</button>
+  <button data-s="l3" data-l="3">Level 3</button>
+  <button data-s="l4" data-l="4">Level 4</button>
+  <button data-s="cheat">Cheatsheet</button>
+</nav>
+
+<div class="wrap">
+
+<!-- ===== OVERVIEW ===== -->
+<div class="sec on" id="overview">
+<div class="sh"><h2>Vue d'ensemble</h2><p>Format, stratégie, progression.</p></div>
+<div class="box"><h3>🎯 Format</h3><p>4 exercices (un par level), choisis aléatoirement. 4h. Pas d'internet, pas de man. Vim/emacs/nano.</p></div>
+<div class="box"><h3>⏱️ Timing</h3><p>Level 1 : ~5 min · Level 2 : ~10 min · Level 3 : ~20 min · Level 4 : ~30 min. Reste ~2h de marge.</p></div>
+<div class="stats">
+<div class="stat"><div class="num" style="color:var(--green)">12</div><div class="lab">Level 1</div></div>
+<div class="stat"><div class="num" style="color:var(--purple)">18</div><div class="lab">Level 2</div></div>
+<div class="stat"><div class="num" style="color:var(--orange)">15</div><div class="lab">Level 3</div></div>
+<div class="stat"><div class="num" style="color:var(--pink)">10</div><div class="lab">Level 4</div></div>
+</div>
+<div class="box"><h3>📌 Norminette — Règles essentielles</h3><p>• Tabs, pas espaces · Déclarations en haut de fonction · Pas d'assignation à la déclaration · Max 25 lignes par fonction · Max 4 params · Max 5 variables par fonction · Accolades sur leur propre ligne · Un seul return à la fin (sauf early returns) · Pas de for, juste while</p></div>
+</div>
+
+<!-- ===== PATTERNS ===== -->
+<div class="sec" id="patterns">
+<div class="sh"><h2>🧩 Patterns Clés</h2><p>8 patterns = 90% des exos.</p></div>
+
+<div class="box"><h3>1. Squelette main()</h3>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		my_function(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+<div class="tip"><b>Le \n est TOUJOURS après le if</b>, pas dedans. Comme ça il s'affiche même si argc est faux.</div>
+</div>
+
+<div class="box"><h3>2. ft_putchar + ft_putnbr</h3>
+<pre><code><span class="t">void</span>	<span class="f">ft_putchar</span>(<span class="t">char</span> c)
+{
+	write(<span class="n">1</span>, &c, <span class="n">1</span>);
+}
+
+<span class="t">void</span>	<span class="f">ft_putnbr</span>(<span class="t">int</span> n)
+{
+	<span class="t">char</span>	c;
+
+	<span class="k">if</span> (n < <span class="n">0</span>)
+	{
+		ft_putchar(<span class="s">'-'</span>);
+		n = -n;
+	}
+	<span class="k">if</span> (n > <span class="n">9</span>)
+		ft_putnbr(n / <span class="n">10</span>);
+	c = n % <span class="n">10</span> + <span class="s">'0'</span>;
+	write(<span class="n">1</span>, &c, <span class="n">1</span>);
+}</code></pre></div>
+
+<div class="box"><h3>3. Parcours de string</h3>
+<pre><code><span class="t">int</span>	i;
+
+i = <span class="n">0</span>;
+<span class="k">while</span> (str[i] != <span class="s">'\0'</span>)
+{
+	<span class="c">// traitement de str[i]</span>
+	i++;
+}</code></pre></div>
+
+<div class="box"><h3>4. Skip spaces</h3>
+<pre><code><span class="k">while</span> (str[i] == <span class="s">' '</span> || str[i] == <span class="s">'\t'</span>)
+	i++;
+<span class="c">// pour ft_split, ajouter || str[i] == '\n'</span></code></pre></div>
+
+<div class="box"><h3>5. Rotation de char</h3>
+<pre><code><span class="c">// ROT N (rot13 = 13, rotone = 1)</span>
+<span class="k">if</span> (c >= <span class="s">'a'</span> && c <= <span class="s">'z'</span>)
+	c = (c - <span class="s">'a'</span> + N) % <span class="n">26</span> + <span class="s">'a'</span>;
+<span class="k">else if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+	c = (c - <span class="s">'A'</span> + N) % <span class="n">26</span> + <span class="s">'A'</span>;
+
+<span class="c">// Alpha Mirror (a↔z)</span>
+c = <span class="s">'z'</span> - (c - <span class="s">'a'</span>);</code></pre></div>
+
+<div class="box"><h3>6. ft_atoi</h3>
+<pre><code><span class="t">int</span>	<span class="f">ft_atoi</span>(<span class="t">const char</span> *str)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	sign;
+	<span class="t">int</span>	result;
+
+	i = <span class="n">0</span>;
+	sign = <span class="n">1</span>;
+	result = <span class="n">0</span>;
+	<span class="k">while</span> (str[i] == <span class="s">' '</span> || (str[i] >= <span class="n">9</span> && str[i] <= <span class="n">13</span>))
+		i++;
+	<span class="k">if</span> (str[i] == <span class="s">'-'</span> || str[i] == <span class="s">'+'</span>)
+	{
+		<span class="k">if</span> (str[i] == <span class="s">'-'</span>)
+			sign = -<span class="n">1</span>;
+		i++;
+	}
+	<span class="k">while</span> (str[i] >= <span class="s">'0'</span> && str[i] <= <span class="s">'9'</span>)
+	{
+		result = result * <span class="n">10</span> + (str[i] - <span class="s">'0'</span>);
+		i++;
+	}
+	<span class="k">return</span> (sign * result);
+}</code></pre></div>
+
+<div class="box"><h3>7. Bitwise</h3>
+<pre><code><span class="c">// print_bits</span>
+i = <span class="n">8</span>;
+<span class="k">while</span> (i--)
+	c = ((octet >> i) & <span class="n">1</span>) + <span class="s">'0'</span>;
+
+<span class="c">// reverse_bits</span>
+result = result * <span class="n">2</span> + (octet % <span class="n">2</span>);
+octet = octet / <span class="n">2</span>;
+
+<span class="c">// swap_bits</span>
+<span class="k">return</span> (octet >> <span class="n">4</span> | octet << <span class="n">4</span>);</code></pre></div>
+
+<div class="box"><h3>8. Liste chaînée</h3>
+<pre><code><span class="k">typedef struct</span>	s_list
+{
+	<span class="k">struct</span> s_list	*next;
+	<span class="t">void</span>			*data;
+}					t_list;
+
+<span class="k">while</span> (list != NULL)
+{
+	<span class="c">// list->data</span>
+	list = list->next;
+}</code></pre></div>
+</div>
+
+<!-- ===== LEVEL 1 ===== -->
+<div class="sec" id="l1">
+<div class="sh"><h2 style="color:var(--green)">Level 1 — Les Bases</h2><p>12 exercices. 5 min max le jour J.</p></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_strlen <span class="tag tw">aucune fn</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4><div class="desc">Retourner la longueur d'une string.</div>
+<h4>// Solution</h4>
+<pre><code><span class="t">int</span>	<span class="f">ft_strlen</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	len;
+
+	len = <span class="n">0</span>;
+	<span class="k">while</span> (str[len] != <span class="s">'\0'</span>)
+		len++;
+	<span class="k">return</span> (len);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_strcpy <span class="tag tw">aucune fn</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4><div class="desc">Copier s2 dans s1. Retourner s1.</div>
+<pre><code><span class="t">char</span>	*<span class="f">ft_strcpy</span>(<span class="t">char</span> *s1, <span class="t">char</span> *s2)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s2[i] != <span class="s">'\0'</span>)
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = <span class="s">'\0'</span>;
+	<span class="k">return</span> (s1);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_putstr <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_putstr
+Expected files   : ft_putstr.c
+Allowed functions: write
+
+Write a function that displays a string on the standard output.
+The pointer passed to the function contains the address of the string&#x27;s first character.
+
+Your function must be declared as follows:
+void	ft_putstr(char *str);</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">ft_putstr</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i] != <span class="s">'\0'</span>)
+	{
+		write(<span class="n">1</span>, &str[i], <span class="n">1</span>);
+		i++;
+	}
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_swap <span class="tag tw">aucune fn</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_swap
+Expected files   : ft_swap.c
+Allowed functions: None
+
+Write a function that swaps the contents of two integers the adresses of which are passed as parameters.
+
+Your function must be declared as follows:
+void	ft_swap(int *a, int *b);</code></pre>
+
+<pre><code><span class="t">void</span>	<span class="f">ft_swap</span>(<span class="t">int</span> *a, <span class="t">int</span> *b)
+{
+	<span class="t">int</span>	temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>fizzbuzz <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : fizzbuzz
+Expected files   : fizzbuzz.c
+Allowed functions: write
+
+Write a program that prints the numbers from 1 to 100, each separated by a newline.
+If the number is a multiple of 3, it prints &#x27;fizz&#x27; instead.
+If the number is a multiple of 5, it prints &#x27;buzz&#x27; instead.
+If the number is both a multiple of 3 and a multiple of 5, it prints &#x27;fizzbuzz&#x27; instead.
+
+$&gt;./fizzbuzz
+1
+2
+fizz
+4
+buzz
+fizz
+...
+14
+fizzbuzz
+...</code></pre>
+
+<h4>// Concept</h4><div class="desc">1 à 100. %3 → fizz, %5 → buzz, %15 → fizzbuzz. Teste %15 EN PREMIER.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">ft_putnbr</span>(<span class="t">int</span> n)
+{
+	<span class="t">char</span>	c;
+
+	<span class="k">if</span> (n > <span class="n">9</span>)
+		ft_putnbr(n / <span class="n">10</span>);
+	c = n % <span class="n">10</span> + <span class="s">'0'</span>;
+	write(<span class="n">1</span>, &c, <span class="n">1</span>);
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">void</span>)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">1</span>;
+	<span class="k">while</span> (i <= <span class="n">100</span>)
+	{
+		<span class="k">if</span> (i % <span class="n">15</span> == <span class="n">0</span>)
+			write(<span class="n">1</span>, <span class="s">"fizzbuzz"</span>, <span class="n">8</span>);
+		<span class="k">else if</span> (i % <span class="n">3</span> == <span class="n">0</span>)
+			write(<span class="n">1</span>, <span class="s">"fizz"</span>, <span class="n">4</span>);
+		<span class="k">else if</span> (i % <span class="n">5</span> == <span class="n">0</span>)
+			write(<span class="n">1</span>, <span class="s">"buzz"</span>, <span class="n">4</span>);
+		<span class="k">else</span>
+			ft_putnbr(i);
+		write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+		i++;
+	}
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>first_word <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : first_word
+Expected files   : first_word.c
+Allowed functions: write
+
+Write a program that takes a string and displays its first word, followed by a newline.
+A word is a section of string delimited by spaces/tabs or by the start/end of the string.
+If the number of parameters is not 1, or if there are no words, simply display a newline.
+
+$&gt; ./first_word &quot;FOR PONY&quot; | cat -e
+FOR$
+$&gt; ./first_word &quot;  lorem,ipsum  &quot; | cat -e
+lorem,ipsum$</code></pre>
+
+<div class="desc">Afficher le 1er mot. Skip les espaces/tabs, puis print jusqu'au prochain espace.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">first_word</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i] == <span class="s">' '</span> || str[i] == <span class="s">'\t'</span>)
+		i++;
+	<span class="k">while</span> (str[i] && str[i] != <span class="s">' '</span> && str[i] != <span class="s">'\t'</span>)
+	{
+		write(<span class="n">1</span>, &str[i], <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		first_word(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>repeat_alpha <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : repeat_alpha
+Expected files   : repeat_alpha.c
+Allowed functions: write
+
+Write a program that takes a string and displays it repeating each alphabetical character as many times as its alphabetical index, followed by a newline.
+&#x27;a&#x27; becomes &#x27;a&#x27;, &#x27;b&#x27; becomes &#x27;bb&#x27;, &#x27;e&#x27; becomes &#x27;eeeee&#x27;, etc...
+Case remains unchanged. If the number of arguments is not 1, just display a newline.
+
+$&gt;./repeat_alpha &quot;abc&quot;
+abbccc
+$&gt;./repeat_alpha &quot;Alex.&quot; | cat -e
+Alllllllllllleeeeexxxxxxxxxxxxxxxxxxxxxxxx.$</code></pre>
+
+<div class="desc">'a' = 1 fois, 'b' = 2 fois, ... 'z' = 26 fois. Index = <code>c - 'a' + 1</code>.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">repeat_alpha</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	rep;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		rep = <span class="n">1</span>;
+		<span class="k">if</span> (str[i] >= <span class="s">'a'</span> && str[i] <= <span class="s">'z'</span>)
+			rep = str[i] - <span class="s">'a'</span> + <span class="n">1</span>;
+		<span class="k">else if</span> (str[i] >= <span class="s">'A'</span> && str[i] <= <span class="s">'Z'</span>)
+			rep = str[i] - <span class="s">'A'</span> + <span class="n">1</span>;
+		<span class="k">while</span> (rep-- > <span class="n">0</span>)
+			write(<span class="n">1</span>, &str[i], <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		repeat_alpha(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>rev_print <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : rev_print
+Expected files   : rev_print.c
+Allowed functions: write
+
+Write a program that takes a string, and displays the string in reverse followed by a newline.
+If the number of parameters is not 1, the program displays a newline.
+
+$&gt; ./rev_print &quot;dub0 a POIL&quot; | cat -e
+LIOP a 0bud$</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">rev_print</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+		i++;
+	<span class="k">while</span> (--i >= <span class="n">0</span>)
+		write(<span class="n">1</span>, &str[i], <span class="n">1</span>);
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		rev_print(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>rotone <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : rotone
+Expected files   : rotone.c
+Allowed functions: write
+
+Write a program that takes a string and displays it, replacing each of its letters by the next one in alphabetical order.
+&#x27;z&#x27; becomes &#x27;a&#x27; and &#x27;Z&#x27; becomes &#x27;A&#x27;. Case remains unaffected.
+If the number of arguments is not 1, the program displays \n.
+
+$&gt;./rotone &quot;abc&quot;
+bcd</code></pre>
+
+<div class="desc">Chaque lettre +1. z→a, Z→A. Formule : <code>(c - 'a' + 1) % 26 + 'a'</code></div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">rotone</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		c = str[i];
+		<span class="k">if</span> (c >= <span class="s">'a'</span> && c <= <span class="s">'z'</span>)
+			c = (c - <span class="s">'a'</span> + <span class="n">1</span>) % <span class="n">26</span> + <span class="s">'a'</span>;
+		<span class="k">else if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+			c = (c - <span class="s">'A'</span> + <span class="n">1</span>) % <span class="n">26</span> + <span class="s">'A'</span>;
+		write(<span class="n">1</span>, &c, <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		rotone(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>rot_13 <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : rot_13
+Expected files   : rot_13.c
+Allowed functions: write
+
+Write a program that takes a string and displays it, replacing each of its letters by the letter 13 spaces ahead in alphabetical order.
+&#x27;z&#x27; becomes &#x27;m&#x27; and &#x27;Z&#x27; becomes &#x27;M&#x27;. Case remains unaffected.
+If the number of arguments is not 1, the program displays a newline.
+
+$&gt;./rot_13 &quot;abc&quot;
+nop
+$&gt;./rot_13 &quot;My horse is Amazing.&quot; | cat -e
+Zl ubefr vf Nznmvat.$</code></pre>
+
+<div class="desc">Identique à rotone mais +13. Change juste le 1 en 13.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">rot_13</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		c = str[i];
+		<span class="k">if</span> (c >= <span class="s">'a'</span> && c <= <span class="s">'z'</span>)
+			c = (c - <span class="s">'a'</span> + <span class="n">13</span>) % <span class="n">26</span> + <span class="s">'a'</span>;
+		<span class="k">else if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+			c = (c - <span class="s">'A'</span> + <span class="n">13</span>) % <span class="n">26</span> + <span class="s">'A'</span>;
+		write(<span class="n">1</span>, &c, <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		rot_13(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>search_and_replace <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : search_and_replace
+Expected files   : search_and_replace.c
+Allowed functions: write, exit
+
+Write a program that takes 3 arguments, the first is a string in which to replace a letter (2nd argument) by another one (3rd argument).
+If the number of arguments is not 3, just display a newline.
+If the second argument is not contained in the first one, the program simply rewrites the string followed by a newline.
+
+$&gt;./search_and_replace &quot;Papache est un sabre&quot; &quot;a&quot; &quot;o&quot;
+Popoche est un sobre</code></pre>
+
+<div class="desc">3 args : string, char à chercher, char remplacement. Args 2 et 3 = un seul char.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	i;
+
+	<span class="k">if</span> (argc == <span class="n">4</span> && argv[<span class="n">2</span>][<span class="n">1</span>] == <span class="s">'\0'</span> && argv[<span class="n">3</span>][<span class="n">1</span>] == <span class="s">'\0'</span>)
+	{
+		i = <span class="n">0</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i])
+		{
+			<span class="k">if</span> (argv[<span class="n">1</span>][i] == argv[<span class="n">2</span>][<span class="n">0</span>])
+				write(<span class="n">1</span>, &argv[<span class="n">3</span>][<span class="n">0</span>], <span class="n">1</span>);
+			<span class="k">else</span>
+				write(<span class="n">1</span>, &argv[<span class="n">1</span>][i], <span class="n">1</span>);
+			i++;
+		}
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ulstr <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ulstr
+Expected files   : ulstr.c
+Allowed functions: write
+
+Write a program that takes a string and reverses the case of all its letters.
+Other characters remain unchanged. Display the result followed by a &#x27;\n&#x27;.
+If the number of arguments is not 1, the program displays &#x27;\n&#x27;.
+
+$&gt;./ulstr &quot;L&#x27;eSPrit nE peUt plUs&quot; | cat -e
+l&#x27;EspRIT Ne PEuT PLuS$</code></pre>
+
+<div class="desc">Inverser la casse. Majuscule +32, minuscule -32.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">ulstr</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		c = str[i];
+		<span class="k">if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+			c += <span class="n">32</span>;
+		<span class="k">else if</span> (c >= <span class="s">'a'</span> && c <= <span class="s">'z'</span>)
+			c -= <span class="n">32</span>;
+		write(<span class="n">1</span>, &c, <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		ulstr(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+</div>
+
+<!-- ===== LEVEL 2 ===== -->
+<div class="sec" id="l2">
+<div class="sh"><h2 style="color:var(--purple)">Level 2 — Intermédiaire</h2><p>18 exercices. Strings avancés, bits, conversions, malloc.</p></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>alpha_mirror <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : alpha_mirror
+Expected files   : alpha_mirror.c
+Allowed functions: write
+
+Write a program that takes a string and displays this string after replacing each alphabetical character by the opposite alphabetical character, followed by a newline.
+&#x27;a&#x27; becomes &#x27;z&#x27;, &#x27;Z&#x27; becomes &#x27;A&#x27;, &#x27;d&#x27; becomes &#x27;w&#x27;, &#x27;M&#x27; becomes &#x27;N&#x27;. Case is not changed.
+If the number of arguments is not 1, display only a newline.
+
+$&gt;./alpha_mirror &quot;abc&quot;
+zyx</code></pre>
+
+<div class="desc">'a'↔'z', 'b'↔'y'. Formule : <code>'z' - (c - 'a')</code></div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">alpha_mirror</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		c = str[i];
+		<span class="k">if</span> (c >= <span class="s">'a'</span> && c <= <span class="s">'z'</span>)
+			c = <span class="s">'z'</span> - (c - <span class="s">'a'</span>);
+		<span class="k">else if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+			c = <span class="s">'Z'</span> - (c - <span class="s">'A'</span>);
+		write(<span class="n">1</span>, &c, <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		alpha_mirror(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>camel_to_snake <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : camel_to_snake
+Expected files   : camel_to_snake.c
+Allowed functions: malloc, realloc, write
+
+Write a program that takes a single string in lowerCamelCase format and converts it into a string in snake_case format.
+
+$&gt;./camel_to_snake &quot;hereIsACamelCaseWord&quot;
+here_is_a_camel_case_word
+$&gt;./camel_to_snake &quot;helloWorld&quot; | cat -e
+hello_world$</code></pre>
+
+<div class="desc">Majuscule → print '_' puis la lettre en minuscule.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+	{
+		i = <span class="n">0</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i])
+		{
+			c = argv[<span class="n">1</span>][i];
+			<span class="k">if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+			{
+				write(<span class="n">1</span>, <span class="s">"_"</span>, <span class="n">1</span>);
+				c += <span class="n">32</span>;
+			}
+			write(<span class="n">1</span>, &c, <span class="n">1</span>);
+			i++;
+		}
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>snake_to_camel <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : snake_to_camel
+Expected files   : snake_to_camel.c
+Allowed functions: malloc, free, realloc, write
+
+Write a program that takes a single string in snake_case format and converts it into a string in lowerCamelCase format.
+
+$&gt;./snake_to_camel &quot;here_is_a_snake_case_word&quot;
+hereIsASnakeCaseWord
+$&gt;./snake_to_camel &quot;hello_world&quot; | cat -e
+helloWorld$</code></pre>
+
+<div class="desc">'_' → skip et met la lettre suivante en majuscule.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+	{
+		i = <span class="n">0</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i])
+		{
+			<span class="k">if</span> (argv[<span class="n">1</span>][i] == <span class="s">'_'</span>)
+			{
+				i++;
+				c = argv[<span class="n">1</span>][i] - <span class="n">32</span>;
+				write(<span class="n">1</span>, &c, <span class="n">1</span>);
+			}
+			<span class="k">else</span>
+				write(<span class="n">1</span>, &argv[<span class="n">1</span>][i], <span class="n">1</span>);
+			i++;
+		}
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>do_op <span class="tag tp">atoi, printf</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : do_op
+Expected files   : *.c, *.h
+Allowed functions: atoi, printf, write
+
+Write a program that takes three strings:
+- The first and the third are representations of base-10 signed integers that fit in an int.
+- The second one is an arithmetic operator chosen from: + - * / %
+Display the result followed by a newline. If the number of parameters is not 3, just display a newline.
+
+$&gt; ./do_op &quot;123&quot; &quot;*&quot; 456 | cat -e
+56088$
+$&gt; ./do_op &quot;1&quot; &quot;+&quot; &quot;-43&quot; | cat -e
+-42$</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;stdio.h&gt;</span>
+<span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	a;
+	<span class="t">int</span>	b;
+
+	<span class="k">if</span> (argc == <span class="n">4</span>)
+	{
+		a = atoi(argv[<span class="n">1</span>]);
+		b = atoi(argv[<span class="n">3</span>]);
+		<span class="k">if</span> (argv[<span class="n">2</span>][<span class="n">0</span>] == <span class="s">'+'</span>)
+			printf(<span class="s">"%d"</span>, a + b);
+		<span class="k">else if</span> (argv[<span class="n">2</span>][<span class="n">0</span>] == <span class="s">'-'</span>)
+			printf(<span class="s">"%d"</span>, a - b);
+		<span class="k">else if</span> (argv[<span class="n">2</span>][<span class="n">0</span>] == <span class="s">'*'</span>)
+			printf(<span class="s">"%d"</span>, a * b);
+		<span class="k">else if</span> (argv[<span class="n">2</span>][<span class="n">0</span>] == <span class="s">'/'</span>)
+			printf(<span class="s">"%d"</span>, a / b);
+		<span class="k">else if</span> (argv[<span class="n">2</span>][<span class="n">0</span>] == <span class="s">'%'</span>)
+			printf(<span class="s">"%d"</span>, a % b);
+	}
+	printf(<span class="s">"\n"</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_atoi</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_atoi
+Expected files   : ft_atoi.c
+Allowed functions: None
+
+Write a function that converts the string argument str to an integer (type int) and returns it.
+It works much like the standard atoi(const char *str) function, see the man.
+
+int	ft_atoi(const char *str);</code></pre>
+
+<div class="desc">Voir pattern dans la section Patterns.</div>
+<pre><code><span class="t">int</span>	<span class="f">ft_atoi</span>(<span class="t">const char</span> *str)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	sign;
+	<span class="t">int</span>	result;
+
+	i = <span class="n">0</span>;
+	sign = <span class="n">1</span>;
+	result = <span class="n">0</span>;
+	<span class="k">while</span> (str[i] == <span class="s">' '</span> || (str[i] >= <span class="n">9</span> && str[i] <= <span class="n">13</span>))
+		i++;
+	<span class="k">if</span> (str[i] == <span class="s">'-'</span> || str[i] == <span class="s">'+'</span>)
+	{
+		<span class="k">if</span> (str[i] == <span class="s">'-'</span>)
+			sign = -<span class="n">1</span>;
+		i++;
+	}
+	<span class="k">while</span> (str[i] >= <span class="s">'0'</span> && str[i] <= <span class="s">'9'</span>)
+	{
+		result = result * <span class="n">10</span> + (str[i] - <span class="s">'0'</span>);
+		i++;
+	}
+	<span class="k">return</span> (sign * result);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_strcmp</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_strcmp
+Expected files   : ft_strcmp.c
+Allowed functions: None
+
+Reproduce the behavior of the function strcmp (man strcmp).
+
+int    ft_strcmp(char *s1, char *s2);</code></pre>
+
+<pre><code><span class="t">int</span>	<span class="f">ft_strcmp</span>(<span class="t">char</span> *s1, <span class="t">char</span> *s2)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s1[i] == s2[i] && s1[i] != <span class="s">'\0'</span>)
+		i++;
+	<span class="k">return</span> (s1[i] - s2[i]);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_strdup <span class="tag tm">malloc</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_strdup
+Expected files   : ft_strdup.c
+Allowed functions: malloc
+
+Reproduce the behavior of the function strdup (man strdup).
+
+char    *ft_strdup(char *src);</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="t">char</span>	*<span class="f">ft_strdup</span>(<span class="t">char</span> *src)
+{
+	<span class="t">char</span>	*dup;
+	<span class="t">int</span>		len;
+	<span class="t">int</span>		i;
+
+	len = <span class="n">0</span>;
+	<span class="k">while</span> (src[len])
+		len++;
+	dup = malloc(len + <span class="n">1</span>);
+	<span class="k">if</span> (!dup)
+		<span class="k">return</span> (NULL);
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (i <= len)
+	{
+		dup[i] = src[i];
+		i++;
+	}
+	<span class="k">return</span> (dup);
+}</code></pre>
+<div class="warn"><b>malloc(len + 1)</b> : toujours +1 pour le '\0'.</div>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_strrev</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_strrev
+Expected files   : ft_strrev.c
+Allowed functions: None
+
+Write a function that reverses (in-place) a string. It must return its parameter.
+
+char    *ft_strrev(char *str);</code></pre>
+
+<pre><code><span class="t">char</span>	*<span class="f">ft_strrev</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>		i;
+	<span class="t">int</span>		len;
+	<span class="t">char</span>	tmp;
+
+	len = <span class="n">0</span>;
+	<span class="k">while</span> (str[len])
+		len++;
+	len--;
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (i < len)
+	{
+		tmp = str[i];
+		str[i] = str[len];
+		str[len] = tmp;
+		i++;
+		len--;
+	}
+	<span class="k">return</span> (str);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_strcspn / ft_strspn / ft_strpbrk</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_strcspn / ft_strspn / ft_strpbrk
+Allowed functions: None
+
+ft_strcspn: Reproduce exactly the behavior of strcspn (man strcspn).
+  size_t ft_strcspn(const char *s, const char *reject);
+
+ft_strspn: Reproduce exactly the behavior of strspn (man strspn).
+  size_t ft_strspn(const char *s, const char *accept);
+
+ft_strpbrk: Reproduce exactly the behavior of strpbrk (man strpbrk).
+  char *ft_strpbrk(const char *s1, const char *s2);</code></pre>
+
+<pre><code><span class="c">// ft_strcspn — longueur du prefixe sans chars de reject</span>
+<span class="t">size_t</span>	<span class="f">ft_strcspn</span>(<span class="t">const char</span> *s, <span class="t">const char</span> *reject)
+{
+	<span class="t">size_t</span>	i;
+	<span class="t">size_t</span>	j;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s[i])
+	{
+		j = <span class="n">0</span>;
+		<span class="k">while</span> (reject[j])
+		{
+			<span class="k">if</span> (s[i] == reject[j])
+				<span class="k">return</span> (i);
+			j++;
+		}
+		i++;
+	}
+	<span class="k">return</span> (i);
+}
+
+<span class="c">// ft_strspn — longueur du prefixe avec SEULEMENT chars de accept</span>
+<span class="t">size_t</span>	<span class="f">ft_strspn</span>(<span class="t">const char</span> *s, <span class="t">const char</span> *accept)
+{
+	<span class="t">size_t</span>	i;
+	<span class="t">size_t</span>	j;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s[i])
+	{
+		j = <span class="n">0</span>;
+		<span class="k">while</span> (accept[j] && accept[j] != s[i])
+			j++;
+		<span class="k">if</span> (!accept[j])
+			<span class="k">return</span> (i);
+		i++;
+	}
+	<span class="k">return</span> (i);
+}
+
+<span class="c">// ft_strpbrk — pointeur vers 1er char de s1 trouvé dans s2</span>
+<span class="t">char</span>	*<span class="f">ft_strpbrk</span>(<span class="t">const char</span> *s1, <span class="t">const char</span> *s2)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	j;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s1[i])
+	{
+		j = <span class="n">0</span>;
+		<span class="k">while</span> (s2[j])
+		{
+			<span class="k">if</span> (s1[i] == s2[j])
+				<span class="k">return</span> ((<span class="t">char</span> *)&s1[i]);
+			j++;
+		}
+		i++;
+	}
+	<span class="k">return</span> (NULL);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>last_word <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : last_word
+Expected files   : last_word.c
+Allowed functions: write
+
+Write a program that takes a string and displays its last word followed by a \n.
+A word is a section of string delimited by spaces/tabs or by the start/end of the string.
+If the number of parameters is not 1, or there are no words, display a newline.
+
+$&gt; ./last_word &quot;FOR PONY&quot; | cat -e
+PONY$
+$&gt; ./last_word &quot;  lorem,ipsum  &quot; | cat -e
+lorem,ipsum$</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">last_word</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+		i++;
+	i--;
+	<span class="k">while</span> (i >= <span class="n">0</span> && (str[i] == <span class="s">' '</span> || str[i] == <span class="s">'\t'</span>))
+		i--;
+	<span class="k">while</span> (i >= <span class="n">0</span> && str[i] != <span class="s">' '</span> && str[i] != <span class="s">'\t'</span>)
+		i--;
+	i++;
+	<span class="k">while</span> (str[i] && str[i] != <span class="s">' '</span> && str[i] != <span class="s">'\t'</span>)
+	{
+		write(<span class="n">1</span>, &str[i], <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		last_word(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>max</h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : max
+Expected files   : max.c
+Allowed functions: None
+
+int		max(int* tab, unsigned int len);
+
+The first parameter is an array of int, the second is the number of elements in the array.
+The function returns the largest number found in the array.
+If the array is empty, the function returns 0.</code></pre>
+
+<pre><code><span class="t">int</span>	<span class="f">max</span>(<span class="t">int</span> *tab, <span class="t">unsigned int</span> len)
+{
+	<span class="t">int</span>				m;
+	<span class="t">unsigned int</span>	i;
+
+	<span class="k">if</span> (len == <span class="n">0</span>)
+		<span class="k">return</span> (<span class="n">0</span>);
+	m = tab[<span class="n">0</span>];
+	i = <span class="n">1</span>;
+	<span class="k">while</span> (i < len)
+	{
+		<span class="k">if</span> (tab[i] > m)
+			m = tab[i];
+		i++;
+	}
+	<span class="k">return</span> (m);
+}</code></pre>
+<div class="warn"><b>Piège :</b> initialise m à tab[0], pas à 0.</div>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>print_bits <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : print_bits
+Expected files   : print_bits.c
+Allowed functions: write
+
+Write a function that takes a byte, and prints it in binary WITHOUT A NEWLINE AT THE END.
+
+void	print_bits(unsigned char octet);
+
+Example: if you pass 2 to print_bits, it will print &quot;00000010&quot; </code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">print_bits</span>(<span class="t">unsigned char</span> octet)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	i = <span class="n">8</span>;
+	<span class="k">while</span> (i-- > <span class="n">0</span>)
+	{
+		c = ((octet >> i) & <span class="n">1</span>) + <span class="s">'0'</span>;
+		write(<span class="n">1</span>, &c, <span class="n">1</span>);
+	}
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>reverse_bits</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : reverse_bits
+Expected files   : reverse_bits.c
+Allowed functions: None
+
+Write a function that takes a byte, reverses it, bit by bit and returns the result.
+
+unsigned char	reverse_bits(unsigned char octet);
+
+Example: 0010 0110 → 0110 0100</code></pre>
+
+<pre><code><span class="t">unsigned char</span>	<span class="f">reverse_bits</span>(<span class="t">unsigned char</span> octet)
+{
+	<span class="t">unsigned char</span>	result;
+	<span class="t">int</span>				i;
+
+	result = <span class="n">0</span>;
+	i = <span class="n">8</span>;
+	<span class="k">while</span> (i-- > <span class="n">0</span>)
+	{
+		result = result * <span class="n">2</span> + (octet % <span class="n">2</span>);
+		octet = octet / <span class="n">2</span>;
+	}
+	<span class="k">return</span> (result);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>swap_bits</h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : swap_bits
+Expected files   : swap_bits.c
+Allowed functions: None
+
+Write a function that takes a byte, swaps its halves and returns the result.
+
+unsigned char	swap_bits(unsigned char octet);
+
+Example: 0100 | 0001 → 0001 | 0100</code></pre>
+
+<pre><code><span class="t">unsigned char</span>	<span class="f">swap_bits</span>(<span class="t">unsigned char</span> octet)
+{
+	<span class="k">return</span> (octet >> <span class="n">4</span> | octet << <span class="n">4</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>is_power_of_2</h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : is_power_of_2
+Expected files   : is_power_of_2.c
+Allowed functions: None
+
+Write a function that determines if a given number is a power of 2.
+Returns 1 if power of 2, otherwise 0.
+
+int	    is_power_of_2(unsigned int n);</code></pre>
+
+<pre><code><span class="t">int</span>	<span class="f">is_power_of_2</span>(<span class="t">unsigned int</span> n)
+{
+	<span class="k">return</span> (n != <span class="n">0</span> && (n & (n - <span class="n">1</span>)) == <span class="n">0</span>);
+}</code></pre>
+<div class="tip"><b>Truc :</b> puissance de 2 en binaire = 10000. n-1 = 01111. AND = 0.</div>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>union <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : union
+Expected files   : union.c
+Allowed functions: write
+
+Write a program that takes two strings and displays, without doubles, the characters that appear in either one of the strings.
+The display will be in the order characters appear in the command line, followed by a \n.
+If the number of arguments is not 2, the program displays \n.
+
+$&gt;./union zpadinton &quot;paqefwtdjetyiytjneytjoeyjnejeyj&quot; | cat -e
+zpadintoqefwjy$
+$&gt;./union &quot;rien&quot; &quot;cette phrase ne cache rien&quot; | cat -e
+rienct phas$</code></pre>
+
+<div class="desc">Chars des 2 strings sans doublons. Tableau seen[256].</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">print_unique</span>(<span class="t">char</span> *str, <span class="t">int</span> *seen)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		<span class="k">if</span> (!seen[(<span class="t">unsigned char</span>)str[i]])
+		{
+			write(<span class="n">1</span>, &str[i], <span class="n">1</span>);
+			seen[(<span class="t">unsigned char</span>)str[i]] = <span class="n">1</span>;
+		}
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	seen[<span class="n">256</span>];
+	<span class="t">int</span>	i;
+
+	<span class="k">if</span> (argc == <span class="n">3</span>)
+	{
+		i = <span class="n">0</span>;
+		<span class="k">while</span> (i < <span class="n">256</span>)
+			seen[i++] = <span class="n">0</span>;
+		print_unique(argv[<span class="n">1</span>], seen);
+		print_unique(argv[<span class="n">2</span>], seen);
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>wdmatch <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : wdmatch
+Expected files   : wdmatch.c
+Allowed functions: write
+
+Write a program that takes two strings and checks whether it&#x27;s possible to write the first string with characters from the second string, while respecting the order in which these characters appear in the second string.
+If it&#x27;s possible, display the string followed by \n, otherwise just display \n.
+
+$&gt;./wdmatch &quot;faya&quot; &quot;fgvvfdxcacpolhyghbreda&quot; | cat -e
+faya$
+$&gt;./wdmatch &quot;faya&quot; &quot;fgvvfdxcacpolhyghbred&quot; | cat -e
+$</code></pre>
+
+<div class="desc">s1 est "cachée" dans s2 ? Même chars, même ordre.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	j;
+
+	<span class="k">if</span> (argc == <span class="n">3</span>)
+	{
+		i = <span class="n">0</span>;
+		j = <span class="n">0</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i] && argv[<span class="n">2</span>][j])
+		{
+			<span class="k">if</span> (argv[<span class="n">1</span>][i] == argv[<span class="n">2</span>][j])
+				i++;
+			j++;
+		}
+		<span class="k">if</span> (argv[<span class="n">1</span>][i] == <span class="s">'\0'</span>)
+		{
+			i = <span class="n">0</span>;
+			<span class="k">while</span> (argv[<span class="n">1</span>][i])
+				write(<span class="n">1</span>, &argv[<span class="n">1</span>][i++], <span class="n">1</span>);
+		}
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+</div>
+
+<!-- ===== LEVEL 3 ===== -->
+<div class="sec" id="l3">
+<div class="sh"><h2 style="color:var(--orange)">Level 3 — Avancé</h2><p>15 exercices. Maths, listes chaînées, parsing.</p></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>add_prime_sum <span class="tag tw">write</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : add_prime_sum
+Expected files   : add_prime_sum.c
+Allowed functions: write, exit
+
+Write a program that takes a positive integer as argument and displays the sum of all prime numbers inferior or equal to it followed by a newline.
+If the number of arguments is not 1, or the argument is not a positive number, just display 0 followed by a newline.
+
+$&gt;./add_prime_sum 5
+10
+$&gt;./add_prime_sum 7 | cat -e
+17$</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">is_prime</span>(<span class="t">int</span> n)
+{
+	<span class="t">int</span>	i;
+
+	<span class="k">if</span> (n < <span class="n">2</span>)
+		<span class="k">return</span> (<span class="n">0</span>);
+	i = <span class="n">2</span>;
+	<span class="k">while</span> (i * i <= n)
+	{
+		<span class="k">if</span> (n % i == <span class="n">0</span>)
+			<span class="k">return</span> (<span class="n">0</span>);
+		i++;
+	}
+	<span class="k">return</span> (<span class="n">1</span>);
+}
+
+<span class="t">void</span>	<span class="f">ft_putnbr</span>(<span class="t">int</span> n)
+{
+	<span class="t">char</span>	c;
+
+	<span class="k">if</span> (n > <span class="n">9</span>)
+		ft_putnbr(n / <span class="n">10</span>);
+	c = n % <span class="n">10</span> + <span class="s">'0'</span>;
+	write(<span class="n">1</span>, &c, <span class="n">1</span>);
+}
+
+<span class="t">int</span>	<span class="f">ft_atoi</span>(<span class="t">char</span> *s)
+{
+	<span class="t">int</span>	r;
+	<span class="t">int</span>	i;
+
+	r = <span class="n">0</span>;
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s[i] >= <span class="s">'0'</span> && s[i] <= <span class="s">'9'</span>)
+	{
+		r = r * <span class="n">10</span> + s[i] - <span class="s">'0'</span>;
+		i++;
+	}
+	<span class="k">return</span> (r);
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	n;
+	<span class="t">int</span>	sum;
+	<span class="t">int</span>	i;
+
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+	{
+		n = ft_atoi(argv[<span class="n">1</span>]);
+		sum = <span class="n">0</span>;
+		i = <span class="n">2</span>;
+		<span class="k">if</span> (n > <span class="n">0</span>)
+		{
+			<span class="k">while</span> (i <= n)
+			{
+				<span class="k">if</span> (is_prime(i))
+					sum += i;
+				i++;
+			}
+			ft_putnbr(sum);
+			write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+			<span class="k">return</span> (<span class="n">0</span>);
+		}
+	}
+	write(<span class="n">1</span>, <span class="s">"0\n"</span>, <span class="n">2</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>epur_str <span class="tag tw">write</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : epur_str
+Expected files   : epur_str.c
+Allowed functions: write
+
+Write a program that takes a string, and displays this string with exactly one space between words, with no spaces or tabs either at the beginning or the end, followed by a \n.
+If the number of arguments is not 1, or if there are no words, the program displays \n.
+
+$&gt; ./epur_str &quot; this        time it      will     be    more complex  . &quot; | cat -e
+this time it will be more complex .$
+
+expand_str: Same but with 3 spaces between words instead of 1.</code></pre>
+
+<div class="desc">Afficher avec 1 seul espace entre les mots, rien au début/fin. expand_str = même chose mais 3 espaces.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">epur_str</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	started;
+
+	i = <span class="n">0</span>;
+	started = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		<span class="k">if</span> (str[i] != <span class="s">' '</span> && str[i] != <span class="s">'\t'</span>)
+		{
+			<span class="k">if</span> (started)
+				write(<span class="n">1</span>, <span class="s">" "</span>, <span class="n">1</span>);
+			started = <span class="n">0</span>;
+			<span class="k">while</span> (str[i] && str[i] != <span class="s">' '</span> && str[i] != <span class="s">'\t'</span>)
+			{
+				write(<span class="n">1</span>, &str[i], <span class="n">1</span>);
+				i++;
+			}
+			started = <span class="n">1</span>;
+		}
+		<span class="k">else</span>
+			i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		epur_str(argv[<span class="n">1</span>]);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+<div class="tip"><b>expand_str :</b> Change <code>" "</code> en <code>"   "</code> (3 espaces) et <code>1</code> en <code>3</code>.</div>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>pgcd <span class="tag tp">printf, atoi</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : pgcd
+Expected files   : pgcd.c
+Allowed functions: printf, atoi, malloc, free
+
+Write a program that takes two strings representing two strictly positive integers that fit in an int.
+Display their highest common denominator followed by a newline.
+If the number of parameters is not 2, display a newline.
+
+$&gt; ./pgcd 42 10 | cat -e
+2$
+$&gt; ./pgcd 42 12 | cat -e
+6$</code></pre>
+
+<div class="desc">Algorithme d'Euclide : while(b) { t=b; b=a%b; a=t; }</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;stdio.h&gt;</span>
+<span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	a;
+	<span class="t">int</span>	b;
+	<span class="t">int</span>	t;
+
+	<span class="k">if</span> (argc == <span class="n">3</span>)
+	{
+		a = atoi(argv[<span class="n">1</span>]);
+		b = atoi(argv[<span class="n">2</span>]);
+		<span class="k">while</span> (b)
+		{
+			t = b;
+			b = a % b;
+			a = t;
+		}
+		printf(<span class="s">"%d"</span>, a);
+	}
+	printf(<span class="s">"\n"</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>lcm</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : lcm
+Expected files   : lcm.c
+Allowed functions: None
+
+Write a function that takes two unsigned int and returns their LCM (Lowest Common Multiple).
+LCM(x, y) = | x * y | / HCF(x, y)
+If at least one integer is null, LCM is equal to 0.
+
+unsigned int    lcm(unsigned int a, unsigned int b);</code></pre>
+
+<div class="desc">LCM = a / gcd(a,b) * b</div>
+<pre><code><span class="t">unsigned int</span>	<span class="f">lcm</span>(<span class="t">unsigned int</span> a, <span class="t">unsigned int</span> b)
+{
+	<span class="t">unsigned int</span>	ta;
+	<span class="t">unsigned int</span>	tb;
+	<span class="t">unsigned int</span>	t;
+
+	<span class="k">if</span> (!a || !b)
+		<span class="k">return</span> (<span class="n">0</span>);
+	ta = a;
+	tb = b;
+	<span class="k">while</span> (tb)
+	{
+		t = tb;
+		tb = ta % tb;
+		ta = t;
+	}
+	<span class="k">return</span> (a / ta * b);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_atoi_base</h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_atoi_base
+Expected files   : ft_atoi_base.c
+Allowed functions: None
+
+Write a function that converts the string argument str (base N &lt;= 16) to an integer (base 10) and returns it.
+The characters recognized in the input are: 0123456789abcdef
+Uppercase letters must also be recognized: &quot;12fdb3&quot; is the same as &quot;12FDB3&quot;.
+Minus signs (&#x27;-&#x27;) are interpreted only if they are the first character.
+
+int	ft_atoi_base(const char *str, int str_base);</code></pre>
+
+<pre><code><span class="t">int</span>	<span class="f">ft_atoi_base</span>(<span class="t">const char</span> *str, <span class="t">int</span> str_base)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	sign;
+	<span class="t">int</span>	result;
+	<span class="t">int</span>	val;
+
+	i = <span class="n">0</span>;
+	sign = <span class="n">1</span>;
+	result = <span class="n">0</span>;
+	<span class="k">if</span> (str[i] == <span class="s">'-'</span>)
+	{
+		sign = -<span class="n">1</span>;
+		i++;
+	}
+	<span class="k">while</span> (str[i])
+	{
+		val = -<span class="n">1</span>;
+		<span class="k">if</span> (str[i] >= <span class="s">'0'</span> && str[i] <= <span class="s">'9'</span>)
+			val = str[i] - <span class="s">'0'</span>;
+		<span class="k">else if</span> (str[i] >= <span class="s">'a'</span> && str[i] <= <span class="s">'f'</span>)
+			val = str[i] - <span class="s">'a'</span> + <span class="n">10</span>;
+		<span class="k">else if</span> (str[i] >= <span class="s">'A'</span> && str[i] <= <span class="s">'F'</span>)
+			val = str[i] - <span class="s">'A'</span> + <span class="n">10</span>;
+		<span class="k">if</span> (val == -<span class="n">1</span> || val >= str_base)
+			<span class="k">break</span> ;
+		result = result * str_base + val;
+		i++;
+	}
+	<span class="k">return</span> (sign * result);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_list_size</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_list_size
+Expected files   : ft_list_size.c, ft_list.h
+Allowed functions: None
+
+Write a function that returns the number of elements in the linked list that&#x27;s passed to it.
+
+int	ft_list_size(t_list *begin_list);
+
+typedef struct    s_list
+{
+    struct s_list *next;
+    void          *data;
+}                 t_list;</code></pre>
+
+<pre><code><span class="c">// ft_list.h</span>
+<span class="k">typedef struct</span>	s_list
+{
+	<span class="k">struct</span> s_list	*next;
+	<span class="t">void</span>			*data;
+}					t_list;
+
+<span class="c">// ft_list_size.c</span>
+<span class="i">#include</span> <span class="s">"ft_list.h"</span>
+
+<span class="t">int</span>	<span class="f">ft_list_size</span>(t_list *begin_list)
+{
+	<span class="t">int</span>	len;
+
+	len = <span class="n">0</span>;
+	<span class="k">while</span> (begin_list != NULL)
+	{
+		len++;
+		begin_list = begin_list->next;
+	}
+	<span class="k">return</span> (len);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_range <span class="tag tm">malloc</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_range
+Expected files   : ft_range.c
+Allowed functions: malloc
+
+int     *ft_range(int start, int end);
+
+Allocate an array of integers, fill it with consecutive values from start to end (inclusive), return a pointer to the first value.
+
+(1, 3) → [1, 2, 3]
+(-1, 2) → [-1, 0, 1, 2]
+(0, -3) → [0, -1, -2, -3]
+
+ft_rrange: Same but from end to start.
+(1, 3) → [3, 2, 1]</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">abs_val</span>(<span class="t">int</span> n)
+{
+	<span class="k">if</span> (n < <span class="n">0</span>)
+		<span class="k">return</span> (-n);
+	<span class="k">return</span> (n);
+}
+
+<span class="t">int</span>	*<span class="f">ft_range</span>(<span class="t">int</span> start, <span class="t">int</span> end)
+{
+	<span class="t">int</span>	*arr;
+	<span class="t">int</span>	len;
+	<span class="t">int</span>	i;
+
+	len = abs_val(end - start) + <span class="n">1</span>;
+	arr = malloc(<span class="k">sizeof</span>(<span class="t">int</span>) * len);
+	<span class="k">if</span> (!arr)
+		<span class="k">return</span> (NULL);
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (i < len)
+	{
+		<span class="k">if</span> (start <= end)
+			arr[i] = start + i;
+		<span class="k">else</span>
+			arr[i] = start - i;
+		i++;
+	}
+	<span class="k">return</span> (arr);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_rrange <span class="tag tm">malloc</span></h3><span class="d d2">medium</span></div><div class="exb">
+<div class="desc">Comme ft_range mais commence par end. Même code, remplace start par end dans le remplissage.</div>
+<pre><code><span class="t">int</span>	*<span class="f">ft_rrange</span>(<span class="t">int</span> start, <span class="t">int</span> end)
+{
+	<span class="t">int</span>	*arr;
+	<span class="t">int</span>	len;
+	<span class="t">int</span>	i;
+
+	len = abs_val(end - start) + <span class="n">1</span>;
+	arr = malloc(<span class="k">sizeof</span>(<span class="t">int</span>) * len);
+	<span class="k">if</span> (!arr)
+		<span class="k">return</span> (NULL);
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (i < len)
+	{
+		<span class="k">if</span> (end >= start)
+			arr[i] = end - i;
+		<span class="k">else</span>
+			arr[i] = end + i;
+		i++;
+	}
+	<span class="k">return</span> (arr);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>hidenp <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : hidenp
+Expected files   : hidenp.c
+Allowed functions: write
+
+Write a program that takes two strings and displays 1 if the first string is hidden in the second one, otherwise displays 0, followed by a newline.
+s1 is hidden in s2 if it&#x27;s possible to find each character from s1 in s2, in the same order.
+If the number of parameters is not 2, the program displays a newline.
+
+$&gt;./hidenp &quot;abc&quot; &quot;2altrb53c.sse&quot; | cat -e
+1$
+$&gt;./hidenp &quot;abc&quot; &quot;btarc&quot; | cat -e
+0$</code></pre>
+
+<div class="desc">Comme wdmatch mais affiche "1" ou "0".</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	j;
+
+	<span class="k">if</span> (argc == <span class="n">3</span>)
+	{
+		i = <span class="n">0</span>;
+		j = <span class="n">0</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i] && argv[<span class="n">2</span>][j])
+		{
+			<span class="k">if</span> (argv[<span class="n">1</span>][i] == argv[<span class="n">2</span>][j])
+				i++;
+			j++;
+		}
+		<span class="k">if</span> (argv[<span class="n">1</span>][i] == <span class="s">'\0'</span>)
+			write(<span class="n">1</span>, <span class="s">"1"</span>, <span class="n">1</span>);
+		<span class="k">else</span>
+			write(<span class="n">1</span>, <span class="s">"0"</span>, <span class="n">1</span>);
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>paramsum <span class="tag tw">write</span></h3><span class="d d1">facile</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : paramsum
+Expected files   : paramsum.c
+Allowed functions: write
+
+Write a program that displays the number of arguments passed to it, followed by a newline.
+If there are no arguments, just display a 0 followed by a newline.
+
+$&gt;./paramsum 1 2 3 5 7 24
+6</code></pre>
+
+<div class="desc">Afficher argc - 1.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">ft_putnbr</span>(<span class="t">int</span> n)
+{
+	<span class="t">char</span>	c;
+
+	<span class="k">if</span> (n > <span class="n">9</span>)
+		ft_putnbr(n / <span class="n">10</span>);
+	c = n % <span class="n">10</span> + <span class="s">'0'</span>;
+	write(<span class="n">1</span>, &c, <span class="n">1</span>);
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	(<span class="t">void</span>)argv;
+	ft_putnbr(argc - <span class="n">1</span>);
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>print_hex <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : print_hex
+Expected files   : print_hex.c
+Allowed functions: write
+
+Write a program that takes a positive (or zero) number expressed in base 10, and displays it in base 16 (lowercase letters) followed by a newline.
+
+$&gt; ./print_hex &quot;10&quot; | cat -e
+a$
+$&gt; ./print_hex &quot;255&quot; | cat -e
+ff$</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">print_hex</span>(<span class="t">int</span> n)
+{
+	<span class="t">char</span>	*hex;
+
+	hex = <span class="s">"0123456789abcdef"</span>;
+	<span class="k">if</span> (n >= <span class="n">16</span>)
+		print_hex(n / <span class="n">16</span>);
+	write(<span class="n">1</span>, &hex[n % <span class="n">16</span>], <span class="n">1</span>);
+}
+
+<span class="t">int</span>	<span class="f">ft_atoi</span>(<span class="t">char</span> *s)
+{
+	<span class="t">int</span>	r;
+	<span class="t">int</span>	i;
+
+	r = <span class="n">0</span>;
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s[i] >= <span class="s">'0'</span> && s[i] <= <span class="s">'9'</span>)
+	{
+		r = r * <span class="n">10</span> + s[i] - <span class="s">'0'</span>;
+		i++;
+	}
+	<span class="k">return</span> (r);
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		print_hex(ft_atoi(argv[<span class="n">1</span>]));
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>tab_mult <span class="tag tw">write</span></h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : tab_mult
+Expected files   : tab_mult.c
+Allowed functions: write
+
+Write a program that displays a number&#x27;s multiplication table (1 to 9).
+If there are no parameters, the program displays \n.
+
+$&gt;./tab_mult 9
+1 x 9 = 9
+2 x 9 = 18
+...
+9 x 9 = 81</code></pre>
+
+<div class="desc">Table de multiplication de 1 à 9. Format : "1 x N = N"</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">ft_putnbr</span>(<span class="t">int</span> n)
+{
+	<span class="t">char</span>	c;
+
+	<span class="k">if</span> (n > <span class="n">9</span>)
+		ft_putnbr(n / <span class="n">10</span>);
+	c = n % <span class="n">10</span> + <span class="s">'0'</span>;
+	write(<span class="n">1</span>, &c, <span class="n">1</span>);
+}
+
+<span class="t">int</span>	<span class="f">ft_atoi</span>(<span class="t">char</span> *s)
+{
+	<span class="t">int</span>	r;
+	<span class="t">int</span>	i;
+
+	r = <span class="n">0</span>;
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (s[i] >= <span class="s">'0'</span> && s[i] <= <span class="s">'9'</span>)
+	{
+		r = r * <span class="n">10</span> + s[i] - <span class="s">'0'</span>;
+		i++;
+	}
+	<span class="k">return</span> (r);
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	n;
+	<span class="t">int</span>	i;
+
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+	{
+		n = ft_atoi(argv[<span class="n">1</span>]);
+		i = <span class="n">1</span>;
+		<span class="k">while</span> (i <= <span class="n">9</span>)
+		{
+			ft_putnbr(i);
+			write(<span class="n">1</span>, <span class="s">" x "</span>, <span class="n">3</span>);
+			ft_putnbr(n);
+			write(<span class="n">1</span>, <span class="s">" = "</span>, <span class="n">3</span>);
+			ft_putnbr(i * n);
+			write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+			i++;
+		}
+	}
+	<span class="k">else</span>
+		write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>str_capitalizer <span class="tag tw">write</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : str_capitalizer
+Expected files   : str_capitalizer.c
+Allowed functions: write
+
+Write a program that takes one or several strings and, for each argument, capitalizes the first character of each word, puts the rest in lowercase, and displays the result followed by a \n.
+If there are no arguments, display \n.
+
+$&gt; ./str_capitalizer &quot;a FiRSt LiTTlE TESt&quot; | cat -e
+A First Little Test$</code></pre>
+
+<div class="desc">1ère lettre de chaque mot → majuscule, reste → minuscule.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">str_cap</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		c = str[i];
+		<span class="k">if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+			c += <span class="n">32</span>;
+		<span class="k">if</span> ((i == <span class="n">0</span> || str[i - <span class="n">1</span>] == <span class="s">' '</span> || str[i - <span class="n">1</span>] == <span class="s">'\t'</span>)
+			&& c >= <span class="s">'a'</span> && c <= <span class="s">'z'</span>)
+			c -= <span class="n">32</span>;
+		write(<span class="n">1</span>, &c, <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	i;
+
+	<span class="k">if</span> (argc < <span class="n">2</span>)
+		write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">else</span>
+	{
+		i = <span class="n">1</span>;
+		<span class="k">while</span> (i < argc)
+		{
+			str_cap(argv[i]);
+			write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+			i++;
+		}
+	}
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>rstr_capitalizer <span class="tag tw">write</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : rstr_capitalizer
+Expected files   : rstr_capitalizer.c
+Allowed functions: write
+
+Write a program that takes one or more strings and, for each argument, puts the LAST character that is a letter of each word in uppercase and the rest in lowercase, then displays the result followed by a \n.
+If there are no parameters, display \n.
+
+$&gt; ./rstr_capitalizer &quot;a FiRSt LiTTlE TESt&quot; | cat -e
+A firsT littlE tesT$</code></pre>
+
+<div class="desc">DERNIÈRE lettre de chaque mot → majuscule. Check le char SUIVANT.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">rstr_cap</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>		i;
+	<span class="t">char</span>	c;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		c = str[i];
+		<span class="k">if</span> (c >= <span class="s">'A'</span> && c <= <span class="s">'Z'</span>)
+			c += <span class="n">32</span>;
+		<span class="k">if</span> ((str[i + <span class="n">1</span>] == <span class="s">' '</span> || str[i + <span class="n">1</span>] == <span class="s">'\t'</span>
+				|| str[i + <span class="n">1</span>] == <span class="s">'\0'</span>)
+			&& c >= <span class="s">'a'</span> && c <= <span class="s">'z'</span>)
+			c -= <span class="n">32</span>;
+		write(<span class="n">1</span>, &c, <span class="n">1</span>);
+		i++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	i;
+
+	<span class="k">if</span> (argc < <span class="n">2</span>)
+		write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">else</span>
+	{
+		i = <span class="n">1</span>;
+		<span class="k">while</span> (i < argc)
+		{
+			rstr_cap(argv[i]);
+			write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+			i++;
+		}
+	}
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+</div>
+
+<!-- ===== LEVEL 4 ===== -->
+<div class="sec" id="l4">
+<div class="sh"><h2 style="color:var(--pink)">Level 4 — Boss Level</h2><p>10 exercices. ft_split, flood_fill, listes chaînées.</p></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_split <span class="tag tm">malloc</span></h3><span class="d d4">boss</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_split
+Expected files   : ft_split.c
+Allowed functions: malloc
+
+Write a function that takes a string, splits it into words, and returns them as a NULL-terminated array of strings.
+A &quot;word&quot; is defined as a part of a string delimited either by spaces/tabs/new lines, or by the start/end of the string.
+
+char    **ft_split(char *str);</code></pre>
+
+<div class="desc">Découper une string en mots. Retourner char** terminé par NULL.</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="k">static</span> <span class="t">int</span>	<span class="f">is_sep</span>(<span class="t">char</span> c)
+{
+	<span class="k">return</span> (c == <span class="s">' '</span> || c == <span class="s">'\t'</span> || c == <span class="s">'\n'</span>);
+}
+
+<span class="k">static</span> <span class="t">int</span>	<span class="f">count_words</span>(<span class="t">char</span> *str)
+{
+	<span class="t">int</span>	count;
+	<span class="t">int</span>	i;
+
+	count = <span class="n">0</span>;
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		<span class="k">while</span> (str[i] && is_sep(str[i]))
+			i++;
+		<span class="k">if</span> (str[i])
+			count++;
+		<span class="k">while</span> (str[i] && !is_sep(str[i]))
+			i++;
+	}
+	<span class="k">return</span> (count);
+}
+
+<span class="k">static</span> <span class="t">char</span>	*<span class="f">get_word</span>(<span class="t">char</span> *str, <span class="t">int</span> start, <span class="t">int</span> end)
+{
+	<span class="t">char</span>	*word;
+	<span class="t">int</span>		i;
+
+	word = malloc(end - start + <span class="n">1</span>);
+	<span class="k">if</span> (!word)
+		<span class="k">return</span> (NULL);
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (start < end)
+	{
+		word[i] = str[start];
+		i++;
+		start++;
+	}
+	word[i] = <span class="s">'\0'</span>;
+	<span class="k">return</span> (word);
+}
+
+<span class="t">char</span>	**<span class="f">ft_split</span>(<span class="t">char</span> *str)
+{
+	<span class="t">char</span>	**res;
+	<span class="t">int</span>		i;
+	<span class="t">int</span>		w;
+	<span class="t">int</span>		start;
+
+	res = malloc(<span class="k">sizeof</span>(<span class="t">char</span> *) * (count_words(str) + <span class="n">1</span>));
+	<span class="k">if</span> (!res)
+		<span class="k">return</span> (NULL);
+	i = <span class="n">0</span>;
+	w = <span class="n">0</span>;
+	<span class="k">while</span> (str[i])
+	{
+		<span class="k">while</span> (str[i] && is_sep(str[i]))
+			i++;
+		<span class="k">if</span> (str[i])
+		{
+			start = i;
+			<span class="k">while</span> (str[i] && !is_sep(str[i]))
+				i++;
+			res[w++] = get_word(str, start, i);
+		}
+	}
+	res[w] = NULL;
+	<span class="k">return</span> (res);
+}</code></pre>
+<div class="warn"><b>LE boss de l'exam.</b> Apprends le pattern skip_sep/skip_word par cœur.</div>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>flood_fill</h3><span class="d d4">boss</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : flood_fill
+Expected files   : *.c, *.h
+Allowed functions: None
+
+Write a function that takes a char ** as a 2-dimensional array of char, a t_point as the dimensions and a t_point as the starting point.
+Starting from the given &#x27;begin&#x27;, this function fills an entire zone by replacing characters inside with &#x27;F&#x27;. A zone is a group of the same character delimitated horizontally and vertically.
+The flood_fill function won&#x27;t fill diagonally.
+
+void  flood_fill(char **tab, t_point size, t_point begin);
+
+typedef struct  s_point { int x; int y; } t_point;</code></pre>
+
+<div class="desc">Remplir une zone dans une grille 2D. Récursif, 4 directions.</div>
+<pre><code><span class="i">#include</span> <span class="s">"flood_fill.h"</span>
+
+<span class="t">void</span>	<span class="f">fill</span>(<span class="t">char</span> **tab, t_point size, t_point p, <span class="t">char</span> target)
+{
+	<span class="k">if</span> (p.x < <span class="n">0</span> || p.x >= size.x || p.y < <span class="n">0</span> || p.y >= size.y)
+		<span class="k">return</span> ;
+	<span class="k">if</span> (tab[p.y][p.x] != target)
+		<span class="k">return</span> ;
+	tab[p.y][p.x] = <span class="s">'F'</span>;
+	fill(tab, size, (t_point){p.x - <span class="n">1</span>, p.y}, target);
+	fill(tab, size, (t_point){p.x + <span class="n">1</span>, p.y}, target);
+	fill(tab, size, (t_point){p.x, p.y - <span class="n">1</span>}, target);
+	fill(tab, size, (t_point){p.x, p.y + <span class="n">1</span>}, target);
+}
+
+<span class="t">void</span>	<span class="f">flood_fill</span>(<span class="t">char</span> **tab, t_point size, t_point begin)
+{
+	fill(tab, size, begin, tab[begin.y][begin.x]);
+}</code></pre>
+<pre><code><span class="c">// flood_fill.h</span>
+<span class="k">typedef struct</span>	s_point
+{
+	<span class="t">int</span>	x;
+	<span class="t">int</span>	y;
+}				t_point;
+
+<span class="t">void</span>	flood_fill(<span class="t">char</span> **tab, t_point size, t_point begin);</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>fprime <span class="tag tp">printf, atoi</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : fprime
+Expected files   : fprime.c
+Allowed functions: printf, atoi
+
+Write a program that takes a positive int and displays its prime factors on the standard output, followed by a newline.
+Factors must be displayed in ascending order and separated by &#x27;*&#x27;.
+
+$&gt; ./fprime 225225 | cat -e
+3*3*5*5*7*11*13$
+$&gt; ./fprime 42 | cat -e
+2*3*7$
+$&gt; ./fprime 1 | cat -e
+1$</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;stdio.h&gt;</span>
+<span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">fprime</span>(<span class="t">int</span> n)
+{
+	<span class="t">int</span>	d;
+	<span class="t">int</span>	first;
+
+	d = <span class="n">2</span>;
+	first = <span class="n">1</span>;
+	<span class="k">if</span> (n == <span class="n">1</span>)
+		printf(<span class="s">"1"</span>);
+	<span class="k">while</span> (n > <span class="n">1</span>)
+	{
+		<span class="k">while</span> (n % d == <span class="n">0</span>)
+		{
+			<span class="k">if</span> (!first)
+				printf(<span class="s">"*"</span>);
+			printf(<span class="s">"%d"</span>, d);
+			n /= d;
+			first = <span class="n">0</span>;
+		}
+		d++;
+	}
+}
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+		fprime(atoi(argv[<span class="n">1</span>]));
+	printf(<span class="s">"\n"</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_itoa <span class="tag tm">malloc</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_itoa
+Expected files   : ft_itoa.c
+Allowed functions: malloc
+
+Write a function that takes an int and converts it to a null-terminated string.
+The function returns the result in a char array that you must allocate.
+
+char	*ft_itoa(int nbr);</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="k">static</span> <span class="t">int</span>	<span class="f">numlen</span>(<span class="t">int</span> n)
+{
+	<span class="t">int</span>	len;
+
+	len = <span class="n">0</span>;
+	<span class="k">if</span> (n <= <span class="n">0</span>)
+		len = <span class="n">1</span>;
+	<span class="k">while</span> (n)
+	{
+		n /= <span class="n">10</span>;
+		len++;
+	}
+	<span class="k">return</span> (len);
+}
+
+<span class="k">static</span> <span class="t">void</span>	<span class="f">copy_str</span>(<span class="t">char</span> *dst, <span class="t">char</span> *src)
+{
+	<span class="t">int</span>	i;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = <span class="s">'\0'</span>;
+}
+
+<span class="t">char</span>	*<span class="f">ft_itoa</span>(<span class="t">int</span> nbr)
+{
+	<span class="t">int</span>		len;
+	<span class="t">char</span>	*res;
+
+	<span class="k">if</span> (nbr == -<span class="n">2147483648</span>)
+	{
+		res = malloc(<span class="n">12</span>);
+		<span class="k">if</span> (res)
+			copy_str(res, <span class="s">"-2147483648"</span>);
+		<span class="k">return</span> (res);
+	}
+	len = numlen(nbr);
+	res = malloc(len + <span class="n">1</span>);
+	<span class="k">if</span> (!res)
+		<span class="k">return</span> (NULL);
+	res[len] = <span class="s">'\0'</span>;
+	<span class="k">if</span> (nbr == <span class="n">0</span>)
+		res[<span class="n">0</span>] = <span class="s">'0'</span>;
+	<span class="k">if</span> (nbr < <span class="n">0</span>)
+	{
+		res[<span class="n">0</span>] = <span class="s">'-'</span>;
+		nbr = -nbr;
+	}
+	<span class="k">while</span> (nbr > <span class="n">0</span>)
+	{
+		res[--len] = nbr % <span class="n">10</span> + <span class="s">'0'</span>;
+		nbr /= <span class="n">10</span>;
+	}
+	<span class="k">return</span> (res);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>rev_wstr <span class="tag tw">write</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : rev_wstr
+Expected files   : rev_wstr.c
+Allowed functions: write, malloc, free
+
+Write a program that takes a string as a parameter, and prints its words in reverse order.
+If the number of parameters is different from 1, the program will display &#x27;\n&#x27;.
+
+$&gt; ./rev_wstr &quot;You hate people! But I love gatherings. Isn&#x27;t it ironic?&quot; | cat -e
+ironic? it Isn&#x27;t gatherings. love I But people! hate You$</code></pre>
+
+<div class="desc">Mots en ordre inversé. "hello world" → "world hello"</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	last;
+	<span class="t">int</span>	first;
+
+	<span class="k">if</span> (argc == <span class="n">2</span>)
+	{
+		i = <span class="n">0</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i])
+			i++;
+		first = <span class="n">1</span>;
+		<span class="k">while</span> (i > <span class="n">0</span>)
+		{
+			i--;
+			<span class="k">while</span> (i >= <span class="n">0</span> && argv[<span class="n">1</span>][i] == <span class="s">' '</span>)
+				i--;
+			last = i + <span class="n">1</span>;
+			<span class="k">while</span> (i >= <span class="n">0</span> && argv[<span class="n">1</span>][i] != <span class="s">' '</span>)
+				i--;
+			<span class="k">if</span> (!first)
+				write(<span class="n">1</span>, <span class="s">" "</span>, <span class="n">1</span>);
+			write(<span class="n">1</span>, &argv[<span class="n">1</span>][i + <span class="n">1</span>], last - i - <span class="n">1</span>);
+			first = <span class="n">0</span>;
+		}
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>rostring <span class="tag tw">write</span></h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : rostring
+Expected files   : rostring.c
+Allowed functions: write, malloc, free
+
+Write a program that takes a string and displays this string after rotating it one word to the left.
+The first word becomes the last, and others stay in the same order.
+Words will be separated by only one space in the output.
+
+$&gt;./rostring &quot;Que la      lumiere soit et la lumiere fut&quot;
+la lumiere soit et la lumiere fut Que</code></pre>
+
+<div class="desc">1er mot passe à la fin. "Que la lumiere" → "la lumiere Que"</div>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>
+
+<span class="t">int</span>	<span class="f">main</span>(<span class="t">int</span> argc, <span class="t">char</span> **argv)
+{
+	<span class="t">int</span>	i;
+	<span class="t">int</span>	start;
+	<span class="t">int</span>	end;
+	<span class="t">int</span>	first;
+
+	<span class="k">if</span> (argc >= <span class="n">2</span>)
+	{
+		i = <span class="n">0</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i] == <span class="s">' '</span> || argv[<span class="n">1</span>][i] == <span class="s">'\t'</span>)
+			i++;
+		start = i;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i] && argv[<span class="n">1</span>][i] != <span class="s">' '</span> && argv[<span class="n">1</span>][i] != <span class="s">'\t'</span>)
+			i++;
+		end = i;
+		first = <span class="n">1</span>;
+		<span class="k">while</span> (argv[<span class="n">1</span>][i])
+		{
+			<span class="k">while</span> (argv[<span class="n">1</span>][i] == <span class="s">' '</span> || argv[<span class="n">1</span>][i] == <span class="s">'\t'</span>)
+				i++;
+			<span class="k">if</span> (argv[<span class="n">1</span>][i])
+			{
+				<span class="k">if</span> (!first)
+					write(<span class="n">1</span>, <span class="s">" "</span>, <span class="n">1</span>);
+				<span class="k">while</span> (argv[<span class="n">1</span>][i] && argv[<span class="n">1</span>][i] != <span class="s">' '</span>
+					&& argv[<span class="n">1</span>][i] != <span class="s">'\t'</span>)
+					write(<span class="n">1</span>, &argv[<span class="n">1</span>][i++], <span class="n">1</span>);
+				first = <span class="n">0</span>;
+			}
+		}
+		<span class="k">if</span> (!first)
+			write(<span class="n">1</span>, <span class="s">" "</span>, <span class="n">1</span>);
+		write(<span class="n">1</span>, &argv[<span class="n">1</span>][start], end - start);
+	}
+	write(<span class="n">1</span>, <span class="s">"\n"</span>, <span class="n">1</span>);
+	<span class="k">return</span> (<span class="n">0</span>);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>sort_int_tab</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : sort_int_tab
+Expected files   : sort_int_tab.c
+Allowed functions: None
+
+void sort_int_tab(int *tab, unsigned int size);
+
+Sort (in-place) the &#x27;tab&#x27; int array in ascending order. Doubles must be preserved.</code></pre>
+
+<pre><code><span class="t">void</span>	<span class="f">sort_int_tab</span>(<span class="t">int</span> *tab, <span class="t">unsigned int</span> size)
+{
+	<span class="t">unsigned int</span>	i;
+	<span class="t">int</span>				tmp;
+
+	i = <span class="n">0</span>;
+	<span class="k">while</span> (i < size - <span class="n">1</span>)
+	{
+		<span class="k">if</span> (tab[i] > tab[i + <span class="n">1</span>])
+		{
+			tmp = tab[i];
+			tab[i] = tab[i + <span class="n">1</span>];
+			tab[i + <span class="n">1</span>] = tmp;
+			i = <span class="n">0</span>;
+		}
+		<span class="k">else</span>
+			i++;
+	}
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>sort_list</h3><span class="d d3">hard</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : sort_list
+Expected files   : sort_list.c
+Allowed functions: None
+
+t_list	*sort_list(t_list* lst, int (*cmp)(int, int));
+
+Sort the list using the function pointer cmp to select the order.
+cmp returns non-zero if a and b are in the right order, 0 otherwise.
+You must use t_list from list.h (provided, don&#x27;t turn it in).</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">"list.h"</span>
+
+t_list	*<span class="f">sort_list</span>(t_list *lst, <span class="t">int</span> (*cmp)(<span class="t">int</span>, <span class="t">int</span>))
+{
+	<span class="t">int</span>		sorted;
+	t_list	*cur;
+	<span class="t">void</span>	*tmp;
+
+	sorted = <span class="n">0</span>;
+	<span class="k">while</span> (!sorted)
+	{
+		sorted = <span class="n">1</span>;
+		cur = lst;
+		<span class="k">while</span> (cur->next)
+		{
+			<span class="k">if</span> (!cmp(*(<span class="t">int</span> *)cur->data, *(<span class="t">int</span> *)cur->next->data))
+			{
+				tmp = cur->data;
+				cur->data = cur->next->data;
+				cur->next->data = tmp;
+				sorted = <span class="n">0</span>;
+			}
+			cur = cur->next;
+		}
+	}
+	<span class="k">return</span> (lst);
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_list_foreach</h3><span class="d d2">medium</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_list_foreach
+Expected files   : ft_list_foreach.c, ft_list.h
+Allowed functions: None
+
+Write a function that takes a list and a function pointer, and applies this function to each element of the list.
+
+void    ft_list_foreach(t_list *begin_list, void (*f)(void *));</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">"ft_list.h"</span>
+
+<span class="t">void</span>	<span class="f">ft_list_foreach</span>(t_list *begin_list, <span class="t">void</span> (*f)(<span class="t">void</span> *))
+{
+	<span class="k">while</span> (begin_list)
+	{
+		(*f)(begin_list->data);
+		begin_list = begin_list->next;
+	}
+}</code></pre>
+</div></div>
+
+<div class="ex"><div class="exh" onclick="t(this)"><h3>ft_list_remove_if <span class="tag tm">free</span></h3><span class="d d4">boss</span></div><div class="exb">
+<h4>// Énoncé</h4>
+<pre><code>Assignment name  : ft_list_remove_if
+Expected files   : ft_list_remove_if.c
+Allowed functions: free
+
+Write a function that removes from the passed list any element the data of which is &quot;equal&quot; to the reference data.
+cmp takes two void* and returns 0 when both parameters are equal.
+
+void ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)());</code></pre>
+
+<pre><code><span class="i">#include</span> <span class="s">"ft_list.h"</span>
+<span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>
+
+<span class="t">void</span>	<span class="f">ft_list_remove_if</span>(t_list **begin, <span class="t">void</span> *data_ref,
+		<span class="t">int</span> (*cmp)())
+{
+	t_list	*tmp;
+
+	<span class="k">if</span> (!begin || !*begin)
+		<span class="k">return</span> ;
+	<span class="k">if</span> (cmp((*begin)->data, data_ref) == <span class="n">0</span>)
+	{
+		tmp = *begin;
+		*begin = (*begin)->next;
+		free(tmp);
+		ft_list_remove_if(begin, data_ref, cmp);
+	}
+	<span class="k">else</span>
+		ft_list_remove_if(&(*begin)->next, data_ref, cmp);
+}</code></pre>
+<div class="tip"><b>Récursif :</b> Si match → free la tête et re-check le même pointeur. Sinon → passe au suivant.</div>
+</div></div>
+
+</div>
+
+<!-- ===== CHEATSHEET ===== -->
+<div class="sec" id="cheat">
+<div class="sh"><h2>📝 Cheatsheet</h2><p>Mémorise ça pour le jour J.</p></div>
+
+<div class="box"><h3>Includes</h3>
+<pre><code><span class="i">#include</span> <span class="s">&lt;unistd.h&gt;</span>  <span class="c">// write()</span>
+<span class="i">#include</span> <span class="s">&lt;stdlib.h&gt;</span>  <span class="c">// malloc(), free(), atoi()</span>
+<span class="i">#include</span> <span class="s">&lt;stdio.h&gt;</span>   <span class="c">// printf() — quand autorisé</span></code></pre></div>
+
+<div class="box"><h3>ASCII</h3>
+<pre><code>'0' = 48    '9' = 57
+'A' = 65    'Z' = 90
+'a' = 97    'z' = 122
+' ' = 32    '\t' = 9    '\n' = 10
+Diff maj/min = 32</code></pre></div>
+
+<div class="box"><h3>Formules</h3>
+<pre><code>Strlen         : while(s[len]) len++;
+Rotation N     : c = (c - 'a' + N) % 26 + 'a'
+Mirror         : c = 'z' - (c - 'a')
+To upper       : c -= 32
+To lower       : c += 32
+Is alpha       : (c>='a'&&c<='z')||(c>='A'&&c<='Z')
+Power of 2     : n && !(n & (n-1))
+GCD (Euclide)  : while(b){t=b;b=a%b;a=t;}
+LCM            : a / gcd(a,b) * b
+Facteurs       : while(n%d==0){print;n/=d;} d++;</code></pre></div>
+
+<div class="box"><h3>Compilation</h3>
+<pre><code>cc -Wall -Wextra -Werror fichier.c -o fichier
+./fichier "arg1" "arg2" | cat -e</code></pre></div>
+
+<div class="box"><h3>Norminette</h3>
+<pre><code>• Tabs pour l'indentation, pas espaces
+• Déclarations en haut, séparées par ligne vide
+• Pas d'assignation à la déclaration
+• Max 25 lignes par fonction (hors accolades)
+• Max 4 paramètres, max 5 variables
+• Accolades seules sur leur ligne
+• Pas de for, utilise while
+• Espace après if/while, pas avant (
+• return (valeur); avec parenthèses</code></pre></div>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('nav button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById(b.dataset.s).classList.add('on');
+    window.scrollTo({top:document.querySelector('nav').offsetTop,behavior:'smooth'});
+  });
+});
+function t(h){h.nextElementSibling.classList.toggle('open')}
+</script>
+
+</body>
+</html>

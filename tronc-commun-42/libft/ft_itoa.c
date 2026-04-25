@@ -3,85 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 15:28:20 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 18:17:26 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/15 15:42:08 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/19 19:12:23 by omischle            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	count_size(long nb)
+static size_t	ft_nbrlen(long n)
 {
-	size_t	size;
+	size_t	len;
 
-	size = 0;
-	if (nb < 0)
+	len = 1;
+	if (n < 0)
+		n = -n;
+	while (n >= 10)
 	{
-		nb = nb * (-1);
-		size = 1;
+		n /= 10;
+		len++;
 	}
-	if (nb == 0)
-		size = 1;
-	else
+	return (len);
+}
+
+static void	ft_fill_itoa(char *s, long nb, size_t len, int neg)
+{
+	s[len] = '\0';
+	if (neg)
+		s[0] = '-';
+	while (len > (size_t)neg)
 	{
-		while (nb)
-		{
-			nb = nb / 10;
-			size++;
-		}
+		len--;
+		s[len] = (nb % 10) + '0';
+		nb /= 10;
 	}
-	return (size);
 }
 
 char	*ft_itoa(int n)
 {
-	size_t	size;
 	long	nb;
-	char	*str;
-	int		is_negative;
+	size_t	len;
+	char	*s;
+	int		neg;
 
-	size = count_size((long)n);
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (str == NULL)
-		return (NULL);
 	nb = (long)n;
-	is_negative = 0;
-	if (nb < 0)
-	{
-		nb = nb * (-1);
-		str[0] = '-';
-		is_negative = 1;
-	}
-	str[size] = '\0';
-	while (size > (size_t)is_negative)
-	{
-		str[size - 1] = nb % 10 + '0';
-		nb = nb / 10;
-		size--;
-	}
-	return (str);
+	neg = (nb < 0);
+	if (neg)
+		nb = -nb;
+	len = ft_nbrlen((long)n) + (size_t)neg;
+	s = (char *)malloc(len + 1);
+	if (!s)
+		return (NULL);
+	ft_fill_itoa(s, nb, len, neg);
+	return (s);
 }
-
-/* int main(void)
-{
-	int	numbers[];
-    size_t i;
-    char *str;
-
-    numbers[] = {0, 123, -456, 2147483647, -2147483648};
-    for (i = 0; i < sizeof(numbers) / sizeof(numbers[0]); i++)
-    {
-        str = ft_itoa(numbers[i]);
-        if (str == NULL)
-        {
-            printf("Erreur d'allocation pour %d\n", numbers[i]);
-            continue ;
-        }
-        printf("ft_itoa(%d) = \"%s\"\n", numbers[i], str);
-        free(str); // Toujours libérer la mémoire après usage
-    }
-    return (0);
-}
- */
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char *s;
+// 	s = ft_itoa(-2147483648);
+// 	printf("%s\n", s);
+// 	free(s);
+// 	s = ft_itoa(0);
+// 	printf("%s\n", s);
+// 	free(s);
+// 	return (0);
+// }

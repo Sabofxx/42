@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 19:40:51 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/14 20:15:08 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/15 17:53:15 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/15 17:54:42 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,27 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	int	size;
+	int	count;
 
-	size = 0;
+	count = 0;
 	while (lst)
 	{
-		size++;
+		count++;
 		lst = lst->next;
 	}
-	return (size);
+	return (count);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	t_list *lst;
+// 	int a = 1;
+// 	int b = 2;
+// 	int c = 3;
+// 	lst = NULL;
+// 	ft_lstadd_front(&lst, ft_lstnew(&a));
+// 	ft_lstadd_front(&lst, ft_lstnew(&b));
+// 	ft_lstadd_front(&lst, ft_lstnew(&c));
+// 	printf("%d\n", ft_lstsize(lst));
+// 	return (0);
+// }
