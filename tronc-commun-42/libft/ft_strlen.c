@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 12:09:17 by omischle          #+#    #+#             */
-/*   Updated: 2026/01/21 18:18:46 by omischle         ###   ########.fr       */
+/*   Created: 2026/01/14 16:15:13 by omischle           #+#    #+#             */
+/*   Updated: 2026/01/14 18:40:28 by omischle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (str[i])
+	while (s[i])
 		i++;
 	return (i);
 }
-
-// int main()
+// #include <stdio.h>
+// int	main(void)
 // {
-//     printf("%d\n", ft_strlen("jesaipas"));
+// 	printf("%zu\n", ft_strlen("driss"));
+// 	return (0);
 // }

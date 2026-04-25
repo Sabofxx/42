@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mazegen"
+version = "1.0.0"
+description = "A reusable maze generator using recursive backtracker."
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[tool.setuptools.packages.find]
+include = ["mazegen*"]
