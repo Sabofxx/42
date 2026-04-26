@@ -1,0 +1,10 @@
+# Internal explanation files — kept on disk for personal reference,
+# never pushed to the public repo.
+tronc-commun-42/call_me_maybe/RAPPORT.md
+tronc-commun-42/codexion/GUIDE_COMPLET.txt
+tronc-commun-42/fly-in/EXPLANATION.md
+
+# OS / IDE noise
+.DS_Store
+.vscode/
+.idea/
