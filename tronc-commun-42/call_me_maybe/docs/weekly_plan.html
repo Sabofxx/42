@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>call me maybe — Weekly Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --text: #e8e8f0;
+    --muted: #5a5a7a;
+    --accent: #7c6af7;
+    --accent2: #f76a8a;
+    --accent3: #6af7c8;
+    --accent4: #f7c46a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    margin-bottom: 56px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .header-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-size: clamp(36px, 7vw, 64px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .header h1 span { color: var(--accent); }
+
+  .header-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent3), var(--accent4), var(--accent));
+    opacity: 0.3;
+  }
+
+  .day {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0 24px;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  .day:nth-child(1) { animation-delay: 0.10s; }
+  .day:nth-child(2) { animation-delay: 0.18s; }
+  .day:nth-child(3) { animation-delay: 0.26s; }
+  .day:nth-child(4) { animation-delay: 0.34s; }
+  .day:nth-child(5) { animation-delay: 0.42s; }
+  .day:nth-child(6) { animation-delay: 0.50s; }
+  .day:nth-child(7) { animation-delay: 0.58s; }
+
+  .node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .node-dot {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 18px;
+    border: 1px solid;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .node-dot:hover { transform: scale(1.08); }
+
+  .node-line {
+    width: 1px;
+    flex: 1;
+    min-height: 24px;
+    margin-top: 4px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    cursor: default;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .card:hover { transform: translateX(4px); }
+
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .card-day-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .card-goal {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-family: var(--mono);
+  }
+
+  .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .task-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .task-text { color: #c8c8d8; }
+
+  .task-text code {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    color: inherit;
+  }
+
+  .hours-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+    opacity: 0.7;
+  }
+
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid;
+    opacity: 0.6;
+  }
+
+  .d1 { --c: #7c6af7; --clight: rgba(124,106,247,0.12); }
+  .d2 { --c: #6af7c8; --clight: rgba(106,247,200,0.10); }
+  .d3 { --c: #f76a8a; --clight: rgba(247,106,138,0.12); }
+  .d4 { --c: #f7c46a; --clight: rgba(247,196,106,0.10); }
+  .d5 { --c: #6aaef7; --clight: rgba(106,174,247,0.10); }
+  .d6 { --c: #d46af7; --clight: rgba(212,106,247,0.10); }
+  .d7 { --c: #f7f76a; --clight: rgba(247,247,106,0.08); }
+
+  .node-dot {
+    background: var(--clight, rgba(124,106,247,0.12));
+    border-color: var(--c, #7c6af7);
+    color: var(--c, #7c6af7);
+  }
+
+  .node-line { background: var(--c, #7c6af7); opacity: 0.15; }
+  .card:hover { border-color: var(--c, #7c6af7); }
+  .card::before { background: var(--c, #7c6af7); }
+  .hours-badge { border-color: var(--c, #7c6af7); color: var(--c, #7c6af7); }
+  .task-icon { background: var(--clight, rgba(124,106,247,0.12)); color: var(--c, #7c6af7); }
+  .tag { border-color: var(--c, #7c6af7); color: var(--c, #7c6af7); }
+
+  .critical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent2);
+    background: rgba(247,106,138,0.1);
+    border: 1px solid rgba(247,106,138,0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+
+  .critical-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 1.5s ease infinite;
+  }
+
+  .footer {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    animation: fadeIn 0.5s 0.7s ease both;
+  }
+
+  .footer-stat { text-align: center; }
+
+  .footer-stat-value {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .footer-stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .footer-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header-eyebrow">// 42 Project — Execution Plan</div>
+    <h1>call me <span>maybe</span></h1>
+    <div class="header-sub">$ uv run python -m src → 100% valid JSON in 7 days</div>
+  </header>
+
+  <div class="timeline">
+
+    <!-- DAY 1 -->
+    <div class="day d1">
+      <div class="node">
+        <div class="node-dot">1</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~5h</div>
+        <div class="card-header">
+          <span class="card-day-label">Day 01 — Monday</span>
+          <span class="card-title">Structure & Data</span>
+        </div>
+        <div class="card-goal">Goal: The project boots with <code>uv sync</code> and all input data loads and validates correctly.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">📁</div><div class="task-text">Create folder structure: <code>src/</code>, <code>data/input/</code>, <code>data/output/</code>, <code>llm_sdk/</code></div></div>
+          <div class="task"><div class="task-icon">⚙️</div><div class="task-text">Set up <code>pyproject.toml</code> with <code>pydantic</code> and <code>numpy</code>, generate <code>uv.lock</code></div></div>
+          <div class="task"><div class="task-icon">🔧</div><div class="task-text">Write the <code>Makefile</code> with all required rules: <code>install</code>, <code>run</code>, <code>debug</code>, <code>clean</code>, <code>lint</code></div></div>
+          <div class="task"><div class="task-icon">🧩</div><div class="task-text">Implement <code>models.py</code>: Pydantic classes <code>FunctionDefinition</code>, <code>FunctionCallTest</code>, <code>FunctionCallResult</code></div></div>
+          <div class="task"><div class="task-icon">📂</div><div class="task-text">Implement <code>utils.py</code>: <code>load_function_definitions()</code> and <code>load_function_tests()</code> with proper error handling</div></div>
+          <div class="task"><div class="task-icon">🚫</div><div class="task-text">Create <code>.gitignore</code> excluding <code>__pycache__/</code>, <code>data/output/</code>, <code>.mypy_cache/</code></div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">setup</span>
+          <span class="tag">pydantic</span>
+          <span class="tag">i/o</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day d2">
+      <div class="node">
+        <div class="node-dot">2</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~6h</div>
+        <div class="card-header">
+          <span class="card-day-label">Day 02 — Tuesday</span>
+          <span class="card-title">SDK Exploration</span>
+        </div>
+        <div class="card-goal">Goal: The model loads correctly and you can map any token_id to its actual string representation.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">🤖</div><div class="task-text">Integrate <code>llm_sdk</code>: instantiate <code>Small_LLM_Model</code> and verify that <code>get_logits_from_input_ids()</code> returns ~150k logits</div></div>
+          <div class="task"><div class="task-icon">📖</div><div class="task-text">Read the vocabulary file with <code>get_path_to_vocab_file()</code> and build the <code>{token_id: string}</code> dict</div></div>
+          <div class="task"><div class="task-icon">🔬</div><div class="task-text">Explore the tokenizer: how does <code>fn_add_numbers</code> get split? How many tokens is <code>"{"</code>? Take notes</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Build <code>VocabularyMapper</code> in <code>constrained_dec.py</code> with <code>token_to_str(id)</code> and <code>find_tokens_with_prefix(prefix)</code></div></div>
+          <div class="task"><div class="task-icon">✅</div><div class="task-text">Verify that the SDK's <code>encode()</code> and <code>decode()</code> work as expected with simple test phrases</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">sdk</span>
+          <span class="tag">vocabulary</span>
+          <span class="tag">tokenization</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day d3">
+      <div class="node">
+        <div class="node-dot">3</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~8h</div>
+        <div class="card-header">
+          <span class="card-day-label">Day 03 — Wednesday</span>
+          <span class="card-title">The "Filter" — Core</span>
+        </div>
+        <div class="card-goal">Goal: <code>mask_invalid_tokens()</code> works and you can generate the opening <code>{</code> with full constraints applied.</div>
+        <div class="critical-badge"><span class="critical-dot"></span>critical day — the heart of the project</div>
+        <div class="tasks" style="margin-top:14px">
+          <div class="task"><div class="task-icon">🏗️</div><div class="task-text">Design <code>JSONStateMachine</code>: define states <code>EXPECT_OPEN_BRACE</code>, <code>EXPECT_KEY</code>, <code>EXPECT_COLON</code>, etc.</div></div>
+          <div class="task"><div class="task-icon">⚡</div><div class="task-text">Implement <code>mask_invalid_tokens(logits, valid_token_ids)</code>: set <code>-inf</code> on all IDs outside the valid set</div></div>
+          <div class="task"><div class="task-icon">🔁</div><div class="task-text">Implement the base generation loop in <code>generate()</code>: get logits → mask → argmax → append → repeat</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Manual test: force the model to generate only <code>{</code> as the first token — verify it works with any prompt</div></div>
+          <div class="task"><div class="task-icon">📐</div><div class="task-text">Implement transition <code>EXPECT_OPEN_BRACE → EXPECT_KEY</code> and restrict output to <code>"fn_name"</code> and <code>"args"</code></div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">decoder</span>
+          <span class="tag">state-machine</span>
+          <span class="tag">logits</span>
+          <span class="tag">core</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="day d4">
+      <div class="node">
+        <div class="node-dot">4</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~8h</div>
+        <div class="card-header">
+          <span class="card-day-label">Day 04 — Thursday</span>
+          <span class="card-title">JSON Grammar</span>
+        </div>
+        <div class="card-goal">Goal: The decoder generates <code>{"fn_name": "fn_add_numbers", "args": {"a": ...}}</code> with 100% validity.</div>
+        <div class="critical-badge"><span class="critical-dot"></span>critical day — the most complex one</div>
+        <div class="tasks" style="margin-top:14px">
+          <div class="task"><div class="task-icon">🔤</div><div class="task-text">Implement constrained <code>string</code> value generation: prefix lookahead in the vocabulary, closing with <code>"</code></div></div>
+          <div class="task"><div class="task-icon">🔢</div><div class="task-text">Implement constrained <code>number</code> value generation: digits, <code>.</code>, <code>-</code>, tracking the partial numeric literal</div></div>
+          <div class="task"><div class="task-icon">🗂️</div><div class="task-text">Implement the nested <code>args</code> object: <code>{</code>, schema keys, <code>:</code>, typed values, <code>,</code> between args, final <code>}</code></div></div>
+          <div class="task"><div class="task-icon">🔗</div><div class="task-text">Connect all state machine transitions: the full JSON is generated start-to-finish with zero invalid tokens</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Test with <code>fn_substitute_string_with_regex</code> (3 string args) — the hardest case in the dataset</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">string</span>
+          <span class="tag">number</span>
+          <span class="tag">nested-json</span>
+          <span class="tag">bpe</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 5 -->
+    <div class="day d5">
+      <div class="node">
+        <div class="node-dot">5</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~6h</div>
+        <div class="card-header">
+          <span class="card-day-label">Day 05 — Friday</span>
+          <span class="card-title">Function Selection</span>
+        </div>
+        <div class="card-goal">Goal: The LLM picks the right function semantically — no heuristics, no <code>if</code> statements.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">📝</div><div class="task-text">Implement <code>build_selection_prompt()</code> in <code>utils.py</code>: include the query + all function descriptions</div></div>
+          <div class="task"><div class="task-icon">🎯</div><div class="task-text">In Phase 1, constrain <code>fn_name</code> to the exact set of names from the JSON — the model picks the highest-logit one</div></div>
+          <div class="task"><div class="task-icon">📝</div><div class="task-text">Implement <code>build_extraction_prompt()</code>: query + schema of the selected function for Phase 2</div></div>
+          <div class="task"><div class="task-icon">🔌</div><div class="task-text">Wire both phases together in <code>__main__.py</code>: selection → extraction → result object</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Run all 11 prompts from the dataset — verify the chosen function is always correct</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">prompt</span>
+          <span class="tag">selection</span>
+          <span class="tag">pipeline</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div class="day d6">
+      <div class="node">
+        <div class="node-dot">6</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~5h</div>
+        <div class="card-header">
+          <span class="card-day-label">Day 06 — Saturday</span>
+          <span class="card-title">Refinement & Speed</span>
+        </div>
+        <div class="card-goal">Goal: All 11 prompts process in under 5 minutes and <code>results.json</code> is 100% valid.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">⏱️</div><div class="task-text">Measure total processing time — if over 5 min, optimise the number of tokens generated per phase</div></div>
+          <div class="task"><div class="task-icon">📤</div><div class="task-text">Implement <code>write_results()</code> in <code>utils.py</code>: create <code>data/output/</code> if missing, write well-formatted JSON</div></div>
+          <div class="task"><div class="task-icon">🛡️</div><div class="task-text">Add full error handling: missing file, malformed JSON, LLM failure → clear message, never crash</div></div>
+          <div class="task"><div class="task-icon">🔍</div><div class="task-text">Manually inspect <code>results.json</code>: correct types, exact keys, no trailing commas</div></div>
+          <div class="task"><div class="task-icon">🧩</div><div class="task-text">Test with alternative input files: different functions, ambiguous prompts, invalid input JSON</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">performance</span>
+          <span class="tag">output</span>
+          <span class="tag">error-handling</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div class="day d7">
+      <div class="node">
+        <div class="node-dot">7</div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~4h</div>
+        <div class="card-header">
+          <span class="card-day-label">Day 07 — Sunday</span>
+          <span class="card-title">Quality & README</span>
+        </div>
+        <div class="card-goal">Goal: Project passes <code>mypy</code> and <code>flake8</code> with zero errors, and README covers all subject requirements.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">📋</div><div class="task-text">Add complete type hints to all functions and variables — run <code>make lint</code> until it's clean</div></div>
+          <div class="task"><div class="task-icon">📚</div><div class="task-text">Add PEP 257 docstrings to all classes and functions (Google or NumPy style)</div></div>
+          <div class="task"><div class="task-icon">📄</div><div class="task-text">Complete <code>README.md</code>: algorithm, design decisions, performance analysis, challenges, usage examples</div></div>
+          <div class="task"><div class="task-icon">✅</div><div class="task-text">Final check: fresh <code>uv sync</code>, run <code>make run</code>, validate <code>results.json</code>, push to repository</div></div>
+          <div class="task"><div class="task-icon">🚫</div><div class="task-text">Confirm <code>data/output/</code> is not in the Git repo — it will be generated by the evaluators</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">mypy</span>
+          <span class="tag">flake8</span>
+          <span class="tag">readme</span>
+          <span class="tag">submission</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end timeline -->
+
+  <footer class="footer">
+    <div class="footer-stat">
+      <div class="footer-stat-value">7</div>
+      <div class="footer-stat-label">Days</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat">
+      <div class="footer-stat-value">~42h</div>
+      <div class="footer-stat-label">Estimated hours</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat">
+      <div class="footer-stat-value">100%</div>
+      <div class="footer-stat-label">Valid JSON</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat">
+      <div class="footer-stat-value">Days 3–4</div>
+      <div class="footer-stat-label">Critical core</div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
