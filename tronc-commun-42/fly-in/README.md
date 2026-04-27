@@ -100,6 +100,7 @@ The terminal visualization provides:
 - **Summary**: final statistics with total turns and delivery status
 
 Zone type symbols in the topology view:
+
 - `[o]` Normal zone
 - `[X]` Blocked zone
 - `[~]` Restricted zone (2-turn traversal)
