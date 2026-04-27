@@ -1,4 +1,4 @@
-*Fly-in is a drone routing simulation that finds optimal paths through a graph network and simulates multi-drone movement turn by turn.*
+*This project has been created as part of the 42 curriculum by omischle.*
 
 ## Description
 
