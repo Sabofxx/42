@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by omischle.*
+_This project has been created as part of the 42 curriculum by omischle, dlaktaf._
 
 # A-Maze-ing
 
@@ -7,6 +7,7 @@
 A maze generator written in Python that creates random mazes, outputs them in a hexadecimal wall-encoding format, and provides an interactive terminal visualization. The generator supports both perfect mazes (exactly one path between any two cells) and non-perfect mazes with multiple routes.
 
 Key features:
+
 - Recursive backtracker (DFS) maze generation algorithm
 - Hexadecimal wall encoding output compatible with the moulinette validator
 - Terminal ASCII rendering with ANSI colors
@@ -57,17 +58,18 @@ make build
 
 The config file uses `KEY=VALUE` pairs, one per line. Lines starting with `#` are comments.
 
-| Key | Description | Example |
-|-----|-------------|---------|
-| `WIDTH` | Maze width in cells | `WIDTH=20` |
-| `HEIGHT` | Maze height in cells | `HEIGHT=15` |
-| `ENTRY` | Entry coordinates (x,y) | `ENTRY=0,0` |
-| `EXIT` | Exit coordinates (x,y) | `EXIT=19,14` |
-| `OUTPUT_FILE` | Output filename | `OUTPUT_FILE=maze.txt` |
-| `PERFECT` | Perfect maze (True/False) | `PERFECT=True` |
-| `SEED` | (Optional) Random seed | `SEED=42` |
+| Key           | Description               | Example                |
+| ------------- | ------------------------- | ---------------------- |
+| `WIDTH`       | Maze width in cells       | `WIDTH=20`             |
+| `HEIGHT`      | Maze height in cells      | `HEIGHT=15`            |
+| `ENTRY`       | Entry coordinates (x,y)   | `ENTRY=0,0`            |
+| `EXIT`        | Exit coordinates (x,y)    | `EXIT=19,14`           |
+| `OUTPUT_FILE` | Output filename           | `OUTPUT_FILE=maze.txt` |
+| `PERFECT`     | Perfect maze (True/False) | `PERFECT=True`         |
+| `SEED`        | (Optional) Random seed    | `SEED=42`              |
 
 Example `config.txt`:
+
 ```
 # My maze config
 WIDTH=20
@@ -146,18 +148,19 @@ cells = gen.get_path_cells()  # [(0,0), (1,0), ...]
 
 ### Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `width` | `int` | Number of columns (>= 2) |
-| `height` | `int` | Number of rows (>= 2) |
-| `entry` | `(int, int)` | Entry position (x, y) |
-| `exit_pos` | `(int, int)` | Exit position (x, y) |
-| `perfect` | `bool` | Perfect maze (default True) |
-| `seed` | `int \| None` | Random seed (default None) |
+| Parameter  | Type          | Description                 |
+| ---------- | ------------- | --------------------------- |
+| `width`    | `int`         | Number of columns (>= 2)    |
+| `height`   | `int`         | Number of rows (>= 2)       |
+| `entry`    | `(int, int)`  | Entry position (x, y)       |
+| `exit_pos` | `(int, int)`  | Exit position (x, y)        |
+| `perfect`  | `bool`        | Perfect maze (default True) |
+| `seed`     | `int \| None` | Random seed (default None)  |
 
 ### Wall encoding
 
 Each cell is an integer where bits represent walls:
+
 - Bit 0 (1) = North
 - Bit 1 (2) = East
 - Bit 2 (4) = South
@@ -170,6 +173,7 @@ Each cell is an integer where bits represent walls:
 - **omischle**: Full project implementation
 
 ### Planning
+
 1. Read and analyze the subject requirements
 2. Design the MazeGenerator class and wall encoding
 3. Implement core generation (recursive backtracker)
@@ -179,16 +183,19 @@ Each cell is an integer where bits represent walls:
 7. Lint, test, and validate output
 
 ### What worked well
+
 - Iterative DFS avoids stack overflow on large mazes
 - Clean separation between generator (reusable) and display (project-specific)
 - Wall coherency maintained by always updating both sides when carving
 
 ### What could be improved
+
 - Add graphical MLX display as an alternative
 - Support multiple generation algorithms (Prim's, Kruskal's)
 - Animated generation display
 
 ### Tools used
+
 - Python 3.10+
 - flake8 / mypy for code quality
 - setuptools for packaging
