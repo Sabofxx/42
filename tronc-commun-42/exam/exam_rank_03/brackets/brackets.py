@@ -15,9 +15,13 @@ def brackets(string: str) -> bool:
 
 
 def main() -> None:
-    print(brackets("()"))
-    print(brackets("([{}])"))
-    print(brackets("(]"))
+    print(brackets("()"))                     # True
+    print(brackets("([{}])"))                 # True
+    print(brackets("(]"))                     # False
+    print(brackets("([)]"))                   # False
+    print(brackets("hello(world)[test]{ok}")) # True
+    print(brackets("((())"))                  # False
+    print(brackets(""))                       # True
 
 
 if __name__ == "__main__":

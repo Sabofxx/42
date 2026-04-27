@@ -1,4 +1,5 @@
 *This project has been created as part of the 42 curriculum by omischle.*
+*Fly-in is a drone routing simulation that finds optimal paths through a graph network and simulates multi-drone movement turn by turn.*
 
 ## Description
 
@@ -100,7 +101,6 @@ The terminal visualization provides:
 - **Summary**: final statistics with total turns and delivery status
 
 Zone type symbols in the topology view:
-
 - `[o]` Normal zone
 - `[X]` Blocked zone
 - `[~]` Restricted zone (2-turn traversal)
