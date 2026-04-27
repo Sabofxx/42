@@ -63,4 +63,4 @@ Similar problems can be found on [LeetCode](https://leetcode.com/) and other cod
 
 ---
 
-*42 Madrid — Common Core · Python · Milestone 3*
+*42 Luxembourg — Common Core · Python · Milestone 3*
