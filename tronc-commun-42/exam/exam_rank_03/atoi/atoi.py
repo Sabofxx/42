@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 
+
 def atoi(string: str) -> int:
     string = string.strip()
     sign = 1
     i = 0
     result = 0
 
-    if i < len(string) and string[i] in '+-':
-        sign = -1 if string[i] == '-' else 1
+    if i < len(string) and string[i] in "+-":
+        sign = -1 if string[i] == "-" else 1
         i += 1
 
     while i < len(string) and string[i].isdigit():
         result = result * 10 + int(string[i])
         i += 1
-    return sign*result
+    return sign * result
 
 
 def main() -> None:
