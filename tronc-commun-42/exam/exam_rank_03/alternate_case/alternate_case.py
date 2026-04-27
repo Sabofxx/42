@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def alternate_case(s: str) -> str:
     result = ""
     upper = True
@@ -15,10 +17,10 @@ def alternate_case(s: str) -> str:
 
 
 def main() -> None:
-    print(alternate_case("hello world"))  # "HeLlO WoRlD"
-    print(alternate_case("42madrid"))  # "42MaDrId"
-    print(alternate_case("python3.9 rocks!"))  # "PyThOn3.9 RoCkS!"
-    print(alternate_case("a!b?c"))  # "A!b?C"
+    print(alternate_case("hello world"))      # "HeLlO WoRlD"
+    print(alternate_case("42madrid"))         # "42MaDrId"
+    print(alternate_case("python3.9 rocks!")) # "PyThOn3.9 RoCkS!"
+    print(alternate_case("a!b?c"))            # "A!b?C"
 
 
 if __name__ == "__main__":
