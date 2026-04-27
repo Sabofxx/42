@@ -6,8 +6,12 @@ def rotate_90(matrix: list[list[int]]) -> list[list[int]]:
 
 
 def main() -> None:
-    matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    print(rotate_90(matrix))
+    print(rotate_90([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+    # [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
+    print(rotate_90([[1, 2], [3, 4]]))
+    # [[3, 1], [4, 2]]
+    print(rotate_90([[1]]))
+    # [[1]]
 
 
 if __name__ == "__main__":
