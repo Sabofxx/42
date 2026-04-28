@@ -2,10 +2,14 @@
 # never pushed to the public repo.
 tronc-commun-42/call_me_maybe/RAPPORT.md
 tronc-commun-42/codexion/GUIDE_COMPLET.txt
+tronc-commun-42/codexion/GUIDE_DIFFICULTES.md
 tronc-commun-42/fly-in/EXPLANATION.md
 tronc-commun-42/codexion/codexion_explained.md
 tronc-commun-42/call_me_maybe/call_me_maybe_explained.md
 tronc-commun-42/fly-in/fly_in_explained.md
+
+# Third-party content (not authored by omischle)
+tronc-commun-42/exam/
 
 # OS / IDE noise
 .DS_Store

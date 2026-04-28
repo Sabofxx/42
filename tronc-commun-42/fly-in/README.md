@@ -61,10 +61,35 @@ make clean                                    # remove __pycache__
 
 ## Resources
 
-- Python 3.10+ with type hints
-- flake8 for linting
-- mypy for static type checking
-- No external runtime dependencies
+### Technical references
+
+- **Dijkstra's shortest-path algorithm** — Edsger W. Dijkstra,
+  *A Note on Two Problems in Connexion with Graphs*, Numerische
+  Mathematik, 1959. Foundation of the path-cost minimisation used here.
+- **Node-disjoint paths** — Suurballe & Tarjan, *A quick method for
+  finding shortest pairs of disjoint paths*, Networks, 1984. Inspired
+  the iterative path-discovery loop, simplified for capacity-1 nodes.
+- **Python 3.10+ Language Reference** — for `match` statements,
+  PEP 604 union types and PEP 612 `ParamSpec`.
+- **Python `typing` module** — used for `Optional`, `list[X]` generics
+  and protocol typing.
+- **mypy** — static type checking, strict mode supported via
+  `make lint-strict`.
+- **flake8** — PEP 8 enforcement, run via `make lint`.
+
+No external runtime dependencies — the simulator and pathfinder use
+only the Python standard library.
+
+### AI usage in this project
+
+| Task | Tool | Where |
+|---|---|---|
+| Brainstorming the modified-Dijkstra + node-disjoint iteration approach | Claude | Algorithm design phase, before any code was written |
+| Reviewing the simultaneous-movement turn-execution invariants | Claude | `engine/simulation.py` — read, edited and validated by hand |
+| Drafting parts of this README | Claude | This file — reviewed, edited and validated against the actual source code |
+
+All AI-assisted content was reviewed, understood and validated
+before inclusion. No code was copied without full comprehension.
 
 ## Algorithm
 
