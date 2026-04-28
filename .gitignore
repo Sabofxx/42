@@ -8,8 +8,15 @@ tronc-commun-42/codexion/codexion_explained.md
 tronc-commun-42/call_me_maybe/call_me_maybe_explained.md
 tronc-commun-42/fly-in/fly_in_explained.md
 
-# Third-party content (not authored by omischle)
-tronc-commun-42/exam/
+# Third-party exam content (Alex Higuera, IntRogerYT) — own .c/.h/.py kept
+tronc-commun-42/exam/exam_rank_02/LICENSE
+tronc-commun-42/exam/exam_rank_02/README.md
+tronc-commun-42/exam/exam_rank_02/exam_rank_02_complete.html
+tronc-commun-42/exam/exam_rank_02/**/README.md
+tronc-commun-42/exam/exam_rank_03/README.md
+tronc-commun-42/exam/exam_rank_03/42ExamRank03_Simulator/
+tronc-commun-42/exam/exam_rank_03/42_Exam_Rank03_Guide.html
+tronc-commun-42/exam/exam_rank_03/EXAM_RANK_03_SIMULATOR_GUIDE.md
 
 # OS / IDE noise
 .DS_Store
