@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_nbr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omischle <omischle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omischle <omischle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 15:45:02 by omischle           #+#    #+#             */
-/*   Updated: 2026/02/12 15:46:43 by omischle          ###   ########.fr       */
+/*   Created: 2026/02/12 15:45:02 by omischle          #+#    #+#             */
+/*   Updated: 2026/04/29 17:08:37 by omischle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "ft_printf.h"
 
