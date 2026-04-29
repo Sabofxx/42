@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by omischle.*
+*This project has been created as part of the 42 curriculum by omischle and dlaktaf.*
 
 # A-Maze-ing
 
