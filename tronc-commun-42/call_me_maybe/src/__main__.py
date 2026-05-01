@@ -16,7 +16,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from llm_sdk.llm_sdk import Small_LLM_Model
+from llm_sdk import Small_LLM_Model
 from src.constrained_dec import VocabularyMapper, build_trie
 from src.generator import FunctionCaller
 from src.utils import (
