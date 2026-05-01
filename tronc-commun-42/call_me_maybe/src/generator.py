@@ -12,7 +12,7 @@ from src.constrained_dec import (
 from src.models import FunctionCallResult, FunctionDefinition
 
 if TYPE_CHECKING:  # pragma: no cover - import is only used for type hints
-    from llm_sdk.llm_sdk import Small_LLM_Model
+    from llm_sdk import Small_LLM_Model
 
 
 class FunctionCaller:

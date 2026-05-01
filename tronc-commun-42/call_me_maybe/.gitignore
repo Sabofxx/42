@@ -30,3 +30,7 @@ dist/
 .vscode/
 .idea/
 .DS_Store
+
+# Personal study notes
+COURS_PREREQUIS.md
+COURS_CODE.md
