@@ -12,6 +12,7 @@ class Simulation:
         self.drones: list[Drone] = []
         self.turn_log: list[str] = []
         self.turn_delivered: list[int] = []
+        self.capacity_log: list[str] = []
         self.total_turns = 0
 
         start = network.start_zone
@@ -144,6 +145,19 @@ class Simulation:
 
         return moves
 
+    def _capacity_snapshot(self) -> str:
+        lines: list[str] = []
+        for name, zone in self.network.zones.items():
+            used = self._zone_occupancy(name)
+            lines.append(f"Zone {name}: {used}/{zone.max_drones} drones")
+        for conn in self.network.connections:
+            used = self._link_usage(conn.zone1_name, conn.zone2_name, [])
+            lines.append(
+                f"Connection {conn.zone1_name}-{conn.zone2_name}: "
+                f"{used}/{conn.max_link_capacity} capacity used"
+            )
+        return "\n".join(lines)
+
     def _execute_turn(self) -> Optional[str]:
         arrivals = self._plan_arrivals()
         departures = self._plan_departures(arrivals)
@@ -224,6 +238,7 @@ class Simulation:
                     if d.state == DroneState.DELIVERED
                 )
                 self.turn_delivered.append(delivered)
+                self.capacity_log.append(self._capacity_snapshot())
             self.total_turns += 1
 
         self.turn_log = turns

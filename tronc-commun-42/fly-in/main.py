@@ -8,15 +8,22 @@ from visual.terminal import TerminalDisplay
 def main() -> int:
     if len(sys.argv) < 2:
         sys.stderr.write(
-            "Usage: python main.py <map_file> [--visual] [--raw]\n"
+            "Usage: python main.py <map_file> "
+            "[--visual] [--raw] [--capacity-info]\n"
         )
         return 1
 
-    map_file = sys.argv[1]
+    map_file = next(
+        (a for a in sys.argv[1:] if not a.startswith("--")), None
+    )
+    if map_file is None:
+        sys.stderr.write("Error: missing map file argument\n")
+        return 1
     has_visual = "--visual" in sys.argv
     has_raw = "--raw" in sys.argv
+    has_capacity = "--capacity-info" in sys.argv
 
-    if not has_visual and not has_raw:
+    if not has_visual and not has_raw and not has_capacity:
         has_visual = True
         has_raw = True
 
@@ -58,6 +65,13 @@ def main() -> int:
 
     if has_raw:
         display.print_raw_output(turns)
+
+    if has_capacity:
+        for i, line in enumerate(turns):
+            print(f"Turn {i + 1}: {line}")
+            if i < len(sim.capacity_log):
+                print(sim.capacity_log[i])
+            print()
 
     return 0
 
