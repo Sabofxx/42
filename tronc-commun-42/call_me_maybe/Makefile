@@ -2,7 +2,10 @@
 NAME        = call_me_maybe
 
 # --- Executables and Paths ---
-PYTHON = uv run python
+# HF_HOME redirects model weights to /goinfre to avoid filling the home quota.
+PYTHON = HF_HOME=/goinfre/omischle/hf-cache uv run python
+UV_CACHE_DIR ?= /goinfre/omischle/uv-cache
+export UV_CACHE_DIR
 
 # --- Colors for Terminal ---
 GREEN        = \033[0;32m
