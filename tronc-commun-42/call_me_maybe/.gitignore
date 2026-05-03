@@ -4,7 +4,8 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Virtual environments
+# Virtual environments (the bare names also catch symlinks like .venv -> /goinfre/...)
+.venv
 .venv/
 env/
 venv/
