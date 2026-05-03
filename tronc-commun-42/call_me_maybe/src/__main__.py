@@ -27,21 +27,15 @@ from src.utils import (
 )
 
 
-DEFAULT_FUNCTIONS_DEFINITION = "data/input/functions_definition.json"
 DEFAULT_INPUT = "data/input/function_calling_tests.json"
 DEFAULT_OUTPUT = "data/output/function_calling_results.json"
+FUNCTIONS_FILENAME = "functions_definition.json"
 
 
 def _parse_args() -> argparse.Namespace:
-    """Parse les trois arguments de chemins décrits dans le sujet."""
+    """Parse les deux arguments de chemins décrits dans le sujet (Section IV.3.2)."""
     parser = argparse.ArgumentParser(
         description="42 Call Me Maybe - Appelant de fonction LLM"
-    )
-    parser.add_argument(
-        "--functions_definition",
-        default=DEFAULT_FUNCTIONS_DEFINITION,
-        type=str,
-        help="Chemin vers le fichier JSON décrivant les fonctions disponibles.",
     )
     parser.add_argument(
         "--input",
@@ -62,9 +56,11 @@ def main() -> None:
     """Lance le pipeline complet de constrained-decoding de bout en bout."""
     args = _parse_args()
 
-    definitions_path = Path(args.functions_definition)
     tests_path = Path(args.input)
     output_path = Path(args.output)
+    # Le fichier de définitions est lu dans le même dossier que les prompts
+    # (cf. sujet : "los archivos de entrada del directorio data/input/").
+    definitions_path = tests_path.parent / FUNCTIONS_FILENAME
 
     try:
         functions = load_function_definitions(definitions_path)
