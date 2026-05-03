@@ -13,8 +13,8 @@ schema and extracts its arguments with the correct types:
 ```json
 {
   "prompt": "What is the sum of 2 and 3?",
-  "name": "fn_add_numbers",
-  "parameters": { "a": 2.0, "b": 3.0 }
+  "fn_name": "fn_add_numbers",
+  "args": { "a": 2.0, "b": 3.0 }
 }
 ```
 
@@ -54,11 +54,11 @@ make run
 # or
 uv run python -m src
 
-# Custom paths (the three flags described in the subject)
+# Custom paths (the two flags described in the subject, Section IV.3.2)
 uv run python -m src \
-  --functions_definition data/input/functions_definition.json \
-  --input                data/input/function_calling_tests.json \
-  --output               data/output/function_calling_results.json
+  --input  data/input/function_calling_tests.json \
+  --output data/output/function_calling_results.json
+# functions_definition.json is read from the same folder as --input
 ```
 
 ### Makefile targets
@@ -107,18 +107,18 @@ definitions:
 [
   {
     "prompt": "What is the sum of 2 and 3?",
-    "name": "fn_add_numbers",
-    "parameters": { "a": 2.0, "b": 3.0 }
+    "fn_name": "fn_add_numbers",
+    "args": { "a": 2.0, "b": 3.0 }
   },
   {
     "prompt": "Greet shrek",
-    "name": "fn_greet",
-    "parameters": { "name": "shrek" }
+    "fn_name": "fn_greet",
+    "args": { "name": "shrek" }
   }
 ]
 ```
 
-The keys are exactly `prompt`, `name`, `parameters` as required by the
+The keys are exactly `prompt`, `fn_name`, `args` as required by the
 subject (Section V.4).
 
 ## Algorithm explanation — Constrained Decoding
@@ -242,7 +242,7 @@ to extract), which is inherent to a 0.6 B model.
 The `tests/` directory holds pytest unit tests, run with `make test`:
 
 - `test_models.py` — Pydantic validation of every model, including the
-  `prompt` / `name` / `parameters` output schema demanded by the
+  `prompt` / `fn_name` / `args` output schema demanded by the
   subject.
 - `test_utils.py` — JSON loading & writing: missing file, invalid JSON,
   not-an-array, schema mismatch, nested output directories.
@@ -253,7 +253,7 @@ The trie / models / utils tests do not depend on `torch`, so they run
 in milliseconds. The end-to-end pipeline is validated manually by
 running `make run` against the provided example inputs and checking
 that every prompt produces a JSON object whose structure matches
-`{prompt, name, parameters}` with the right value types.
+`{prompt, fn_name, args}` with the right value types.
 
 ## Example usage
 
@@ -270,7 +270,7 @@ Total time: 42.13 seconds
 Wrote 11 entries to data/output/function_calling_results.json.
 ```
 
-| Prompt | name | parameters |
+| Prompt | fn_name | args |
 |---|---|---|
 | `"What is the sum of 2 and 3?"` | `fn_add_numbers` | `{"a": 2.0, "b": 3.0}` |
 | `"Greet shrek"` | `fn_greet` | `{"name": "shrek"}` |
