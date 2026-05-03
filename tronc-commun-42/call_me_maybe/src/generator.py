@@ -53,8 +53,8 @@ class FunctionCaller:
             prompt : La requête en langage naturel de l'utilisateur.
 
         Retourne :
-            Un objet FunctionCallResult avec les clés 'prompt', 'name'
-            et 'parameters' comme exigé par le sujet.
+            Un objet FunctionCallResult avec les clés 'prompt', 'fn_name'
+            et 'args' comme exigé par le sujet (Section V.4).
         """
         # Étape 1 : identifier la fonction à appeler via constrained decoding
         fn_name = select_function(prompt, self.model, self.trie)
@@ -79,4 +79,4 @@ class FunctionCaller:
             parameters[param_name] = value
 
         return FunctionCallResult(
-            prompt=prompt, name=fn_name, parameters=parameters)
+            prompt=prompt, fn_name=fn_name, args=parameters)

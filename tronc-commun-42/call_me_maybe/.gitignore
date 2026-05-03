@@ -34,3 +34,10 @@ dist/
 # Personal study notes
 COURS_PREREQUIS.md
 COURS_CODE.md
+call_me_maybe_explained.md
+
+# Subject material (PDF, zips, original examples) — not needed to run the project
+docs/
+
+# Tests are explicitly "not submitted or graded" per subject Section IV.3
+tests/

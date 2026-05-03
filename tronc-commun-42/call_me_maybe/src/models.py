@@ -50,15 +50,15 @@ class FunctionCallResult(BaseModel):
     """
     Schéma de la sortie finale d'une opération de function-calling.
 
-    Correspond à la structure exigée par le sujet :
-    les clés sont 'prompt', 'name' et 'parameters'.
+    Correspond à la structure exigée par le sujet (Section V.4) :
+    les clés sont 'prompt', 'fn_name' et 'args'.
 
     Attributs :
         prompt : Le prompt d'entrée d'origine.
-        name : Le nom de la fonction identifiée par le modèle.
-        parameters : Un dictionnaire de paires clé-valeur représentant
+        fn_name : Le nom de la fonction identifiée par le modèle.
+        args : Un dictionnaire de paires clé-valeur représentant
                     les arguments générés avec leurs valeurs typées.
     """
     prompt: str
-    name: str
-    parameters: Dict[str, Any]
+    fn_name: str
+    args: Dict[str, Any]
