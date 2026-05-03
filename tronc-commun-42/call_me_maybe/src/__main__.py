@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Entry point for the Call Me Maybe LLM function-calling tool.
+Point d'entrée de l'outil de function-calling LLM Call Me Maybe.
 
-Reads a list of function definitions and a list of natural-language test
-prompts, then uses constrained decoding on a small LLM to produce a
-structured JSON file with one entry per prompt:
+Lit une liste de définitions de fonctions et une liste de prompts
+de test en langage naturel, puis utilise le constrained decoding
+sur un petit LLM pour produire un fichier JSON structuré avec une
+entrée par prompt :
     { "prompt": ..., "name": ..., "parameters": { ... } }
 """
 
@@ -32,33 +33,33 @@ DEFAULT_OUTPUT = "data/output/function_calling_results.json"
 
 
 def _parse_args() -> argparse.Namespace:
-    """Parse the three file-path arguments described in the subject."""
+    """Parse les trois arguments de chemins décrits dans le sujet."""
     parser = argparse.ArgumentParser(
-        description="42 Call Me Maybe - LLM Function Caller"
+        description="42 Call Me Maybe - Appelant de fonction LLM"
     )
     parser.add_argument(
         "--functions_definition",
         default=DEFAULT_FUNCTIONS_DEFINITION,
         type=str,
-        help="Path to the JSON file describing available functions.",
+        help="Chemin vers le fichier JSON décrivant les fonctions disponibles.",
     )
     parser.add_argument(
         "--input",
         default=DEFAULT_INPUT,
         type=str,
-        help="Path to the JSON file containing the natural-language prompts.",
+        help="Chemin vers le fichier JSON contenant les prompts en langage naturel.",
     )
     parser.add_argument(
         "--output",
         default=DEFAULT_OUTPUT,
         type=str,
-        help="Path where the structured JSON results will be written.",
+        help="Chemin où les résultats JSON structurés seront écrits.",
     )
     return parser.parse_args()
 
 
 def main() -> None:
-    """Run the full constrained-decoding pipeline end-to-end."""
+    """Lance le pipeline complet de constrained-decoding de bout en bout."""
     args = _parse_args()
 
     definitions_path = Path(args.functions_definition)
@@ -69,26 +70,26 @@ def main() -> None:
         functions = load_function_definitions(definitions_path)
         tests = load_function_tests(tests_path)
         print(
-            f"Loaded {len(functions)} function definitions "
-            f"and {len(tests)} prompts."
+            f"Chargé {len(functions)} définitions de fonctions "
+            f"et {len(tests)} prompts."
         )
     except FileNotFoundError as e:
-        print(f"Error: file not found - {e.filename}")
+        print(f"Erreur : fichier introuvable - {e.filename}")
         sys.exit(1)
     except json.JSONDecodeError as e:
-        print(f"Error: invalid JSON - {e.msg}")
+        print(f"Erreur : JSON invalide - {e.msg}")
         sys.exit(1)
     except ValidationError as e:
-        print(f"Error: data does not match schema - {e}")
+        print(f"Erreur : les données ne correspondent pas au schéma - {e}")
         sys.exit(1)
 
-    print("Initializing LLM...")
+    print("Initialisation du LLM...")
     try:
         model = Small_LLM_Model()
     except Exception as e:
-        print(f"Error: could not initialize the LLM - {e}")
+        print(f"Erreur : impossible d'initialiser le LLM - {e}")
         sys.exit(1)
-    print("LLM ready.")
+    print("LLM prêt.")
 
     mapper = VocabularyMapper(model)
     trie = build_trie(functions, model)
@@ -101,16 +102,16 @@ def main() -> None:
             result = caller.call(test.prompt)
             results.append(result.model_dump())
         except Exception as e:
-            print(f"Error processing prompt {test.prompt!r}: {e}")
+            print(f"Erreur lors du traitement du prompt {test.prompt!r} : {e}")
 
     elapsed = time.time() - start
-    print(f"Total time: {elapsed:.2f} seconds")
+    print(f"Temps total : {elapsed:.2f} secondes")
 
     try:
         write_results(results, output_path)
-        print(f"Wrote {len(results)} entries to {output_path}.")
+        print(f"Écrit {len(results)} entrées dans {output_path}.")
     except OSError as e:
-        print(f"Error writing output file: {e}")
+        print(f"Erreur lors de l'écriture du fichier de sortie : {e}")
         sys.exit(1)
 
 
