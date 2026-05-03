@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Helpers for loading the input JSON files and writing the result file."""
+"""Helpers pour charger les fichiers JSON d'entrée et écrire le fichier de résultat."""
 
 import json
 from pathlib import Path
@@ -10,49 +10,49 @@ from src.models import FunctionCallTest, FunctionDefinition
 
 def load_function_definitions(route: Path) -> list[FunctionDefinition]:
     """
-    Loads and validates function definitions from a JSON file.
+    Charge et valide les définitions de fonctions depuis un fichier JSON.
 
-    Args:
-        route: Path to the JSON file containing function definitions.
+    Arguments :
+        route : Chemin vers le fichier JSON contenant les définitions.
 
-    Returns:
-        A list of validated FunctionDefinition objects.
+    Retourne :
+        Une liste d'objets FunctionDefinition validés.
     """
     with open(route, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
     if not isinstance(raw_data, list):
         raise ValueError(
-            f"{route}: expected a JSON array of function definitions.")
+            f"{route} : un tableau JSON de définitions de fonctions est attendu.")
     return [FunctionDefinition(**item) for item in raw_data]
 
 
 def load_function_tests(route: Path) -> list[FunctionCallTest]:
     """
-    Loads and validates test cases from a JSON file.
+    Charge et valide les cas de test depuis un fichier JSON.
 
-    Args:
-        route: Path to the JSON file containing function calling tests.
+    Arguments :
+        route : Chemin vers le fichier JSON contenant les tests.
 
-    Returns:
-        A list of validated FunctionCallTest objects.
+    Retourne :
+        Une liste d'objets FunctionCallTest validés.
     """
     with open(route, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
     if not isinstance(raw_data, list):
         raise ValueError(
-            f"{route}: expected a JSON array of test prompts.")
+            f"{route} : un tableau JSON de prompts de test est attendu.")
     return [FunctionCallTest(**item) for item in raw_data]
 
 
 def write_results(results: list[dict[str, Any]], output_path: Path) -> None:
     """
-    Saves the generated function calling results to a JSON file.
+    Sauvegarde les résultats du function-calling dans un fichier JSON.
 
-    Creates the parent directories if they do not exist.
+    Crée les dossiers parents s'ils n'existent pas.
 
-    Args:
-        results: List of dictionaries containing the generation results.
-        output_path: Path object specifying where to save the file.
+    Arguments :
+        results : Liste de dictionnaires contenant les résultats générés.
+        output_path : Objet Path indiquant où sauvegarder le fichier.
     """
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
