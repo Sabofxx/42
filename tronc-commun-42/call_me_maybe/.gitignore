@@ -42,3 +42,5 @@ docs/
 
 # Tests are explicitly "not submitted or graded" per subject Section IV.3
 tests/
+
+quiz.py
