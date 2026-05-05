@@ -35,12 +35,26 @@ regardless of the model size.
 
 ### Setup
 
+> **Important — 42 cluster note.** The `/home` partition has a 4.7 GB
+> quota, which is too small for the `torch` wheel (~2 GB) that `uv sync`
+> downloads transitively via `llm_sdk`. Clone into `/goinfre` and point
+> the `uv` cache there as well, otherwise `uv sync` fails with
+> *"No space left on device"*.
+
 ```bash
-git clone https://github.com/Sabofxx/42.git
-cd 42/tronc-commun-42/call_me_maybe
+# Clone into /goinfre to bypass the /home quota
+git clone https://github.com/Sabofxx/42.git /goinfre/$USER/42
+cd /goinfre/$USER/42/tronc-commun-42/call_me_maybe
+
+# Redirect the uv cache to /goinfre too (torch wheel is ~2 GB)
+export UV_CACHE_DIR=/goinfre/$USER/uv-cache
 
 uv sync          # the only command an evaluator needs to run
 ```
+
+The provided `Makefile` already exports `UV_CACHE_DIR` and `HF_HOME` to
+`/goinfre/$USER/...`, so `make install` works without setting anything
+manually.
 
 `uv sync` reads `pyproject.toml`, installs `numpy` and `pydantic`, and
 pulls the local `llm_sdk` package (which itself brings the Hugging Face
