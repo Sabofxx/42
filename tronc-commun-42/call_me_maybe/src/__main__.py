@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-"""
-Point d'entrée de l'outil de function-calling LLM Call Me Maybe.
-
-Lit une liste de définitions de fonctions et une liste de prompts
-de test en langage naturel, puis utilise le constrained decoding
-sur un petit LLM pour produire un fichier JSON structuré avec une
-entrée par prompt :
-    { "prompt": ..., "name": ..., "parameters": { ... } }
-"""
 
 import argparse
 import json
@@ -33,7 +24,6 @@ FUNCTIONS_FILENAME = "functions_definition.json"
 
 
 def _parse_args() -> argparse.Namespace:
-    """Parse les deux arguments de chemins décrits dans le sujet (Section IV.3.2)."""
     parser = argparse.ArgumentParser(
         description="42 Call Me Maybe - Appelant de fonction LLM"
     )
@@ -41,25 +31,20 @@ def _parse_args() -> argparse.Namespace:
         "--input",
         default=DEFAULT_INPUT,
         type=str,
-        help="Chemin vers le fichier JSON contenant les prompts en langage naturel.",
     )
     parser.add_argument(
         "--output",
         default=DEFAULT_OUTPUT,
         type=str,
-        help="Chemin où les résultats JSON structurés seront écrits.",
     )
     return parser.parse_args()
 
 
 def main() -> None:
-    """Lance le pipeline complet de constrained-decoding de bout en bout."""
     args = _parse_args()
 
     tests_path = Path(args.input)
     output_path = Path(args.output)
-    # Le fichier de définitions est lu dans le même dossier que les prompts
-    # (cf. sujet : "los archivos de entrada del directorio data/input/").
     definitions_path = tests_path.parent / FUNCTIONS_FILENAME
 
     try:

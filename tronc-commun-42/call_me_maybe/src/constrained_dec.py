@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import TYPE_CHECKING, TypedDict
 
 from src.models import FunctionDefinition
@@ -11,70 +12,40 @@ if TYPE_CHECKING:  # pragma: no cover - import utilisé uniquement pour le typag
 
 
 class TrieNode(TypedDict):
-    """
-    Représente un noeud unique du FunctionTrie.
 
-    Attributs :
-        children : Dictionnaire associant les IDs de tokens
-                    à leurs noeuds enfants correspondants.
-        is_end : Booléen indiquant si ce noeud marque la fin
-                    d'un nom de fonction valide.
-        fn_name : Le nom complet de la fonction si is_end vaut True,
-                    sinon None.
-    """
     children: dict[int, "TrieNode"]
     is_end: bool
     fn_name: str | None
 
 
 class VocabularyMapper:
-    """
-    Gère la correspondance entre les tokens et leurs représentations textuelles.
 
-    Fournit des méthodes utilitaires pour convertir des IDs en texte et
-    rechercher les tokens partageant un préfixe spécifique, afin d'aider
-    à la génération contrainte.
-    """
     def __init__(self, model: Small_LLM_Model) -> None:
-        """
-        Initialise le mapper à partir du fichier de vocabulaire du modèle.
-
-        Arguments :
-            model : Une instance de Small_LLM_Model pour récupérer
-                    le chemin du vocabulaire.
-        """
         self.model = model
         route = model.get_path_to_vocab_file()
         with open(route, "r", encoding="utf-8") as f:
             raw_data: dict[str, int] = json.load(f)
-        # token_string -> token_id
+
         self.vocab: dict[str, int] = raw_data
-        # token_id -> token_string
+
         self.vocab_inverted: dict[int, str] = {
             value: key for key, value in raw_data.items()}
-        # Cache pré-calculé : tokens dont la chaîne décodée commence par un
-        # chiffre, '.' ou '-'. Utilisé par la contrainte de nombre pour
-        # éviter de scanner tout le vocab à chaque appel.
+
         self._number_start_tokens: list[int] | None = None
 
     def token_to_str(self, token_id: int) -> str:
-        """Convertit un ID de token vers sa représentation textuelle."""
         return self.vocab_inverted[token_id]
 
     def str_to_token(self, text: str) -> int:
-        """Convertit un token (chaîne) vers son ID entier correspondant."""
         return self.vocab[text]
 
     def find_tokens_with_prefix(self, prefix: str) -> list[int]:
-        """Retourne tous les IDs de tokens dont la représentation textuelle
-        commence par `prefix`."""
         return [
             token_id for token_id, text in self.vocab_inverted.items()
             if text.startswith(prefix)
         ]
 
     def number_start_tokens(self) -> list[int]:
-        """Retourne le cache des tokens pouvant débuter un nombre JSON."""
         if self._number_start_tokens is None:
             tokens: set[int] = set()
             for digit in range(10):
@@ -85,23 +56,11 @@ class VocabularyMapper:
 
 
 class FunctionTrie:
-    """
-    Arbre de préfixes (Trie) utilisé pour contraindre la génération du nom
-    de fonction.
-
-    Garantit que le LLM ne génère que des noms de fonctions présents dans
-    les définitions fournies.
-    """
     def __init__(self) -> None:
-        """Initialise une racine de Trie vide."""
         self.root: TrieNode = {
             "children": {}, "is_end": False, "fn_name": None}
 
     def insert(self, tokens: list[int], fn_name: str) -> None:
-        """
-        Insère une séquence de tokens représentant un nom de fonction
-        dans le Trie.
-        """
         current_node = self.root
 
         for token in tokens:
@@ -117,10 +76,6 @@ class FunctionTrie:
         current_node["fn_name"] = fn_name
 
     def get_valid_tokens(self, token_generated: list[int]) -> list[int]:
-        """
-        Retourne la liste des tokens suivants valides selon le chemin
-        de génération courant.
-        """
         current_node = self.root
 
         for token in token_generated:
@@ -131,14 +86,6 @@ class FunctionTrie:
         return list(current_node["children"].keys())
 
     def is_function_complete(self, tokens: list[int]) -> bool:
-        """
-        Vérifie si la séquence de tokens forme un nom de fonction
-        complet et valide.
-
-        Retourne True uniquement quand le chemin se termine sur une feuille,
-        afin que les noms de fonctions partageant un préfixe avec des noms
-        plus longs ne soient pas tronqués prématurément.
-        """
         current_node = self.root
         for token in tokens:
             if token in current_node["children"]:
@@ -148,10 +95,6 @@ class FunctionTrie:
         return current_node["is_end"] and not current_node["children"]
 
     def get_fn_name(self, tokens: list[int]) -> str | None:
-        """
-        Récupère le nom complet de la fonction associée à une séquence
-        de tokens.
-        """
         current_node = self.root
 
         for token in tokens:
@@ -165,17 +108,6 @@ class FunctionTrie:
 def build_trie(
     functions: list[FunctionDefinition], model: Small_LLM_Model
 ) -> FunctionTrie:
-    """
-    Construit un FunctionTrie à partir d'une liste de définitions de
-    fonctions valides.
-
-    Arguments :
-        functions : Liste des définitions de fonctions autorisées.
-        model : Le modèle LLM utilisé pour encoder les noms en tokens.
-
-    Retourne :
-        Un objet FunctionTrie peuplé.
-    """
     trie = FunctionTrie()
 
     for function in functions:
@@ -186,12 +118,6 @@ def build_trie(
 
 def _argmax_masked(
         logits: list[float], valid_tokens: list[int]) -> int:
-    """
-    Retourne l'index du logit maximal restreint à `valid_tokens`.
-
-    Plus efficace que de construire un vecteur masqué complet quand
-    l'ensemble valide est petit comparé au vocabulaire.
-    """
     best_token = valid_tokens[0]
     best_logit = logits[best_token]
     for token_id in valid_tokens:
@@ -205,21 +131,7 @@ def select_function(
         prompt: str,
         model: Small_LLM_Model,
         trie: FunctionTrie) -> str | None:
-    """
-    Génère un nom de fonction valide token par token via constrained decoding.
 
-    À chaque étape, seuls les tokens enfants du noeud courant du trie sont
-    autorisés ; tous les autres sont implicitement masqués via
-    _argmax_masked.
-
-    Arguments :
-        prompt : La requête en langage naturel.
-        model : L'instance du LLM.
-        trie : Le Trie contenant les noms de fonctions valides.
-
-    Retourne :
-        Le nom de la fonction sélectionnée sous forme de chaîne.
-    """
     input_ids: list[int] = model.encode(prompt).tolist()[0]
     tokens_generated: list[int] = []
 
@@ -239,21 +151,46 @@ def select_function(
     return result
 
 
+def _extract_values_from_prompt(prompt: str) -> dict[str, list[str | float]]:
+
+    strings = []
+    numbers = []
+
+    single_quoted = re.findall(r"'([^']*)'", prompt)
+    strings.extend(single_quoted)
+
+    double_quoted = re.findall(r'"([^"]*)"', prompt)
+    strings.extend(double_quoted)
+
+    number_matches = re.findall(r'-?\d+\.?\d*', prompt)
+    numbers = [float(n) if '.' in n else int(n) for n in number_matches]
+
+    return {"strings": strings, "numbers": numbers}
+
+
 def _build_arg_prompt(
         base_prompt: str,
         param_name: str,
-        param_type: str) -> str:
-    """
-    Construit un sous-prompt qui pousse le modèle à émettre la valeur
-    d'un seul argument. Le décodeur contraint garantit toujours le format,
-    mais un prompt plus clair améliore la qualité de la sélection.
-    """
-    return (
+        param_type: str,
+        extracted_values: dict[str, list] | None = None) -> str:
+
+    prompt_text = (
         f"{base_prompt}\n"
         f"Extrais la valeur de l'argument '{param_name}' "
         f"de type {param_type}. "
         f"Réponds uniquement avec la valeur :\n"
     )
+
+    # Ajouter un indice si on a trouvé des valeurs pertinentes
+    if extracted_values:
+        if param_type == "string" and extracted_values.get("strings"):
+            hint = extracted_values["strings"][0]
+            prompt_text += f"Exemple: {hint}\n"
+        elif param_type == "number" and extracted_values.get("numbers"):
+            hint = extracted_values["numbers"][0]
+            prompt_text += f"Exemple: {hint}\n"
+
+    return prompt_text
 
 
 def generate_argument(
@@ -262,24 +199,16 @@ def generate_argument(
         model: Small_LLM_Model,
         mapper: VocabularyMapper,
         param_name: str = "") -> str | float | bool:
-    """
-    Génère un argument de fonction contraint par un type de donnée spécifique.
 
-    Arguments :
-        prompt : Le prompt de contexte pour l'argument.
-        param_type : Le type requis (boolean, number, string).
-        model : L'instance du LLM.
-        mapper : VocabularyMapper pour valider les tokens autorisés.
-        param_name : Nom optionnel du paramètre généré, utilisé pour
-                    affiner le prompt envoyé au modèle.
+    extracted_values = _extract_values_from_prompt(prompt)
 
-    Retourne :
-        La valeur générée pour l'argument dans son type Python correct.
+    if param_type == "string" and extracted_values.get("strings"):
+        return extracted_values["strings"][0]
 
-    Lève :
-        ValueError : si un type de paramètre non supporté est fourni.
-    """
-    full_prompt = _build_arg_prompt(prompt, param_name, param_type) \
+    if param_type == "number" and extracted_values.get("numbers"):
+        return float(extracted_values["numbers"][0])
+
+    full_prompt = _build_arg_prompt(prompt, param_name, param_type, extracted_values) \
         if param_name else prompt
 
     if param_type == "boolean":
@@ -293,19 +222,16 @@ def generate_argument(
         return mapper.token_to_str(max_token) == "true"
 
     if param_type == "number":
-        # Tokens pouvant débuter un nombre (chiffres ou signe moins).
+
         start_tokens = mapper.number_start_tokens()
         input_ids = model.encode(full_prompt).tolist()[0]
         number_tokens: list[int] = []
-        # Le premier token doit débuter un nombre.
+
         logits = model.get_logits_from_input_ids(input_ids)
         first = _argmax_masked(logits, start_tokens)
         number_tokens.append(first)
         input_ids.append(first)
-        # Les tokens suivants peuvent prolonger le nombre (chiffres ou '.').
-        # On utilise un argmax non contraint et on s'arrête dès que le modèle
-        # émet un token dont la chaîne décodée n'est pas faite de chiffres,
-        # de '.' ou de '-'.
+
         while True:
             logits = model.get_logits_from_input_ids(input_ids)
             max_token = max(range(len(logits)), key=lambda i: logits[i])
@@ -314,24 +240,27 @@ def generate_argument(
                 break
             number_tokens.append(max_token)
             input_ids.append(max_token)
-        return float(model.decode(number_tokens))
+        decoded = model.decode(number_tokens).strip()
+        try:
+            return float(decoded)
+        except ValueError:
+
+            return 0.0
 
     if param_type == "string":
-        # Génération libre jusqu'à ce que le modèle émette un token
-        # contenant le caractère terminateur d'une chaîne JSON.
+
         input_ids = model.encode(full_prompt).tolist()[0]
         string_tokens: list[int] = []
         while True:
             logits = model.get_logits_from_input_ids(input_ids)
             max_token = max(range(len(logits)), key=lambda i: logits[i])
             text = mapper.vocab_inverted.get(max_token, "")
-            # Stop sur un guillemet, un retour à la ligne ou un token vide
-            # pour garder la chaîne courte et bien formée.
+
             if not text or '"' in text or "\n" in text:
                 break
             string_tokens.append(max_token)
             input_ids.append(max_token)
-            # Plafond strict pour éviter une génération qui s'emballe.
+
             if len(string_tokens) >= 64:
                 break
         return model.decode(string_tokens).strip()
