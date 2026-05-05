@@ -1,20 +1,15 @@
-# --- Project Name ----
 NAME        = call_me_maybe
 
-# --- Executables and Paths ---
-# HF_HOME redirects model weights to /goinfre to avoid filling the home quota.
-PYTHON = HF_HOME=/goinfre/omischle/hf-cache uv run python
-UV_CACHE_DIR ?= /goinfre/omischle/uv-cache
+PYTHON = HF_HOME=/goinfre/$(USER)/hf-cache uv run python
+UV_CACHE_DIR ?= /goinfre/$(USER)/uv-cache
 export UV_CACHE_DIR
 
-# --- Colors for Terminal ---
 GREEN        = \033[0;32m
 RED          = \033[0;31m
 YELLOW       = \033[0;33m
 CYAN         = \033[0;36m
 RESET        = \033[0m
 
-# --- Main rules ---
 all: install
 
 install:
@@ -34,7 +29,6 @@ clean:
 	rm -rf .pytest_cache .mypy_cache
 	find . -type d -name "__pycache__" -prune -exec rm -rf {} +
 
-# --- Linting (Code Quality) ---
 lint:
 	@echo "$(GREEN)Running flake8...$(RESET)"
 	-$(PYTHON) -m flake8 .

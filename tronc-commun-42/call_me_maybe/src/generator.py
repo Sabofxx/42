@@ -11,53 +11,39 @@ from src.constrained_dec import (
 )
 from src.models import FunctionCallResult, FunctionDefinition
 
-if TYPE_CHECKING:  # pragma: no cover - import utilisé uniquement pour le typage
+if TYPE_CHECKING:
     from llm_sdk import Small_LLM_Model
 
 
 class FunctionCaller:
-    """
-    Orchestre le pipeline de sélection de fonction et de génération d'arguments.
-
-    Utilise le constrained decoding pour sélectionner la bonne fonction et
-    générer chaque argument selon le schéma de la fonction.
-    """
     def __init__(
             self,
             model: Small_LLM_Model,
             mapper: VocabularyMapper,
             trie: FunctionTrie,
             functions: list[FunctionDefinition]) -> None:
-        """
-        Initialise le générateur avec les composants LLM et de décodage.
-
-        Arguments :
-            model : L'instance du modèle LLM.
-            mapper : Utilitaire pour convertir entre tokens et chaînes.
-            trie : Arbre de préfixes contenant les noms de fonctions valides.
-            functions : Liste des schémas de fonctions disponibles.
-        """
         self.model = model
         self.mapper = mapper
         self.trie = trie
         self.functions = functions
 
+    def _build_selection_context(self, prompt: str) -> str:
+        lines = [
+            "You are a function-calling router. "
+            "Pick the single best function to handle the user request.",
+            "",
+            "Available functions:",
+        ]
+        for fn in self.functions:
+            lines.append(f"- {fn.name}: {fn.description}")
+        lines.append("")
+        lines.append(f"User request: {prompt}")
+        lines.append("Function name to call:")
+        return "\n".join(lines)
+
     def call(self, prompt: str) -> FunctionCallResult:
-        """
-        Traite un prompt pour retourner un appel de fonction structuré.
-
-        Sélectionne d'abord le nom de la fonction puis génère itérativement
-        chaque argument selon le schéma de la fonction identifiée.
-
-        Arguments :
-            prompt : La requête en langage naturel de l'utilisateur.
-
-        Retourne :
-            Un objet FunctionCallResult avec les clés 'prompt', 'fn_name'
-            et 'args' comme exigé par le sujet (Section V.4).
-        """
-        # Étape 1 : identifier la fonction à appeler via constrained decoding
-        fn_name = select_function(prompt, self.model, self.trie)
+        selection_prompt = self._build_selection_context(prompt)
+        fn_name = select_function(selection_prompt, self.model, self.trie)
         if fn_name is None:
             raise ValueError(
                 f"Impossible de sélectionner une fonction pour le prompt : {prompt}")
@@ -71,7 +57,6 @@ class FunctionCaller:
         if selected_function is None:
             raise ValueError(f"Fonction {fn_name} introuvable dans les définitions")
         parameters: dict[str, str | float | bool] = {}
-        # Étape 2 : générer chaque argument selon son type défini
         for param_name, param_type in selected_function.parameters.items():
             value = generate_argument(
                 prompt, param_type.type, self.model, self.mapper,
