@@ -1,0 +1,39 @@
+Nombre del ejercicio 	: py_constellation_mapper
+Archivos esperados   	: py_constellation_mapper.py
+Funciones permitidas	: Ninguna
+--------------------------------------------------------------------------------
+
+Escribe una función que represente una constelación de estrellas sobre una cuadrícula y 
+devuelva su representación visual como una lista de cadenas.
+
+Tu función debe declararse de la siguiente manera:
+
+def constellation_mapper(stars: list[tuple[int, int]], size: int) -> list[str]:
+
+La función debe:
+- Recibir una lista de coordenadas de estrellas en forma de tuplas (fila, columna) y el tamaño de la cuadrícula como un entero
+- Devolver una lista de cadenas que represente la cuadrícula
+- Las estrellas se representan con '*' y los espacios vacíos con '.'
+Las coordenadas de la cuadrícula comienzan en (0, 0) en la esquina superior izquierda
+- Ignorar las coordenadas que estén fuera de los límites de la cuadrícula
+- Manejar coordenadas duplicadas (la estrella solo aparece una vez)
+
+Ejemplos:
+
+Entrada: constellation_mapper([(0, 0), (1, 1), (2, 2)], 3)
+Salida: ['*..', '.*.', '..*']
+
+Entrada: constellation_mapper([(1, 1), (0, 1), (2, 1), (1, 0), (1, 2)], 3)
+Salida: ['.*.', '***', '.*.']
+
+Entrada: constellation_mapper([], 2)
+Salida: ['..', '..']
+
+Entrada: constellation_mapper([(0, 0), (0, 0), (1, 1)], 2)
+Salida: ['*.', '.*']
+
+Entrada: constellation_mapper([(0, 0), (5, 5)], 3)
+Salida: ['*..', '...', '...']
+
+Entrada: constellation_mapper([(1, 0), (1, 1), (1, 2)], 3)
+Salida: ['...', '***', '...']
