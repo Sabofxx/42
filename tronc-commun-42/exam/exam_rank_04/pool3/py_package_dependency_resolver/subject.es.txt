@@ -1,0 +1,84 @@
+Nombre del ejercicio: py_package_dependency_resolver
+Archivos esperados  : py_package_dependency_resolver.py
+Funciones permitidas: Ninguna
+--------------------------------------------------------------------------------
+
+Escribe una función que determine un orden válido de instalación de paquetes resolviendo dependencias. 
+Usa un ordenamiento topológico para asegurar que las dependencias se instalen antes 
+que los paquetes que las requieren.
+
+Tu función debe declararse de la siguiente forma:
+
+def package_dependency_resolver(packages: dict[str, list[str]]) -> list[str]:
+
+La función debe:
+- Recibir un diccionario donde las claves son nombres de paquetes y los valores son listas de dependencias
+- Devolver los paquetes en orden de instalación (primero las dependencias)
+- Devolver una lista vacía si no existe un orden válido (dependencias circulares)
+- Manejar entrada vacía y cadenas de dependencias aisladas
+- Ignorar referencias a paquetes que no estén en el diccionario de entrada
+
+Requisitos del algoritmo:
+- Usar ordenamiento topológico (por ejemplo, el algoritmo de Kahn)
+- Procesar primero los paquetes sin dependencias pendientes
+- Asegurar una salida determinista cuando existan múltiples órdenes válidos
+
+Ejemplos:
+
+Entrada: package_dependency_resolver({
+    "app": ["database"],
+    "database": ["driver"],
+    "driver": []
+})
+Salida: ["driver", "database", "app"]
+Dependencias: driver → database → app
+
+Entrada: package_dependency_resolver({
+    "A": [],
+    "B": ["A"],
+    "C": ["A", "B"]
+})
+Salida: ["A", "B", "C"]
+# A no tiene deps, B necesita A, C necesita A y B
+
+Entrada: package_dependency_resolver({})
+Salida: []
+# Entrada vacía
+
+Entrada: package_dependency_resolver({
+    "X": ["Y"],
+    "Y": ["X"]
+})
+Salida: []
+# Dependencia circular: X necesita Y, Y necesita X
+
+Entrada: package_dependency_resolver({
+    "web": [],
+    "api": [],
+    "frontend": ["web"],
+    "backend": ["api"]
+})
+Salida: ["api", "web", "backend", "frontend"]
+# Dos cadenas independientes: api→backend y web→frontend
+
+Casos límite a manejar:
+- Entrada vacía: debe devolver lista vacía
+- Paquetes sin dependencias: debe incluirlos primero en la salida
+- Múltiples cadenas independientes: debe procesar todas
+- Dependencias circulares: debe devolver lista vacía
+- Dependencias inexistentes: debe ignorar paquetes ausentes
+- Autodependencias: debe devolver lista vacía
+
+Notas:
+- Para una salida determinista, procesa los paquetes en orden alfabético cuando haya varias opciones
+- Un paquete no puede instalarse hasta que todas sus dependencias estén instaladas
+- Si existe cualquier dependencia circular, no es posible obtener un orden de instalación válido
+
+Ejemplo de test::
+python3 main.py '{"app": ["database"], "database": ["driver"], "driver": []}'
+# Salida esperada: driver database app
+
+import json
+packages = json.loads('{"app": ["database"], "database": ["driver"], "driver": []}')
+result = package_dependency_resolver(packages)
+print(' '.join(result))  # Salida: driver database app

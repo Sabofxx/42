@@ -1,0 +1,41 @@
+Nombre del ejercicio: py_list_intersection_finder
+Archivos esperados  : py_list_intersection_finder.py
+Funciones permitidas: Ninguna
+--------------------------------------------------------------------------------
+
+Escribe una función que encuentre la intersección de múltiples listas ordenadas.
+Devuelve una nueva lista que contenga los elementos que aparecen en TODAS las listas de entrada, en orden ascendente.
+
+Tu función debe declararse de la siguiente manera:
+
+def list_intersection_finder(lists: list[list[int]]) -> list[int]:
+
+La función debe:
+- Devolver los elementos que aparecen en TODAS las listas
+- El resultado debe estar ordenado de forma ascendente
+- Eliminar los duplicados del resultado
+- Manejar correctamente entradas vacías o listas vacías
+- Si alguna lista está vacía, la intersección es vacía
+
+Ejemplos:
+
+Entrada: list_intersection_finder([[1, 2, 3], [2, 3, 4], [2, 3, 5]])
+Salida: [2, 3]
+
+Entrada: list_intersection_finder([[1, 2, 3, 4], [2, 4, 6, 8], [4, 8, 12]])
+Salida: [4]
+
+Entrada: list_intersection_finder([[1, 2, 3], [4, 5, 6]])
+Salida: []
+
+Entrada: list_intersection_finder([[1, 1, 2, 3], [1, 2, 2, 3], [1, 2, 3, 3]])
+Salida: [1, 2, 3]
+
+Entrada: list_intersection_finder([])
+Salida: []
+
+Entrada: list_intersection_finder([[1, 2, 3], []])
+Salida: []
+
+Entrada: list_intersection_finder([[5]])
+Salida: [5]

@@ -1,0 +1,40 @@
+Nombre del ejercicio: py_sliding_window_maximum
+Ficheros esperados  : py_sliding_window_maximum.py
+Funciones permitidas: Ninguna
+--------------------------------------------------------------------------------
+
+Escribe una función que encuentre el elemento máximo en cada ventana deslizante de tamaño k dentro de un array. Devuelve una lista con los valores máximos correspondientes a cada posición de la ventana.
+
+Tu función debe declararse de la siguiente manera:
+
+def sliding_window_maximum(nums: list[int], k: int) -> list[int]:
+
+La función debe:
+- Deslizar una ventana de tamaño k a lo largo del array
+- Encontrar el elemento máximo en cada posición de la ventana
+- Devolver una lista con los valores máximos
+- Manejar casos límite (array vacío, k <= 0, k > longitud del array)
+- Devolver una lista vacía para entradas inválidas
+
+Ejemplos:
+
+Entrada: sliding_window_maximum([1, 3, -1, -3, 5, 3, 6, 7], 3)
+Salida: [3, 3, 5, 5, 6, 7]
+
+Entrada: sliding_window_maximum([1, 2, 3, 4, 5], 2)
+Salida: [2, 3, 4, 5]
+
+Entrada: sliding_window_maximum([5, 4, 3, 2, 1], 1)
+Salida: [5, 4, 3, 2, 1]
+
+Entrada: sliding_window_maximum([1, 2, 3], 3)
+Salida: [3]
+
+Entrada: sliding_window_maximum([1, 2, 3], 4)
+Salida: []
+
+Entrada: sliding_window_maximum([], 2)
+Salida: []
+
+Entrada: sliding_window_maximum([1, 2, 3], 0)
+Salida: []
