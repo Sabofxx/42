@@ -1,0 +1,14 @@
+
+Description of the Kahn's algorithm
+
+Kahn’s algorithm is a well-known approach for computing a topological ordering of a directed
+acyclic graph (DAG). The main idea is to process the graph by always selecting nodes that have
+no incoming edges, which means they do not depend on any other nodes. At the beginning, the
+algorithm computes the in-degree of each node, defined as the number of edges entering that
+node. All nodes with an in-degree of zero are placed into a queue or set. The algorithm then
+repeatedly removes one node from this set, appends it to the topological order, and removes all
+of its outgoing edges from the graph. When an outgoing edge is removed, the in-degree of the
+destination node is decreased; if this in-degree becomes zero, the node is added to the set.
+The algorithm continues until there are no nodes left to process. If all nodes are included in
+the result, the graph is acyclic and the ordering is valid; otherwise, the presence of remaining
+edges indicates a cycle.

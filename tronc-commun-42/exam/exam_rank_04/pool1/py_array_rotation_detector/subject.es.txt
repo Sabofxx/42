@@ -1,0 +1,44 @@
+Nombre del ejercicio  	: py_array_rotation_detector
+Archivos esperados   	: py_array_rotation_detector.py
+Funciones permitidas	: Ninguna
+--------------------------------------------------------------------------------
+
+Escribe una función que determine si un array es una rotación de otro array.
+Una rotación significa que el array ha sido desplazado de forma circular hacia la izquierda o hacia la derecha.
+
+Tu función debe declararse de la siguiente manera:
+
+def array_rotation_detector(arr1: list[int], arr2: list[int]) -> bool:
+
+La función debe:
+- Comprobar si arr2 es una rotación de arr1
+- Manejar arrays de distintas longitudes (debe devolver False)
+- Manejar arrays vacíos (dos arrays vacíos son rotaciones)
+- Tener en cuenta que una rotación puede ser de 0 posiciones (mismo array)
+- Considerar rotaciones tanto a la izquierda como a la derecha
+
+Ejemplos:
+
+Entrada: array_rotation_detector([1, 2, 3, 4, 5], [3, 4, 5, 1, 2])
+Salida: True
+
+Entrada: array_rotation_detector([1, 2, 3, 4, 5], [4, 5, 1, 2, 3])
+Salida: True
+
+Entrada: array_rotation_detector([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
+Salida: True
+
+Entrada: array_rotation_detector([1, 2, 3, 4, 5], [2, 3, 4, 5, 1])
+Salida: True
+
+Entrada: array_rotation_detector([1, 2, 3], [1, 3, 2])
+Salida: False
+
+Entrada: array_rotation_detector([1, 2, 3], [1, 2])
+Salida: False
+
+Entrada: array_rotation_detector([], [])
+Salida: True
+
+Entrada: array_rotation_detector([1, 1, 1], [1, 1, 1])
+Salida: True

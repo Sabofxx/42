@@ -1,0 +1,47 @@
+Nombre del ejercicio: py_palindrome_partitioner
+Archivos esperados  : py_palindrome_partitioner.py
+Funciones permitidas: Ninguna
+--------------------------------------------------------------------------------
+
+Escribe una función que encuentre el número mínimo de cortes necesarios para dividir una cadena de forma que cada subcadena resultante sea un palíndromo.
+
+Tu función debe declararse de la siguiente manera:
+
+def palindrome_partitioner(s: str) -> int:
+
+La función debe:
+- Encontrar el número mínimo de cortes para que todas las partes sean palíndromos
+- Devolver el número de cortes necesarios (no el número de partes)
+- Manejar cadenas vacías (devolver 0)
+- Los caracteres individuales se considerarán palíndromos
+- La comprobación de palíndromos es sensible a mayúsculas y minúsculas
+
+Ejemplos:
+
+Entrada: palindrome_partitioner("aab")
+Salida: 1
+# Corte: "a|ab" -> "a" y "ab" (pero "ab" no es palíndromo)
+# Corte: "aa|b" -> "aa" y "b" (ambos son palíndromos) - 1 corte
+
+Entrada: palindrome_partitioner("aba")
+Salida: 0
+# "aba" ya es un palíndromo - 0 cortes
+
+Entrada: palindrome_partitioner("abcba")
+Salida: 0
+# "abcba" ya es un palíndromo - 0 cortes
+
+Entrada: palindrome_partitioner("abcd")
+Salida: 3
+# "a|b|c|d" -> 3 cortes necesarios
+
+Entrada: palindrome_partitioner("aabaa")
+Salida: 0
+# "aabaa" ya es un palíndromo - 0 cortes necesarios
+
+Entrada: palindrome_partitioner("abac")
+Salida: 1
+# "aba|c" -> 1 corte necesario ("aba" y "c" son palíndromos)
+
+Entrada: palindrome_partitioner("")
+Salida: 0
