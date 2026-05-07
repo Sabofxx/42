@@ -43,11 +43,11 @@ def list_intersection_finder(lists: list[list[int]]) -> list[int]:
     if lists == []:
         return []
     s = []
-    for n in lists[0]:
+    for n in lists:
         in_all = True
-        for l in lists[1:]:
+        for l in lists:
             if n not in l:
-                return False
-            if in_all == True and n not in s:
+                in_all = False
+        if in_all == True and n not in s:
                 s.append(n)
     return sorted(s)

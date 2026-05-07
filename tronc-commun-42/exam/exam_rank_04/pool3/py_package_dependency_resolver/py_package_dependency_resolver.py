@@ -2,26 +2,26 @@ def package_dependency_resolver(packages: dict[str, list[str]]) -> list[str]:
     if not packages:
         return []
 
-    deps = {}
-    for name, dependencies in packages.items():
-        deps[name] = [d for d in dependencies if d in packages]
+    # Filtrer les dépendances inexistantes
+    deps = {name: [d for d in dependencies if d in packages]
+            for name, dependencies in packages.items()}
 
-    count = {}
-    for name in deps:
-        count[name] = len(deps[name])
+    # Compter les dépendances de chaque package
+    count = {name: len(d) for name, d in deps.items()}
 
-    heap = sorted([name for name, c in count.items() if c == 0])
+    # File triée alphabétiquement (déterministe)
+    heap = sorted(name for name, c in count.items() if c == 0)
 
     result = []
     while heap:
         current = heap.pop(0)
         result.append(current)
-
         for name, dependencies in deps.items():
             if current in dependencies:
                 count[name] -= 1
                 if count[name] == 0:
                     heap.append(name)
+        heap.sort()  # Maintenir l'ordre alphabétique
 
     return result if len(result) == len(packages) else []
 
