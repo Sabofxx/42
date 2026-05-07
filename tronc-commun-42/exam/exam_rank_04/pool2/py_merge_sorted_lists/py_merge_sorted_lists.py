@@ -31,7 +31,7 @@ def merge_sorted_lists(lists: list[list[int]]) -> list[int]:
 
 def merge_sorted_lists(lists: list[list[int]]) -> list[int]:
     new = []
-    for l in lists:
-        for n in l:
-            new.append(n)
+    for n in lists:
+        for l in n:
+            new.append(l)
     return sorted(new)
