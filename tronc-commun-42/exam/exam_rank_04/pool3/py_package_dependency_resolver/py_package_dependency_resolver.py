@@ -8,28 +8,23 @@ def package_dependency_resolver(packages: dict[str, list[str]]) -> list[str]:
         deps[name] = [d for d in dependencies if d in packages]
 
     # In-degree de chaque noeud
-    in_degree = {}
-    for name, dependencies in deps.items():
-        in_degree[name] = len(dependencies)
+    in_degree = {name: len(d) for name, d in deps.items()}
 
     # File initiale : noeuds sans dependance, alphabetique
-    queue = []
-    for name in in_degree:
-        if in_degree[name] == 0:
-            queue.append(name)
-    queue.sort()
-
+    queue = sorted(name for name, deg in in_degree.items() if deg == 0)
     result = []
+
+    # BFS niveau par niveau (chaque "vague" alphabetique avant la suivante)
     while queue:
-        current = queue.pop(0)
-        result.append(current)
-        # Decrementer les noeuds qui dependent de current
-        for name, dependencies in deps.items():
-            if current in dependencies:
-                in_degree[name] -= 1
-                if in_degree[name] == 0:
-                    queue.append(name)
-        queue.sort()
+        next_queue = []
+        for current in queue:
+            result.append(current)
+            for name, dependencies in deps.items():
+                if current in dependencies:
+                    in_degree[name] -= 1
+                    if in_degree[name] == 0:
+                        next_queue.append(name)
+        queue = sorted(next_queue)
 
     # Cycle ? len(result) != len(packages)
     if len(result) != len(packages):
