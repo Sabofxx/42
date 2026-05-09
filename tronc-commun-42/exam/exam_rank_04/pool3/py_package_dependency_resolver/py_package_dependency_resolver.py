@@ -2,28 +2,40 @@ def package_dependency_resolver(packages: dict[str, list[str]]) -> list[str]:
     if not packages:
         return []
 
-    # Filtrer les dépendances inexistantes
-    deps = {name: [d for d in dependencies if d in packages]
-            for name, dependencies in packages.items()}
+    # Filtrer les dependances qui ne sont pas dans le dict
+    deps = {}
+    for name, dependencies in packages.items():
+        deps[name] = [d for d in dependencies if d in packages]
 
-    # Compter les dépendances de chaque package
-    count = {name: len(d) for name, d in deps.items()}
+    # In-degree de chaque noeud
+    in_degree = {}
+    for name, dependencies in deps.items():
+        in_degree[name] = len(dependencies)
 
-    # File triée alphabétiquement (déterministe)
-    heap = sorted(name for name, c in count.items() if c == 0)
+    # File initiale : noeuds sans dependance, alphabetique
+    queue = []
+    for name in in_degree:
+        if in_degree[name] == 0:
+            queue.append(name)
+    queue.sort()
 
     result = []
-    while heap:
-        current = heap.pop(0)
+    while queue:
+        current = queue.pop(0)
         result.append(current)
+        # Decrementer les noeuds qui dependent de current
         for name, dependencies in deps.items():
             if current in dependencies:
-                count[name] -= 1
-                if count[name] == 0:
-                    heap.append(name)
-        heap.sort()  # Maintenir l'ordre alphabétique
+                in_degree[name] -= 1
+                if in_degree[name] == 0:
+                    queue.append(name)
+        queue.sort()
 
-    return result if len(result) == len(packages) else []
+    # Cycle ? len(result) != len(packages)
+    if len(result) != len(packages):
+        return []
+    return result
+
 
 # res = package_dependency_resolver({"app": ["database"], "database": ["driver"], "driver": []})
 # print(f"excepted: [\"driver\", \"database\", \"app\"]")

@@ -1,14 +1,16 @@
 def constellation_mapper(stars: list[tuple[int, int]], size: int) -> list[str]:
+    star_set = set(stars)
     grid = []
-    for x in range(size):
-        line = ""
-        for y in range(size):
-            if (x, y) in stars:
-                line += "*"
+    for r in range(size):
+        row = ""
+        for c in range(size):
+            if (r, c) in star_set:
+                row += "*"
             else:
-                line += "."
-        grid.append(line)
+                row += "."
+        grid.append(row)
     return grid
+
 
 # res = constellation_mapper([(0, 0), (1, 1), (2, 2)], 3)
 # print(f"excepted: ['*..', '.*.', '..*']")
@@ -32,15 +34,4 @@ def constellation_mapper(stars: list[tuple[int, int]], size: int) -> list[str]:
 
 # res = constellation_mapper([(1, 0), (1, 1), (1, 2)], 3)
 # print(f"excepted: ['...', '***', '...']")
-
-def constellation_mapper(stars: list[tuple[int, int]], size: int) -> list[str]:
-    grid = []
-    for x in range(size):
-        result = ""
-        for y in range(size):
-            if (x,y) in stars:
-                result += "*"
-            else:
-                result += "."
-        grid.append(result)
-    return grid
+# print(f"got: {res}\n")
