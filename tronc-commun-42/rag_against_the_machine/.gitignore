@@ -22,7 +22,3 @@ models/
 # OS
 .DS_Store
 Thumbs.db
-
-# Personal notes (not part of the submission)
-PREREQUIS.md
-CODE_EXPLAINED.md
