@@ -3,7 +3,6 @@ def list_intersection_finder(lists: list[list[int]]) -> list[int]:
         return []
     return sorted(set.intersection(*map(set, lists)))
 
-
 # res = list_intersection_finder([[1, 2, 3], [2, 3, 4], [2, 3, 5]])
 # print(f"excepted: [2, 3]")
 # print(f"got: {res}\n")
