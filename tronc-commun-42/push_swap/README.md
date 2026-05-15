@@ -1,5 +1,12 @@
 *This project has been created as part of the 42 curriculum by omischle.*
 
+# push_swap
+
+![C](https://img.shields.io/badge/C-99-A8B9CC?logo=c&logoColor=white)
+![Score](https://img.shields.io/badge/score-100%2F100-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-yellow)
+![42](https://img.shields.io/badge/42-Luxembourg-000000?logo=42)
+
 ## Description
 `push_swap` is a sorting project using two stacks (`a` and `b`) and a strict instruction set (`sa`, `sb`, `ss`, `pa`, `pb`, `ra`, `rb`, `rr`, `rra`, `rrb`, `rrr`).
 
