@@ -53,6 +53,17 @@ My complete journey through the **42 School** curriculum — from the Piscine to
 | [Exam Rank 03](tronc-commun-42/exam/exam_rank_03) | Python — string manipulation, matrices, base conversion, anagrams, balanced brackets, ciphers | `Python` | **100/100** |
 | [Exam Rank 04](tronc-commun-42/exam/exam_rank_04) | Python — sliding window, graph traversal, palindrome partitioning, dependency resolution | `Python` | **100/100** |
 
+## Featured standalone repositories
+
+Six flagship projects are also published as **standalone repositories** (pinned on my profile):
+
+- [**rag-against-the-machine**](https://github.com/Sabofxx/rag-against-the-machine) — RAG over the vLLM codebase, BM25 + dense MiniLM, RRF hybrid
+- [**call-me-maybe**](https://github.com/Sabofxx/call-me-maybe) — Constrained-decoding function-calling tool on Qwen3-0.6B
+- [**fly-in**](https://github.com/Sabofxx/fly-in) — Multi-drone routing simulator, modified Dijkstra + turn engine
+- [**A-Maze-ing**](https://github.com/Sabofxx/A-Maze-ing) — Maze generator, DFS + ANSI terminal UI
+- [**push-swap**](https://github.com/Sabofxx/push-swap) — Stack sorting in C, radix + chunk strategies
+- [**codexion**](https://github.com/Sabofxx/codexion) — Concurrent dining philosophers in C, deadlock-free
+
 ## Piscine
 
 The 26-day intensive C bootcamp that started it all.
