@@ -14,10 +14,6 @@ data/processed/
 data/output/
 data/datasets/
 *.log
-PREREQUIS.md
-CODE_EXPLAINED.md
-LEARN.md
-
 
 # Models cache
 .cache/
@@ -27,6 +23,7 @@ models/
 .DS_Store
 Thumbs.db
 
-# Explanation docs
-CODE_EXPLAINED.md
+# Personal learning docs (not part of the submission)
 PREREQUIS.md
+CODE_EXPLAINED.md
+LEARN.md
