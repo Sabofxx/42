@@ -33,8 +33,8 @@ class AnswerGenerator:
     def _load(self) -> None:
         if self._model is not None:
             return
-        from transformers import AutoModelForCausalLM, AutoTokenizer  # type: ignore
-        import torch  # type: ignore
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        import torch
 
         self._tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         dtype = torch.float16 if torch.cuda.is_available() else torch.float32
@@ -44,6 +44,7 @@ class AnswerGenerator:
             device_map="auto" if torch.cuda.is_available() else None,
         )
         if not torch.cuda.is_available():
+            assert self._model is not None
             self._model.to("cpu")
 
     def _format_context(self, chunks: List[Chunk]) -> str:
@@ -82,7 +83,7 @@ class AnswerGenerator:
             enable_thinking=False,
         )
         inputs = self._tokenizer(prompt, return_tensors="pt").to(self._model.device)
-        import torch  # type: ignore
+        import torch
 
         with torch.no_grad():
             output = self._model.generate(

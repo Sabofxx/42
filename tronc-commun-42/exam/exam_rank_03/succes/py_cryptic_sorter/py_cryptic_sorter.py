@@ -2,7 +2,7 @@ def py_cryptic_sorter(strings: list[str]) -> list[str]:
     def vowel_count(s):
         return sum(1 for c in s if c in "aeiouAEIOU")
 
-    return sorted(strings, key=lambda s: (len(s), s.lower(), vowel_count(s), s))
+    return sorted(strings, key=lambda s: (len(s), s.lower(), vowel_count(s)))
 
 
 def main() -> None:
