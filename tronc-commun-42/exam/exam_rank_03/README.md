@@ -1,59 +1,56 @@
-# Exam - Python Common Core
+# Exam Rank 03 — Python
 
-A collection of common Milestone 3 (Rank 03) exam exercises from the 42 Common Core, implemented in Python. This repository is designed to help you practice problem-solving, string manipulation, data structures, and core algorithms similar to those found in the actual exam.
+42 Common Core **Milestone 3** exam (Python). One assignment is drawn at random
+from a pool; the goal is to solve it within the allotted time, with a passing
+test suite, from a clean clone in the exam environment.
 
----
+The `succes/` directory contains my passing solutions for the exercises I drew
+during practice / actual attempts.
 
-## Project Structure
+## Solutions
 
-```
-42_Exam_Rank03/
-├── alternate_case/
-├── atoi/
-├── brackets/
-├── capitalize_words/
-├── convert_base/
-├── merge_and_sort_desc/
-├── mirror_matrix/
-├── mirror_matrix_vertical/
-├── rotate_90/
-├── sorted/
-├── valid_anagram/
-├── valid_palindrome/
-├── whisper_lipher/
-└── README.md
-```
-Each folder contains:
-*.py → Python implementation
-* subject.md / subject_EN.md / subject_ES.md → exercise description
----
+Each exercise lives in `succes/<name>/<name>.py` with a `main()` that prints
+the expected outputs for the official test cases.
 
-## Exercises
+| Exercise | What it does |
+|---|---|
+| [`py_bracket_validator`](succes/py_bracket_validator) | Stack-based check that `()`, `[]`, `{}` brackets are correctly nested |
+| [`py_cryptic_sorter`](succes/py_cryptic_sorter) | Sort strings by (length, case-insensitive value, vowel count) |
+| [`py_echo_validator`](succes/py_echo_validator) | Palindrome check ignoring case and non-alphabetic characters |
+| [`py_mirror_matrix`](succes/py_mirror_matrix) | Horizontally mirror a 2D matrix |
+| [`py_number_base_converter`](succes/py_number_base_converter) | Convert a string from base 2–36 to base 2–36, with input validation |
+| [`py_pattern_tracker`](succes/py_pattern_tracker) | Count pairs of adjacent digits where `b == a + 1` |
+| [`py_shadow_merge`](succes/py_shadow_merge) | Merge two integer lists and return the sorted result |
+| [`py_string_permutation_checker`](succes/py_string_permutation_checker) | Detect whether two strings are permutations of each other |
+| [`py_string_sculptor`](succes/py_string_sculptor) | Alternate lower/upper case per word, preserving non-letters |
+| [`py_twist_sequence`](succes/py_twist_sequence) | Rotate a list by `k` positions, modulo length |
+| [`py_whisper_cipher`](succes/py_whisper_cipher) | Custom character-shifting cipher |
 
-* ``atoi``- Convert a string to an integer without using int().
-* ``alternate_case`` - Alternate uppercase and lowercase characters in a string.
-* ``capitalize_words`` - Capitalize the first letter of each word.
-* ``valid_palindrome``- Check if a string is a palindrome (ignoring spaces and symbols).
-* ``valid_anagram`` - Check if two strings are anagrams.
-* ``brackets``- Validate whether brackets are correctly balanced.
-* ``convert_base``- Convert a number (as a string) from one base to another.
-* ``sorted``- Using sorted() with key=lambda.
-* ``merge_and_sort_desc`` - Merge lists and sort them in descending order.
-* ``mirror_matrix`` - Return a horizontally mirrored matrix.
-* ``mirror_matrix_vertical`` - Return a vertically mirrored matrix.
-* ``rotate_90``- Rotate a matrix 90 degrees.
-* ``whisper_lipher``- Different implementations of a custom "whisper" cipher.
-
----
-
-## Usage
+## Running a single exercise
 
 ```bash
-git clone https://github.com/<your-username>/42_Exam_Rank03.git
-cd 42_Exam_Rank03
-python3 <exercise>/<exercise>.py
+cd tronc-commun-42/exam/exam_rank_03/succes/py_bracket_validator
+python3 py_bracket_validator.py
 ```
+
+Each script prints the expected outputs from its embedded test cases — no
+external test runner required.
+
+## Practice setup
+
+`42ExamRank03_Simulator/` contains the local simulator used to draw a random
+assignment and reproduce the exam loop (clone → solve → grade) without an
+internet connection. See `EXAM_RANK_03_SIMULATOR_GUIDE.md` for usage.
+
+## Topics covered
+
+- String manipulation (case folding, filtering, ciphers)
+- 2D matrices (rotation, mirroring)
+- Stack-based parsing (balanced brackets)
+- Base conversion (integer ↔ arbitrary base 2–36)
+- Sorting with multi-key `key=lambda`
+- List rotation and merging
 
 ---
 
-*42 Luxembourg — Common Core · Python · Milestone 3*
+*42 Luxembourg — Common Core · Python · Milestone 3 · 100/100*
