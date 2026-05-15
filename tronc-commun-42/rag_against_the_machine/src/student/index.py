@@ -9,9 +9,11 @@ from __future__ import annotations
 
 import json
 import os
-import pickle
 from dataclasses import asdict
-from typing import Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+
+if TYPE_CHECKING:
+    from sentence_transformers import SentenceTransformer
 
 import numpy as np
 from tqdm import tqdm
@@ -21,7 +23,7 @@ from .ingest import collect_files
 from .tokenizer import tokenize, tokenize_batch
 
 try:
-    import bm25s  # type: ignore
+    import bm25s
 except ImportError as exc:  # pragma: no cover
     raise RuntimeError(
         "bm25s is required. Install it via `uv sync`."
@@ -62,7 +64,7 @@ class KnowledgeBase:
     ) -> "KnowledgeBase":
         """Walk ``repo_root``, chunk every file, build BM25 (and dense)."""
         print(f"[index] scanning {repo_root}")
-        files = collect_files(repo_root, relative_to=repo_root)
+        files = collect_files(repo_root, relative_to=".")
         print(f"[index] {len(files)} files to chunk")
 
         chunks: List[Chunk] = []
@@ -149,9 +151,9 @@ class KnowledgeBase:
             out.append((int(idx), float(score)))
         return out
 
-    def _get_embedder(self) -> object:
+    def _get_embedder(self) -> "SentenceTransformer":
         if self._embedder is None:
-            from sentence_transformers import SentenceTransformer  # type: ignore
+            from sentence_transformers import SentenceTransformer
 
             assert self.embedder_name is not None
             self._embedder = SentenceTransformer(self.embedder_name)
@@ -162,7 +164,7 @@ class KnowledgeBase:
         if self.dense_embeddings is None or self.embedder_name is None:
             return []
         embedder = self._get_embedder()
-        q_vec = embedder.encode([query], normalize_embeddings=True)  # type: ignore
+        q_vec = embedder.encode([query], normalize_embeddings=True)
         sims = self.dense_embeddings @ q_vec[0]
         top_n = min(k, len(self.chunks))
         idxs = np.argpartition(-sims, top_n - 1)[:top_n]
@@ -214,7 +216,7 @@ class KnowledgeBase:
 
 def _encode_corpus(chunks: List[Chunk], model_name: str) -> np.ndarray:
     """Encode chunks into normalized dense vectors."""
-    from sentence_transformers import SentenceTransformer  # type: ignore
+    from sentence_transformers import SentenceTransformer
 
     print(f"[index] loading embedder {model_name}")
     model = SentenceTransformer(model_name)
@@ -231,7 +233,3 @@ def _encode_corpus(chunks: List[Chunk], model_name: str) -> np.ndarray:
 
 
 __all__ = ["KnowledgeBase"]
-
-
-# Keep pickle out of the public API; reserved for future caches.
-_ = pickle  # noqa: F841
