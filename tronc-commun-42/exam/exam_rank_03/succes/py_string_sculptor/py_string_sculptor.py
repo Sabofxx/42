@@ -3,7 +3,6 @@
 
 def py_string_sculptor(text: str) -> str:
     result = ""
-<<<<<<< Updated upstream
     lower = True
 
     for c in text:
@@ -16,19 +15,6 @@ def py_string_sculptor(text: str) -> str:
             else:
                 result += c.upper()
             lower = not lower
-=======
-    lower_next = True
-    for c in text:
-        if c.isspace():
-            lower_next = True
-            result += c
-        elif c.isalpha():
-            if lower_next:
-                result += c.lower()
-            else:
-                result += c.upper()
-            lower_next = not lower_next
->>>>>>> Stashed changes
         else:
             result += c
     return result

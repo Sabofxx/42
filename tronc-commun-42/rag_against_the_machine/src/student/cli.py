@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Optional
 
 from tqdm import tqdm
 
@@ -127,7 +126,7 @@ class CLI:
             results.append(
                 MinimalSearchResults(
                     question_id=q.question_id,
-                    question=q.question,
+                    question_str=q.question,
                     retrieved_sources=retrieved,
                 )
             )
@@ -186,11 +185,11 @@ class CLI:
                 chunk = chunks_by_offset.get(key)
                 if chunk is not None:
                     ctx.append(chunk)
-            text = gen.generate(sr.question, ctx)
+            text = gen.generate(sr.question_str, ctx)
             answers.append(
                 MinimalAnswer(
                     question_id=sr.question_id,
-                    question=sr.question,
+                    question_str=sr.question_str,
                     retrieved_sources=sr.retrieved_sources,
                     answer=text,
                 )
@@ -227,6 +226,6 @@ class CLI:
 
 def main() -> None:
     """Entry point for ``python -m student``."""
-    import fire  # type: ignore
+    import fire
 
     fire.Fire(CLI)

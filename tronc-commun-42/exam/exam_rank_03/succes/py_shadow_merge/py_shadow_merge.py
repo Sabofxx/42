@@ -3,8 +3,7 @@
 
 def py_shadow_merge(list1: list[int], list2: list[int]) -> list[int]:
     merged = list1 + list2
-    merged.sort()
-    return merged
+    return sorted(merged)
 
 
 def main() -> None:
