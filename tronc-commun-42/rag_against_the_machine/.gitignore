@@ -22,3 +22,7 @@ models/
 # OS
 .DS_Store
 Thumbs.db
+
+# Explanation docs
+CODE_EXPLAINED.md
+PREREQUIS.md
