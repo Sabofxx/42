@@ -7,6 +7,8 @@
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 ![42](https://img.shields.io/badge/42-Luxembourg-000000?logo=42)
 
+> 📂 **Standalone repository:** [Sabofxx/codexion](https://github.com/Sabofxx/codexion)
+
 ## Description
 
 **Codexion** is a concurrent simulation of `N` coders competing for a shared

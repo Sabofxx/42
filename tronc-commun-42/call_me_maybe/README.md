@@ -7,6 +7,8 @@
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 ![42](https://img.shields.io/badge/42-Luxembourg-000000?logo=42)
 
+> 📂 **Standalone repository:** [Sabofxx/call-me-maybe](https://github.com/Sabofxx/call-me-maybe)
+
 ## Description
 
 **Call Me Maybe** is a function-calling tool that turns natural-language
