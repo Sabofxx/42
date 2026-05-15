@@ -7,6 +7,8 @@
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 ![42](https://img.shields.io/badge/42-Luxembourg-000000?logo=42)
 
+> 📂 **Standalone repository:** [Sabofxx/A-Maze-ing](https://github.com/Sabofxx/A-Maze-ing)
+
 ## Description
 
 A maze generator written in Python that creates random mazes, outputs them in a hexadecimal wall-encoding format, and provides an interactive terminal visualization. The generator supports both perfect mazes (exactly one path between any two cells) and non-perfect mazes with multiple routes.

@@ -7,6 +7,8 @@
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 ![42](https://img.shields.io/badge/42-Luxembourg-000000?logo=42)
 
+> 📂 **Standalone repository:** [Sabofxx/rag-against-the-machine](https://github.com/Sabofxx/rag-against-the-machine)
+
 ## Description
 
 A Retrieval-Augmented Generation (RAG) system that answers questions about the
