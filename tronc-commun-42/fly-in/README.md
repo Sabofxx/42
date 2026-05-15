@@ -1,6 +1,13 @@
 *This project has been created as part of the 42 curriculum by omischle.*
 *Fly-in is a drone routing simulation that finds optimal paths through a graph network and simulates multi-drone movement turn by turn.*
 
+# Fly-in
+
+![Python](https://img.shields.io/badge/python-3.10+-3776AB?logo=python&logoColor=white)
+![Score](https://img.shields.io/badge/score-100%2F100-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-yellow)
+![42](https://img.shields.io/badge/42-Luxembourg-000000?logo=42)
+
 ## Description
 
 Fly-in solves the problem of routing N drones from a start zone to an end zone through a network of interconnected zones, each with capacity constraints. The goal is to minimize the total number of simulation turns required for all drones to reach the destination.
