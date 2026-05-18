@@ -1,0 +1,404 @@
+{
+  "rag_questions": [
+    {
+      "question_id": "f2893710-0ebc-41a5-af16-00f3461cf34f",
+      "question": "What prefixes does the AutoWeightsLoader skip in NemotronNASForCausalLM when tie_word_embeddings is True?"
+    },
+    {
+      "question_id": "fb1519dc-a907-45e6-9dad-bb5fb157649a",
+      "question": "What is the default value of the bias parameter in Glm4vPatchMerger's constructor?"
+    },
+    {
+      "question_id": "786abebd-493d-4879-9293-f4330f630ae7",
+      "question": "What operation does ExecutorWithExternalLauncher use when reducing memory values across all ranks?"
+    },
+    {
+      "question_id": "27bcbb17-2831-4749-9b0f-b1a31518de79",
+      "question": "What are the default values for the optional parameters in QWenBlock's __init__ method?"
+    },
+    {
+      "question_id": "de47fb0a-68d9-47a7-b89d-76c97ba1f5d8",
+      "question": "What is the default value of the max_len parameter in vLLM's make_ndarray_with_pad function?"
+    },
+    {
+      "question_id": "80eacae8-234b-4bc8-8644-c41c00128799",
+      "question": "What does the forward method of Qwen2VisionRotaryEmbedding return?"
+    },
+    {
+      "question_id": "fefdf9a6-79eb-4784-b095-d2cdee1de4fa",
+      "question": "What is the default value of the global_num_experts parameter in IPEXFusedMOE's __call__ method?"
+    },
+    {
+      "question_id": "7f7f55d5-4c44-427e-9427-d68d68a0e5d6",
+      "question": "What are the supported group sizes for GPTQ quantization in vLLM?"
+    },
+    {
+      "question_id": "d1163742-5943-452c-890d-614f016996e2",
+      "question": "What dimensions does the qkv tensor get split into in ChatGLM's forward method?"
+    },
+    {
+      "question_id": "fb241d75-e33a-4218-9da3-7da5d842fa67",
+      "question": "What is the bias attribute set to when the bias parameter is False in vLLM's linear layer?"
+    },
+    {
+      "question_id": "8af9022d-8ce0-437b-a0ff-4395083acf6c",
+      "question": "What parameter controls per-token quantization in the cutlass_moe_mm operation?"
+    },
+    {
+      "question_id": "a045aa53-ff6b-44d6-a81f-ef8559f473ce",
+      "question": "What are the default values for client_count and client_index when creating an EngineClient in vLLM's API server?"
+    },
+    {
+      "question_id": "3a7d969c-310c-42c4-be83-978d1dadf831",
+      "question": "What shape does image_embeds get reshaped to when there's only one image in the InternVL model's image processing?"
+    },
+    {
+      "question_id": "c7d662bf-045b-4657-9ddc-94edcbfee057",
+      "question": "What is the default value for sparse_attention_threshold in vLLM's dual chunk flash attention configuration?"
+    },
+    {
+      "question_id": "72870050-3ba1-4c17-a523-e5b0ae13a7c1",
+      "question": "What happens when num_uncached_new_tokens is 0 and num_cached_new_tokens is greater than 0 in vLLM's scheduler?"
+    },
+    {
+      "question_id": "679cdc04-7ab7-4315-ae88-9031eb867800",
+      "question": "What does the remove_adapter function in vLLM's adapter_commons.utils return when the adapter_id is not found in registered_adapters?"
+    },
+    {
+      "question_id": "9759941c-1d9e-4410-a356-2b9b6338dab6",
+      "question": "What is the default value for VLLM_LOG_STATS_INTERVAL environment variable in vLLM?"
+    },
+    {
+      "question_id": "94210b5f-0cc5-48e3-a72e-16398a7187b5",
+      "question": "What activation does EmbeddingPoolerHead use by default?"
+    },
+    {
+      "question_id": "2ecd9109-3c84-4513-8e9e-abc5af0cbdaf",
+      "question": "What is the return type of the _digest_histogram function in vLLM's metrics reader module?"
+    },
+    {
+      "question_id": "a19b4fa6-02f5-444e-9ff7-85faa9c839f8",
+      "question": "What is the default image format used in the encode_base64 method of vLLM's image processing?"
+    },
+    {
+      "question_id": "00bc8e7c-1b30-41c7-9066-4399838c6391",
+      "question": "What exception does _PlaceholderModuleAttr raise in its __getattr__ method?"
+    },
+    {
+      "question_id": "fbc7d854-686c-4e30-bb06-745f86e1768c",
+      "question": "When does the xformers attention backend skip reshaping and caching input keys and values?"
+    },
+    {
+      "question_id": "51d0dd0a-6633-4f2e-a9d8-519c720e3b6d",
+      "question": "What is the return type of the _get_ranks function in vLLM's sampler module?"
+    },
+    {
+      "question_id": "09fcfefe-9859-4ce5-b2fb-cfe019fb9bb1",
+      "question": "What is the default value of the VLLM_ROCM_USE_AITER_MHA environment variable in vLLM?"
+    },
+    {
+      "question_id": "2b64ff55-8499-414c-b3f8-8b7a27eedb38",
+      "question": "What are the supported quantization data types in vLLM's neuron_quant module?"
+    },
+    {
+      "question_id": "eb669e1a-613f-4df5-85f0-8a95a3da147a",
+      "question": "What is the default value of the prefix parameter in MiniMaxText01ForCausalLM's __init__ method?"
+    },
+    {
+      "question_id": "c4719e12-9d08-42c7-b245-d9f379fc921b",
+      "question": "What are the different types of handshakes performed during vLLM engine startup based on data parallelism configuration?"
+    },
+    {
+      "question_id": "d260be95-8d36-46da-a6f1-13bac87bbb5b",
+      "question": "What are the default values of use_cuda_graph and cascade_attn_enabled in vLLM's CPUModelRunner?"
+    },
+    {
+      "question_id": "ddde65f5-4049-4424-a375-30681c26cec5",
+      "question": "What does vLLM return when custom logits processors are requested on TPU platform?"
+    },
+    {
+      "question_id": "7d4b88b5-6927-4102-b15b-756e25a8a348",
+      "question": "What is the default value of enable_kv_scales_calculation when creating ROCmFlashAttentionMetadata for cached decode metadata?"
+    },
+    {
+      "question_id": "cbff93d4-08d7-4636-a2bb-234ffbce86a8",
+      "question": "What is the return type of the _get_patch_repl method in vLLM's step3_vl model?"
+    },
+    {
+      "question_id": "7dc580d4-8202-40e0-bc92-f044d89cc23d",
+      "question": "What is the default type hint for the request_handling_thread attribute in SimpleBuffer's __init__ method?"
+    },
+    {
+      "question_id": "a8cf16d1-b44b-474b-b137-f576c8d2b410",
+      "question": "Which device does vLLM's CpuGpuBlockAllocator use for copy-on-write operations and prefix caching?"
+    },
+    {
+      "question_id": "da6028b7-45d8-4747-8a91-a0fcf4144e27",
+      "question": "Which hidden_act values trigger the use of BertWithRopeGatedMLP instead of BertWithRopeMLP in vLLM's BERT with RoPE model?"
+    },
+    {
+      "question_id": "d80b2f0c-17cd-4626-bd55-457690cd8608",
+      "question": "What types can the base_layer parameter accept in the LoRA layers __init__ method?"
+    },
+    {
+      "question_id": "03adf12e-e42c-419b-bcb7-e49802f88d32",
+      "question": "What is the default value of the eps parameter in vLLM's RMSNorm class?"
+    },
+    {
+      "question_id": "c56c28ac-9417-4b72-ad45-07a3b499cb43",
+      "question": "What is the default value of the bias parameter in CompressedTensorsLinearMethod's apply method?"
+    },
+    {
+      "question_id": "0a7d0972-098a-4343-9951-8dd34acf3085",
+      "question": "What error is raised when image_embeds is not a torch.Tensor in LlavaOnevision?"
+    },
+    {
+      "question_id": "6bd247ef-0844-43d0-ae57-6cb241ea627d",
+      "question": "What happens when cache_dtype is set to \"auto\" in vLLM's cache configuration?"
+    },
+    {
+      "question_id": "5cb90304-8647-456c-82e6-d796b8be1a40",
+      "question": "What is the default value of vocab_size in BaseVisualTokenizerConfig?"
+    },
+    {
+      "question_id": "416e6de3-ce90-460d-a8cc-398a9967c165",
+      "question": "What metrics are included in the JSON output when using the output_json parameter in vLLM's throughput benchmark?"
+    },
+    {
+      "question_id": "d6b042a4-5439-462e-a6b1-ba66495c2781",
+      "question": "What PyTorch version is required for the ProcessGroup.shutdown() method in vLLM's distributed utils?"
+    },
+    {
+      "question_id": "9b1ac6ff-a57d-4142-b1a5-2e30526ca0dd",
+      "question": "What are the default values for the optional parameters in OAIAttention's __init__ method?"
+    },
+    {
+      "question_id": "e4216374-c12f-4f56-a6f6-0edd051798ba",
+      "question": "What is the default value for the axis parameter in the swap_every_two_rows function in vLLM's mxfp4 quantization layer?"
+    },
+    {
+      "question_id": "5d89ffe4-2a21-484e-bbe5-a5f3f743e4ca",
+      "question": "What is the default value of the stream parameter in vLLM's OpenAI protocol transcription request?"
+    },
+    {
+      "question_id": "57e9d3cf-694e-4892-b602-34fd04a5b2de",
+      "question": "What is the default value of the layer_names parameter in vLLM's get_layers_from_vllm_config function?"
+    },
+    {
+      "question_id": "c4e15fdc-afc8-4a32-bda9-0cbe0d5eb16f",
+      "question": "What are the supported unpadded head dimensions in vLLM's Triton flash attention implementation?"
+    },
+    {
+      "question_id": "cb029768-8ff0-43dd-b825-c39906930e62",
+      "question": "What string is appended to vllm_factors when lora_config is None in vLLM's configuration hash computation?"
+    },
+    {
+      "question_id": "ac525188-7b79-4b3e-a5d7-00d27ba4701a",
+      "question": "What type value is used for tool calls in vLLM's Hunyuan A13B tool parser DeltaToolCall?"
+    },
+    {
+      "question_id": "96549d07-57ac-44eb-9a8f-a55dbaf8092e",
+      "question": "What are the default values for minClockMHz and maxClockMHz parameters in nvmlDeviceGetMinMaxClockOfPState?"
+    },
+    {
+      "question_id": "2685439e-9408-436c-be53-693ef37679de",
+      "question": "What CUDAGraphMode value does vLLM set when CUDA graphs are not supported on XPU?"
+    },
+    {
+      "question_id": "ba3be45c-5a73-4c3a-a4c9-4d2ab2e55c08",
+      "question": "What is the default value of the device parameter in LoRAModel.from_local_checkpoint?"
+    },
+    {
+      "question_id": "5c2a21a1-9fbb-4d0f-b934-9bee0aa841e4",
+      "question": "What is the default value of bot_token in Phi4MiniJsonToolParser?"
+    },
+    {
+      "question_id": "ce91f885-2a76-4963-8d74-1a3e6b544b6c",
+      "question": "What is the default value of tokenization_kwargs in vLLM's pooling method?"
+    },
+    {
+      "question_id": "8041350d-52cf-44b1-a308-5e8c430ef505",
+      "question": "What metrics are logged at the request level in vLLM's metrics engine?"
+    },
+    {
+      "question_id": "14219845-46ce-4597-93bc-925793eced33",
+      "question": "What is the default value of inputs_embeds parameter in GemmaModel's forward method?"
+    },
+    {
+      "question_id": "8a9d5369-cfb9-4dcf-87a0-1417800b5fd2",
+      "question": "What is the gather_output parameter set to in the QKVParallelLinear layer's super().__init__ call?"
+    },
+    {
+      "question_id": "4b7ed937-4e7b-4ebe-85d6-21bfac351b3a",
+      "question": "What prefixes are skipped in Gemma3's load_weights method when tie_word_embeddings is True?"
+    },
+    {
+      "question_id": "53f164de-b91c-462f-b880-239580d83be1",
+      "question": "What condition determines when DeepSeek-V3 MTP modules skip loading weights that don't contain \".layers\" in their name?"
+    },
+    {
+      "question_id": "c4ca02cb-04b2-4f85-983b-c45fdcabd3c6",
+      "question": "What are the default values for sm_scale and logit_cap parameters in mla_decode_fwd_impl?"
+    },
+    {
+      "question_id": "519b4308-5c14-4795-a160-be005a7ea3a1",
+      "question": "What is the default value for num_key_value_heads in vLLM's Hunyuan model configuration?"
+    },
+    {
+      "question_id": "dc9d8213-efbd-4d3c-a153-929de5b80f67",
+      "question": "What data type are the g_idx sort indices converted to in GPTQ Marlin quantization?"
+    },
+    {
+      "question_id": "f5af80c1-a5f7-46de-9c1e-225c2224a06c",
+      "question": "What dimensions does the kv_nope tensor get split into in the MLA attention backend?"
+    },
+    {
+      "question_id": "9be7dcb2-51a7-4a92-b744-027136073b1a",
+      "question": "What exception type is caught when generating responses with builtin tools in vLLM's OpenAI serving module?"
+    },
+    {
+      "question_id": "4bfa6b06-86f3-4ef5-a705-b206f8134075",
+      "question": "What is the default value for VLLM_DP_SIZE environment variable in vLLM?"
+    },
+    {
+      "question_id": "b8749115-e1fa-48e5-b334-0b9b060b8239",
+      "question": "What are the possible choices for the --model-impl argument in vLLM's argument parser?"
+    },
+    {
+      "question_id": "aecb09db-aa46-4aef-9425-7ece7fa80f05",
+      "question": "What are the default initial values for full_attention_group_ids and other_group_ids in KVCacheCoordinator's verify_and_split_kv_cache_groups method?"
+    },
+    {
+      "question_id": "139f769a-2b16-4331-b997-647e5f96a283",
+      "question": "What value does GptOssForCausalLMConfig set as the default reasoning_backend when it's an empty string?"
+    },
+    {
+      "question_id": "b92025c0-c013-4d99-95bb-069c9415f277",
+      "question": "What is the default value of indices_type parameter in RoutingStrategy's route_tokens method?"
+    },
+    {
+      "question_id": "0edd143f-0b0d-4198-a2a9-eff52a74e835",
+      "question": "What dimensions does the input tensor x need to have in get_col_major_tma_aligned_tensor function?"
+    },
+    {
+      "question_id": "accddf20-e57b-498c-9701-e01d9528bcba",
+      "question": "What is the minimum GPU compute capability required for bfloat16 dtype in vLLM?"
+    },
+    {
+      "question_id": "dd49dc4c-64fd-45dc-9a2a-1e7573693d48",
+      "question": "What constraint does the phi4mm model enforce on padding dimensions when resizing images?"
+    },
+    {
+      "question_id": "7f1f9e3f-3c3a-4ad0-a8e8-084cadb62152",
+      "question": "What is the default value of the attn_type parameter in CPUAttentionImpl's _run_sdpa_forward method?"
+    },
+    {
+      "question_id": "0b74588c-b49b-423d-b144-b284bc581176",
+      "question": "What is the default value of projector_ln_mid in UltravoxConfig?"
+    },
+    {
+      "question_id": "b125d546-d292-4508-9cb9-86fac60968bf",
+      "question": "What is the return type annotation for the from_pretrained method in EAGLEConfig?"
+    },
+    {
+      "question_id": "d591df7c-7d8d-442b-9e8d-c8c824fe775f",
+      "question": "What is the default value of the status parameter in the num_seqs method of SequenceGroup?"
+    },
+    {
+      "question_id": "1b654747-9a54-4b79-a348-8b2b4097d919",
+      "question": "What dtype and device are used when converting pooled_data in PoolingRequestOutput.from_seq_group?"
+    },
+    {
+      "question_id": "66a5de02-e096-4110-869d-e98121c5f9ad",
+      "question": "What happens when cache_dtype starts with \"fp8\" in FlashAttentionBackend?"
+    },
+    {
+      "question_id": "715be5ca-7b95-4733-9a96-ab0479178b82",
+      "question": "What is the default value of the dynamic_image_size parameter in InternVL's _preprocess_video method?"
+    },
+    {
+      "question_id": "88333288-4b40-47cd-9d27-c3f7cd2ad00d",
+      "question": "What is the default value of the priority parameter in EngineClient's generate method?"
+    },
+    {
+      "question_id": "fec11c90-3bba-4561-8b8f-786c72617c12",
+      "question": "What error is raised when using ScoreMultiModalParam with a non-multimodal model in vLLM's LLM class?"
+    },
+    {
+      "question_id": "2dc1d34a-5d52-4123-8b0b-0b6c2a83d0a9",
+      "question": "What determines whether PagedAttention.split_kv_cache is used versus kv_cache.unbind(0) in the Triton attention backend?"
+    },
+    {
+      "question_id": "9f0f951d-7822-4b1d-bbd7-42f1b9b71de9",
+      "question": "What are the default values for cache_config and quant_config parameters in Qwen2MoeDecoderLayer's __init__ method?"
+    },
+    {
+      "question_id": "63e6aed9-82c1-43fc-a607-cc45839be8ff",
+      "question": "What parameter determines whether cropping is enabled when calculating image tokens in DeepSeek VL2's get_replacement_deepseek_vl2 function?"
+    },
+    {
+      "question_id": "abf5deca-6256-42df-889c-e0388cabdbea",
+      "question": "What data type does the accumulator use in the deep GEMM utility function for fused MoE operations?"
+    },
+    {
+      "question_id": "3e8f866a-1db7-4116-9d56-1063dd3b233d",
+      "question": "What is the default value of intermediate_tensors parameter in the forward method of phi4mm model?"
+    },
+    {
+      "question_id": "402d75d7-8143-4b5b-8689-00d8f7e8aa10",
+      "question": "What are all possible values for NVML compute mode constants in vLLM's pynvml wrapper?"
+    },
+    {
+      "question_id": "2c405452-d0c1-48df-86f8-9dc3a13be9b7",
+      "question": "What value is used to indicate keeping the current rank when reconfiguring data parallel rank in vLLM's GPU worker?"
+    },
+    {
+      "question_id": "520d2d3d-0d0c-440c-97a7-7a56503a0e31",
+      "question": "What is the default value of the is_profile parameter in rearrange_expert_weights_inplace function?"
+    },
+    {
+      "question_id": "340601ea-e6cd-4499-b007-b18dffedeae3",
+      "question": "What is the default value for the head_dim parameter in Qwen3MoE's attention mechanism?"
+    },
+    {
+      "question_id": "8da11f19-f336-4d88-8920-136565c86936",
+      "question": "What parameter names are skipped during weight loading in GPT BigCode model?"
+    },
+    {
+      "question_id": "6338706e-771d-49ed-a8c8-dc36b5962cf5",
+      "question": "What parameters does the __init__ method of ExpertsInt8MoEMethod accept?"
+    },
+    {
+      "question_id": "433f45ea-35ea-486e-8b2e-f913342b4f10",
+      "question": "What is the default value for the bias parameter in LlamaMLP initialization within LlamaDecoderLayer?"
+    },
+    {
+      "question_id": "3ea70698-b75d-4c31-be5d-c9601295d9ff",
+      "question": "What is the type annotation for the truncate_prompt_tokens parameter in vLLM's _preprocess_completion method?"
+    },
+    {
+      "question_id": "b8be43f3-f678-410a-b336-188b66a2fc6b",
+      "question": "What are the supported hidden sizes for DeepEP low-latency kernels in vLLM?"
+    },
+    {
+      "question_id": "e8aa8017-2c46-4c6d-98c4-3f1cf7efae2c",
+      "question": "Which module types are categorized as unsharded weights modules in vLLM's BitsAndBytesModelLoader?"
+    },
+    {
+      "question_id": "8b26cc94-d38c-4cdf-b3c6-359125c5800c",
+      "question": "What happens when intermediate_tensors is None in a non-first rank in GraniteMoeHybrid model?"
+    },
+    {
+      "question_id": "0f7fab87-e9f3-4b70-8e11-089718e55f43",
+      "question": "What is the default value for params_dtype in vLLM's Arctic model layer when it's not specified?"
+    },
+    {
+      "question_id": "61b6778d-b50a-44b3-a3d9-cdbd19d3c3eb",
+      "question": "What attribute does MistralToolParser use to accumulate streaming arguments for the current tool?"
+    },
+    {
+      "question_id": "0b6820b3-7d2c-4958-a9f2-9dc66cb35596",
+      "question": "What fields are added to attention metadata classes when using make_kv_sharing_fast_prefill_attention_metadata in vLLM?"
+    }
+  ]
+}
