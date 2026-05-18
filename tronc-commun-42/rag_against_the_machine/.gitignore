@@ -14,6 +14,9 @@ data/processed/
 data/output/
 data/datasets/
 *.log
+exams
+exam_mouli
+moulinette_pkg
 
 # Models cache
 .cache/
