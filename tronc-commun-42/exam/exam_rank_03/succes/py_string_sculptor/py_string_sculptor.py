@@ -7,7 +7,6 @@ def py_string_sculptor(text: str) -> str:
 
     for c in text:
         if c.isspace():
-            lower = True
             result += c
         elif c.isalpha():
             if lower:
