@@ -1,0 +1,49 @@
+{
+  "# Pac-Man Configuration File": null,
+  "# TODO: A+B - Adjust these values for gameplay tuning": null,
+
+  "highscore_filename": "highscores.json",
+
+  "# Maze Generation": null,
+  "width": 15,
+  "height": 15,
+  "perfect_maze": false,
+  "seed": 42,
+
+  "# Player": null,
+  "lives": 3,
+  "player_speed": 5.0,
+
+  "# Level Progression": null,
+  "level_max_time": 90,
+  "num_levels": 10,
+
+  "# Scoring": null,
+  "points_per_pacgum": 10,
+  "points_per_super_pacgum": 50,
+  "points_per_ghost": 200,
+
+  "# Ghosts": null,
+  "ghost_speed": 4.0,
+  "frightened_duration": 10.0,
+  "respawn_delay": 5.0,
+
+  "# Display": null,
+  "window_width": 672,
+  "window_height": 756,
+  "tile_size": 32,
+  "fps": 60,
+
+  "# UI Colors (RGB)": null,
+  "color_background": [0, 0, 0],
+  "color_pacman": [255, 255, 0],
+  "color_wall": [33, 33, 222],
+  "color_wall_42": [220, 40, 40],
+  "color_corridor": [0, 0, 0],
+  "color_pacgum": [255, 184, 255],
+  "color_super_pacgum": [255, 255, 255],
+  "color_ghost_1": [255, 0, 0],
+  "color_ghost_2": [255, 184, 255],
+  "color_ghost_3": [0, 255, 255],
+  "color_ghost_4": [255, 184, 82]
+}
