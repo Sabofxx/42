@@ -1,0 +1,6 @@
+pygame>=2.1.0
+# mazegenerator is installed from the bundled wheel by `make install`
+pytest>=7.0
+flake8>=4.0
+mypy>=0.990
+pyinstaller>=5.0
