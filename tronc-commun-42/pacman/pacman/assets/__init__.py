@@ -1,6 +1,5 @@
-"""Game assets (sprites, sounds, fonts).
+"""Game assets package.
 
-TODO: B - Load/manage sprite assets
-TODO: B - Load/manage sound assets
-TODO: B - Load game font
+The current version draws sprites and text procedurally with pygame, so no
+external image, sound, or font asset is required here.
 """
