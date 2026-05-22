@@ -15,13 +15,19 @@
 - `test_game_pacgum_collection` — pacgum count strictly decreases
 - `test_validate_name_basic` — sanitization rules (alnum + space, ≤10 chars)
 - `test_highscore_persistence` — JSON round-trip
+- `test_highscore_accepts_zero_score` — non-negative zero scores can be stored
 - `test_highscore_corruption_recovery` — bad file → empty list, no crash
 - `test_highscore_keeps_top_10`
 - `test_ui_modules_import` — every UI class constructs without raising
 
-Status: **16 / 16 passing**.
+Status: **18 / 18 passing**.
 
 Engine tests owned by **omischle**, UI / highscore tests owned by **lel-ouaz**.
+
+## Packaging smoke check
+
+- `venv/bin/pyinstaller pac-man.spec` — builds `dist/pac-man` successfully on
+  macOS arm64 with Python 3.11.
 
 ## Manual (run `make run`)
 

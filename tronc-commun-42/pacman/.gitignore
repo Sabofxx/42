@@ -1,15 +1,27 @@
+GUIDE_DEFENSE_42.md
+
+# Python artifacts
 __pycache__/
-*.pyc
-*.pyo
-.mypy_cache/
+*.py[cod]
+*$py.class
+
+# Tool caches
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
 .venv/
 venv/
 env/
-dist/
+
+# Build artifacts
 build/
+dist/
 *.egg-info/
-.coverage
-htmlcov/
+
+# Local runtime files
 highscores.json
-*.spec
+GUIDE_DEFENSE_42.md

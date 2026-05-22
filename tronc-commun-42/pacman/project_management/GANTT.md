@@ -6,7 +6,7 @@
 | 1. Engine (config, maze, entities, game, scoring, cheat) | 2-5 | omischle | done |
 | 2. UI (window, renderer, menus, HUD, screens, highscore) | 6-7 | lel-ouaz | done |
 | 3. Integration, tests, polish | 7 | omischle + lel-ouaz | done |
-| 4. Packaging (PyInstaller) + deployment (itch.io) | 8 | lel-ouaz | pending |
+| 4. Packaging (PyInstaller) + deployment (itch.io) | 8 | lel-ouaz | local build verified; platform URL not recorded |
 
 ## Daily log
 
@@ -16,4 +16,4 @@
 - **D4-5** game loop + maze conversion fix (2x scaled tiles, real walls).
 - **D6-7** full UI (window, renderer, menu, HUD, screens) + highscore persistence.
 - **D7** wiring `pac-man.py` end-to-end, headless smoke test.
-- **D8** packaging + itch.io upload (todo).
+- **D8** PyInstaller build verified locally; add the public platform URL before final defense.

@@ -3,7 +3,7 @@
 # Pac-Man — Ghosts! More ghosts!
 
 ![status](https://img.shields.io/badge/build-passing-brightgreen)
-![tests](https://img.shields.io/badge/tests-16%2F16-brightgreen)
+![tests](https://img.shields.io/badge/tests-18%2F18-brightgreen)
 ![lint](https://img.shields.io/badge/flake8-clean-brightgreen)
 ![mypy](https://img.shields.io/badge/mypy-clean-brightgreen)
 
@@ -32,13 +32,13 @@ Highlights:
 ### Install
 
 ```bash
-make install        # installs pygame, mazegenerator wheel, dev tools
+make install        # creates venv/ and installs pygame, mazegenerator, dev tools
 ```
 
 The assigned A-Maze-ing wheel is committed at the repository root as
 `mazegenerator-2.0.2-py3-none-any.whl` (PEP-440-compliant name). `make
 install` installs the wheel **and** the rest of `requirements.txt` in one
-step.
+isolated virtual environment.
 
 ### Run
 
@@ -54,7 +54,7 @@ Any error (missing file, bad JSON, invalid value) is logged with a clear
 ### Test / Lint
 
 ```bash
-make test          # 16 / 16 passing (pytest, headless SDL)
+make test          # 18 / 18 passing (pytest, headless SDL)
 make lint          # flake8 + mypy (clean)
 make lint-strict   # mypy --strict
 make clean         # remove caches
@@ -122,8 +122,8 @@ Stored as a JSON array of `[name, score]` pairs at `highscore_filename`:
 
 **Why JSON + flat array**: human-readable, trivially diff-able, no schema
 migration needed, and `json.loads` round-trips correctly with Python's
-`list[tuple]`. The top 5 are also previewed on the main menu (matching the
-subject screenshot).
+`list[tuple]`. The main menu previews the best scores, and the dedicated
+**Highscores** screen displays the full top 10.
 
 Robustness rules enforced in `pacman/highscore.py`:
 
@@ -178,24 +178,24 @@ If the package fails to import or raises, a deterministic fallback maze
 
 ## Implementation
 
-| File | Owner | Purpose |
-|------|-------|---------|
-| `pac-man.py` | shared | entry point, arg/extension validation, top-level state machine |
-| `pacman/config.py` | A | JSON+`#` parser, default merge, value clamping |
-| `pacman/maze_loader.py` | A | `MazeGenerator` adapter + 2×-scaled tile conversion |
-| `pacman/entities/player.py` | A | Pac-Man movement, life management, direction buffering |
-| `pacman/entities/ghost.py` | A | four ghosts × `CHASE/AMBUSH/RANDOM/SCATTER` behaviours, `NORMAL/FRIGHTENED/EATEN` state machine, flee-when-frightened pathing |
-| `pacman/game.py` | A | game loop, collision, pacgum/super pickup, level progression, `GameState` snapshot |
-| `pacman/scoring.py` | A | point accumulation, 1→2→4→8 ghost chain multiplier |
-| `pacman/cheat.py` | shared | cheat toggles + active state for HUD overlay |
-| `pacman/highscore.py` | B | load / save / validate / top-10 |
-| `pacman/ui/window.py` | B | pygame init, clock, input buffer, event pump |
-| `pacman/ui/renderer.py` | B | maze, animated Pac-Man (mouth `sin`), ghosts (body + eyes + frightened blink), HUD bar, pause overlay, cheat overlay |
-| `pacman/ui/menu.py` | B | main menu nav + embedded highscore preview |
-| `pacman/ui/hud.py` | B | score / lives / level / time bar |
-| `pacman/ui/screens.py` | B | pause, game-over, victory, name entry, instructions, highscores |
-| `tests/` | B | 16 pytest cases (engine + UI + highscore) |
-| `project_management/` | shared | Gantt, risks, team, acceptance, conflicts |
+| File | Purpose |
+|------|---------|
+| `pac-man.py` | entry point, arg/extension validation, top-level state machine |
+| `pacman/config.py` | JSON+`#` parser, default merge, value clamping |
+| `pacman/maze_loader.py` | `MazeGenerator` adapter + 2×-scaled tile conversion |
+| `pacman/entities/player.py` | Pac-Man movement, life management, direction buffering |
+| `pacman/entities/ghost.py` | four ghosts × `CHASE/AMBUSH/RANDOM/SCATTER` behaviours, `NORMAL/FRIGHTENED/EATEN` state machine, flee-when-frightened pathing |
+| `pacman/game.py` | game loop, collision, pacgum/super pickup, level progression, `GameState` snapshot |
+| `pacman/scoring.py` | point accumulation, 1→2→4→8 ghost chain multiplier |
+| `pacman/cheat.py` | cheat toggles + active state for HUD overlay |
+| `pacman/highscore.py` | load / save / validate / top-10 |
+| `pacman/ui/window.py` | pygame init, clock, input buffer, event pump |
+| `pacman/ui/renderer.py` | maze, animated Pac-Man (mouth `sin`), ghosts (body + eyes + frightened blink), HUD bar, pause overlay, cheat overlay |
+| `pacman/ui/menu.py` | main menu nav + embedded highscore preview |
+| `pacman/ui/hud.py` | score / lives / level / time bar |
+| `pacman/ui/screens.py` | pause, game-over, victory, name entry, instructions, highscores |
+| `tests/` | pytest cases for engine, UI and highscore behavior |
+| `project_management/` | Gantt, risks, team, acceptance, conflicts |
 
 ## General Software Architecture
 
@@ -245,8 +245,8 @@ manually reviewed, edited, and tested. Concretely:
 | Documentation | first drafts of README sections | rewritten to match the actual code; AI-generated paragraphs that did not match implementation were deleted |
 
 AI was **not** used for: the integration glue in `pac-man.py`, the decision
-to embed the highscore preview in the main menu, the responsibility split
-between A and B, nor the project-management documents.
+to embed the highscore preview in the main menu, team responsibility decisions,
+nor the project-management documents.
 
 Following the subject's AI guidelines: every block of generated code was
 inspected, run, and tested before being kept. Anything we could not explain
@@ -259,7 +259,7 @@ See [`project_management/`](project_management/):
 - `GANTT.md` — daily timeline vs. actual progress.
 - `RISKS.md` — identified risks and concrete mitigations.
 - `TEAM.md` — role split and key design decisions.
-- `ACCEPTANCE_TESTS.md` — full automated + manual test matrix (16 / 16 green).
+- `ACCEPTANCE_TESTS.md` — full automated + manual test matrix (18 / 18 green).
 - `CONFLICTS.md` — every blocking issue we hit and how we solved it.
 
 ## Deployment
@@ -267,19 +267,18 @@ See [`project_management/`](project_management/):
 A `pac-man.spec` is provided for PyInstaller:
 
 ```bash
-pip install --user pyinstaller
-pyinstaller pac-man.spec
+make install
+venv/bin/pyinstaller pac-man.spec
 # → dist/pac-man  (single-file executable)
 ```
 
-The resulting binary is uploaded to **itch.io** (free / unlisted) for the
-defense. The shipped archive contains `pac-man` + `config.json` and runs
-out-of-the-box on Linux; a Windows build can be produced by running the same
-spec on a Windows host.
+The PyInstaller build has been verified locally with this spec. The generated
+archive should be published as a free, unlisted/private build on the chosen
+public platform for the defense; add the final platform URL here once the
+upload is complete.
 
 ## Known limitations
 
 - Audio is intentionally not wired (subject allows skipping it).
-- The main menu's highscore preview shows the top 5, not all 10 (subject
-  screenshot shows 4); the full list is reachable via the **Highscores**
-  menu entry.
+- The main menu previews the best scores; the full top 10 is reachable via the
+  **Highscores** menu entry.

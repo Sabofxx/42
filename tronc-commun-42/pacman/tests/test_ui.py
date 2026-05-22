@@ -31,6 +31,14 @@ def test_highscore_persistence(tmp_path: Path) -> None:
     assert again.get_top_10() == [("Bob", 1000), ("Alice", 500)]
 
 
+def test_highscore_accepts_zero_score(tmp_path: Path) -> None:
+    file = tmp_path / "scores.json"
+    manager = HighscoreManager(str(file))
+    rank = manager.add_score("Zero", 0)
+    assert rank == 1
+    assert manager.get_top_10() == [("Zero", 0)]
+
+
 def test_highscore_corruption_recovery(tmp_path: Path) -> None:
     file = tmp_path / "scores.json"
     file.write_text("{not json", encoding="utf-8")

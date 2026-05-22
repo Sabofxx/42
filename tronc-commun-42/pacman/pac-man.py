@@ -124,24 +124,25 @@ def _run(config: Dict[str, Any]) -> int:
                 elif action == "menu":
                     game = None
                     state = "menu"
+                    break
                 elif action == "quit":
                     running = False
-            renderer.render_game(game.get_state(), 0.0)
-            pause_screen.render()
+                    break
+            if state == "pause" and game is not None:
+                renderer.render_game(game.get_state(), 0.0)
+                pause_screen.render()
         elif state == "gameover" and game_over is not None and game is not None:
             for event in events:
                 action = game_over.handle_event(event)
                 if action == "continue":
                     score = game.get_state().score
-                    if score > 0:
-                        name_entry = NameEntryScreen(window.screen, config, score)
-                        state = "name_entry"
-                    else:
-                        game = None
-                        state = "menu"
+                    name_entry = NameEntryScreen(window.screen, config, score)
+                    state = "name_entry"
+                    break
                 elif action == "menu":
                     game = None
                     state = "menu"
+                    break
             game_over.render()
         elif state == "name_entry" and name_entry is not None and game is not None:
             for event in events:
@@ -152,7 +153,9 @@ def _run(config: Dict[str, Any]) -> int:
                     game = None
                     name_entry = None
                     state = "menu"
-            name_entry.render()
+                    break
+            if state == "name_entry" and name_entry is not None:
+                name_entry.render()
         elif state == "instructions":
             for event in events:
                 if instructions.handle_event(event):
