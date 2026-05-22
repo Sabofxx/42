@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from typing import List, Union
 
-from pydantic import AliasChoices, BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 
 
 class MinimalSource(BaseModel):
@@ -19,12 +19,8 @@ class MinimalSource(BaseModel):
 class UnansweredQuestion(BaseModel):
     """A question that has not been answered yet."""
 
-    model_config = ConfigDict(populate_by_name=True)
-
     question_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    question: str = Field(
-        validation_alias=AliasChoices("question", "question_str")
-    )
+    question: str
 
 
 class AnsweredQuestion(UnansweredQuestion):
@@ -43,12 +39,8 @@ class RagDataset(BaseModel):
 class MinimalSearchResults(BaseModel):
     """Search results for a single question."""
 
-    model_config = ConfigDict(populate_by_name=True)
-
     question_id: str
-    question_str: str = Field(
-        validation_alias=AliasChoices("question_str", "question")
-    )
+    question_str: str
     retrieved_sources: List[MinimalSource]
 
 
