@@ -108,17 +108,8 @@ class CLI:
         mode: str = "auto",
     ) -> str:
         """Run retrieval over every question in a dataset."""
-        if not os.path.isfile(dataset_path):
-            msg = f"Error: dataset not found at {dataset_path}"
-            print(msg)
-            return msg
-        try:
-            with open(dataset_path, "r", encoding="utf-8") as fh:
-                dataset = RagDataset.model_validate_json(fh.read())
-        except (OSError, ValueError) as exc:
-            msg = f"Error: could not read dataset at {dataset_path}: {exc}"
-            print(msg)
-            return msg
+        with open(dataset_path, "r", encoding="utf-8") as fh:
+            dataset = RagDataset.model_validate_json(fh.read())
         kb = KnowledgeBase.load(index_directory)
 
         results: list[MinimalSearchResults] = []

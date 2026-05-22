@@ -6,8 +6,7 @@
 ![Score](https://img.shields.io/badge/score-100%2F100-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 ![42](https://img.shields.io/badge/42-Luxembourg-000000?logo=42)
-
-> 📂 **Standalone repository:** [Sabofxx/rag-against-the-machine](https://github.com/Sabofxx/rag-against-the-machine)
+![CI](https://github.com/Sabofxx/rag-against-the-machine/actions/workflows/ci.yml/badge.svg)
 
 ## Description
 
