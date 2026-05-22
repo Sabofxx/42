@@ -1,6 +1,6 @@
 {
   "# Pac-Man Configuration File": null,
-  "# TODO: A+B - Adjust these values for gameplay tuning": null,
+  "# Gameplay tuning": null,
 
   "highscore_filename": "highscores.json",
 

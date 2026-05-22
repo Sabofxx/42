@@ -3,9 +3,10 @@ max-line-length = 100
 exclude =
     .git,
     __pycache__,
-    venv,
+    .pytest_cache,
+    .mypy_cache,
     .venv,
+    venv,
     build,
     dist,
-    mazegenerator-00001-py3-none-any,
     *.egg-info

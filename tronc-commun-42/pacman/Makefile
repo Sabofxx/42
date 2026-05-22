@@ -1,7 +1,9 @@
 .PHONY: install run debug clean lint lint-strict test help
 
-PYTHON := python3
+SYSTEM_PYTHON := $(shell command -v python3.11 2>/dev/null || command -v python3.12 2>/dev/null || command -v python3.10 2>/dev/null || command -v python3)
 VENV_DIR := venv
+PYTHON := $(VENV_DIR)/bin/python
+PIP := $(PYTHON) -m pip
 MYPY_FLAGS := --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
 help:
@@ -16,8 +18,10 @@ help:
 
 install:
 	@echo "Installing dependencies..."
-	$(PYTHON) -m pip install --user mazegenerator-2.0.2-py3-none-any.whl
-	$(PYTHON) -m pip install --user -r requirements.txt
+	$(SYSTEM_PYTHON) -m venv --clear $(VENV_DIR)
+	$(PIP) install --upgrade pip
+	$(PIP) install mazegenerator-2.0.2-py3-none-any.whl
+	$(PIP) install -r requirements.txt
 
 run:
 	@echo "Running Pac-Man..."
@@ -36,16 +40,16 @@ clean:
 
 lint:
 	@echo "Running flake8..."
-	flake8 .
+	$(PYTHON) -m flake8 .
 	@echo "Running mypy..."
-	mypy pacman tests $(MYPY_FLAGS)
+	$(PYTHON) -m mypy . $(MYPY_FLAGS)
 
 lint-strict:
 	@echo "Running flake8..."
-	flake8 .
+	$(PYTHON) -m flake8 .
 	@echo "Running mypy (strict)..."
-	mypy pacman tests --strict
+	$(PYTHON) -m mypy . --strict
 
 test:
 	@echo "Running pytest..."
-	SDL_VIDEODRIVER=dummy pytest tests/ -v
+	SDL_VIDEODRIVER=dummy $(PYTHON) -m pytest tests/ -v
