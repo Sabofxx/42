@@ -90,7 +90,10 @@ class LLMClient:
                     raw = response.read().decode("utf-8")
                 latency_ms = (time.perf_counter() - started) * 1000
                 parsed = json.loads(raw)
-                text = parsed["choices"][0]["message"].get("content", "")
+                message = parsed["choices"][0].get("message", {}) or {}
+                text = message.get("content") or message.get("reasoning") or ""
+                if not isinstance(text, str):
+                    text = json.dumps(text, ensure_ascii=False)
                 usage = parsed.get("usage") or {}
                 prompt_tokens = int(
                     usage.get(
@@ -113,6 +116,23 @@ class LLMClient:
                 retryable = exc.code in {408, 409, 425, 429, 500, 502, 503, 504}
                 if not retryable or attempt + 1 >= total_attempts:
                     break
+                sleep_for: float | None = None
+                retry_after = exc.headers.get("Retry-After") if exc.headers else None
+                if retry_after:
+                    try:
+                        sleep_for = float(retry_after)
+                    except ValueError:
+                        sleep_for = None
+                if sleep_for is None:
+                    try:
+                        err_body = json.loads(exc.read().decode("utf-8", "replace"))
+                        meta = (err_body.get("error") or {}).get("metadata") or {}
+                        sleep_for = float(meta.get("retry_after_seconds") or 0) or None
+                    except Exception:
+                        sleep_for = None
+                retries += 1
+                time.sleep(min(15.0, max(sleep_for or 0, 0.5 * (attempt + 1) ** 2)))
+                continue
             except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, KeyError) as exc:
                 last_error = exc
                 if attempt + 1 >= total_attempts:

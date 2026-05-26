@@ -6,14 +6,34 @@ import os
 from pathlib import Path
 
 
-def load_env_file(path: str | None) -> None:
-    """Load KEY=VALUE pairs from a .env file without overriding env vars."""
+def _discover_default_env_file() -> Path | None:
+    """Look for a .env in the current working directory and parents."""
 
-    if not path:
-        return
-    env_path = Path(path)
-    if not env_path.exists():
-        raise FileNotFoundError(f".env file not found: {env_path}")
+    here = Path.cwd().resolve()
+    for candidate in [here, *here.parents]:
+        env_path = candidate / ".env"
+        if env_path.is_file():
+            return env_path
+    return None
+
+
+def load_env_file(path: str | None) -> None:
+    """Load KEY=VALUE pairs from a .env file without overriding env vars.
+
+    When ``path`` is None, walks up from the current working directory to find
+    a ``.env`` file. Missing files are silently ignored in that auto-discovery
+    mode so the agent stays usable when keys come from the environment only.
+    """
+
+    env_path: Path | None
+    if path:
+        env_path = Path(path)
+        if not env_path.exists():
+            raise FileNotFoundError(f".env file not found: {env_path}")
+    else:
+        env_path = _discover_default_env_file()
+        if env_path is None:
+            return
     for raw_line in env_path.read_text().splitlines():
         line = raw_line.strip()
         if not line or line.startswith("#") or "=" not in line:
