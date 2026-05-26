@@ -1,0 +1,22 @@
+{
+  "providers": [
+    {
+      "name": "openrouter",
+      "provider_url": "https://openrouter.ai/api/v1",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "models": [
+        "qwen/qwen-2.5-coder-32b-instruct",
+        "deepseek/deepseek-chat-v3-0324:free"
+      ]
+    },
+    {
+      "name": "groq",
+      "provider_url": "https://api.groq.com/openai/v1",
+      "api_key_env": "GROQ_API_KEY",
+      "models": [
+        "llama-3.3-70b-versatile"
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+cache/
+evaluations/
+moulinette/
+benchmark_runs/**/*.json
+benchmark_runs/**/*.log

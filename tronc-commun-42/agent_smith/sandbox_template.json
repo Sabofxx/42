@@ -1,0 +1,32 @@
+{
+  "authorized_imports": [
+    "math",
+    "math.*",
+    "collections",
+    "collections.*",
+    "itertools",
+    "re",
+    "json",
+    "typing",
+    "typing.*",
+    "functools",
+    "operator",
+    "heapq",
+    "bisect",
+    "copy",
+    "string",
+    "random",
+    "datetime",
+    "datetime.*",
+    "array",
+    "cmath"
+  ],
+  "allowed_directories": [
+    "/testbed",
+    "/tmp/agent"
+  ],
+  "max_execution_time_seconds": 30,
+  "max_memory_mb": 512,
+  "max_output_chars": 20000
+}
+
