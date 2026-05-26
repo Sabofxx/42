@@ -133,11 +133,6 @@ class MCPClient:
 
     @staticmethod
     def _stringify_result(result: Any) -> str:
-        structured = getattr(result, "structuredContent", None) or getattr(
-            result, "structured_content", None
-        )
-        if structured is not None:
-            return json.dumps(structured, ensure_ascii=False, indent=2)
         pieces: list[str] = []
         for content in getattr(result, "content", []) or []:
             text = getattr(content, "text", None)
@@ -146,6 +141,19 @@ class MCPClient:
             else:
                 pieces.append(str(content))
         text = "\n".join(pieces)
+        if not text:
+            structured = getattr(result, "structuredContent", None) or getattr(
+                result, "structured_content", None
+            )
+            if structured is not None:
+                if isinstance(structured, dict) and len(structured) == 1:
+                    sole = next(iter(structured.values()))
+                    if isinstance(sole, str):
+                        text = sole
+                    else:
+                        text = json.dumps(sole, ensure_ascii=False, indent=2)
+                else:
+                    text = json.dumps(structured, ensure_ascii=False, indent=2)
         if getattr(result, "isError", False) or getattr(result, "is_error", False):
             return "Tool error:\n" + text
         return text
