@@ -1,8 +1,56 @@
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Virtual environments and local dependency installs
 .venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Secrets and local environment files
 .env
+.env.*
+!.env.example
+!.env.template
+
+# Local editor, OS, and assistant state
+.DS_Store
+.idea/
+.vscode/
+.claude/
+
+# Agent Smith local runtime artifacts
 cache/
 evaluations/
 moulinette/
+DEFENSE_42_AGENT_SMITH.md
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Keep benchmark JSON artifacts for the required report, but ignore bulky logs.
 benchmark_runs/**/*.log
