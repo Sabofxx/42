@@ -125,6 +125,18 @@ def extract_executable_code(text: str) -> ExtractionResult:
         if converted is not None:
             return converted
 
+    stripped = text.strip()
+    if stripped and len(stripped) < 4_000:
+        try:
+            ast.parse(stripped)
+        except SyntaxError:
+            pass
+        else:
+            return ExtractionResult(
+                code=stripped,
+                warning="No code fence found; interpreted the whole response as Python.",
+            )
+
     return ExtractionResult(
         code="",
         warning="No valid Python code block or supported tool-call format was found.",

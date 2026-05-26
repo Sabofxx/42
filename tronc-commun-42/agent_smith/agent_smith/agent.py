@@ -73,6 +73,20 @@ def _failure_solution(
     )
 
 
+def _trimmed(messages: list[dict[str, str]], history_pairs: int) -> list[dict[str, str]]:
+    """Keep the system + initial user message and the last N exchange pairs.
+
+    Each LLM step adds one assistant and one observation message. Token usage
+    grows quadratically without trimming, which busts the SWE-bench 300k budget.
+    """
+
+    if len(messages) <= 2 + history_pairs * 2:
+        return messages
+    head = messages[:2]
+    tail = messages[-history_pairs * 2 :]
+    return head + tail
+
+
 def run_loop(
     *,
     benchmark: str,
@@ -83,6 +97,7 @@ def run_loop(
     llm: LLMClient,
     max_iterations: int,
     started: float,
+    history_pairs: int = 6,
 ) -> SolutionOutput:
     messages = [
         {"role": "system", "content": system_prompt},
@@ -95,7 +110,7 @@ def run_loop(
 
     for step_no in range(1, max_iterations + 1):
         try:
-            response = llm.complete(messages)
+            response = llm.complete(_trimmed(messages, history_pairs))
             llm_output = response.text
             input_tokens = response.input_tokens
             output_tokens = response.output_tokens
