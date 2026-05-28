@@ -80,6 +80,7 @@ class LLMClient:
             headers = {
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {api_key}",
+                "User-Agent": "agent-smith/0.1",
             }
             request = urllib.request.Request(endpoint, data=body, headers=headers)
             started = time.perf_counter()
