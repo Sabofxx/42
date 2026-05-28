@@ -146,4 +146,3 @@ class LLMResponse(BaseModel):
     output_tokens: int
     latency_ms: float
     retries: int = 0
-

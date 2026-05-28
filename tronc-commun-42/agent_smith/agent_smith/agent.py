@@ -97,7 +97,7 @@ def run_loop(
     llm: LLMClient,
     max_iterations: int,
     started: float,
-    history_pairs: int = 6,
+    history_pairs: int = 3,
 ) -> SolutionOutput:
     messages = [
         {"role": "system", "content": system_prompt},
@@ -196,7 +196,7 @@ def run_mbpp_agent(
     provider_url: str,
     api_key_env: str | None = None,
     max_iterations: int = 10,
-    max_retries: int = 0,
+    max_retries: int = 3,
     sandbox_config: SandboxConfig | None = None,
 ) -> SolutionOutput:
     started = time.perf_counter()
@@ -254,7 +254,7 @@ def run_swebench_agent(
     provider_url: str,
     api_key_env: str | None = None,
     max_iterations: int = 30,
-    max_retries: int = 0,
+    max_retries: int = 3,
     sandbox_config: SandboxConfig | None = None,
 ) -> SolutionOutput:
     started = time.perf_counter()
@@ -285,6 +285,18 @@ def run_swebench_agent(
             max_iterations=max_iterations,
             started=started,
         )
+        if not solution.solution.strip():
+            try:
+                rescued = mcp.call_tool("get_patch", {})
+                if isinstance(rescued, str) and rescued.lstrip().startswith("diff --git"):
+                    solution.solution = rescued
+                    solution.success = True
+                    solution.error = (
+                        (solution.error or "")
+                        + " | Rescued patch via get_patch() after loop end."
+                    ).strip(" |")
+            except Exception:
+                pass
     except Exception as exc:
         manual = "Sandbox manual unavailable because MCP startup failed."
         system_prompt = swebench_system_prompt(manual)
