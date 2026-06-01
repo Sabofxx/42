@@ -20,7 +20,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--env-file", default=None)
     parser.add_argument("--sandbox-config", default=None)
     parser.add_argument("--max-iterations", type=int, default=10)
-    parser.add_argument("--max-retries", type=int, default=0)
+    parser.add_argument("--max-retries", type=int, default=3)
     return parser.parse_args()
 
 
