@@ -93,10 +93,42 @@ PYTHONPATH=. uv run moulinette_eval dump mbpp --output ../cache/mbpp_task.json
 Configure API keys via environment variables. Supported names include `OPENROUTER_API_KEY`, `OPENAI_API_KEY`, `TOGETHER_API_KEY`, `GROQ_API_KEY`, `MISTRAL_API_KEY`, `FIREWORKS_API_KEY`, and `AGENT_SMITH_API_KEYS`. Multiple keys may be comma, colon, or newline separated. You can also drop them into a `.env` at the project root.
 
 ```bash
-export GROQ_API_KEY="gsk_..."
+export OPENROUTER_API_KEY="sk-or-v1-..."
 # or
-echo 'GROQ_API_KEY=gsk_...' >> .env
+echo 'OPENROUTER_API_KEY=sk-or-v1-...' >> .env
 ```
+
+The CLIs also accept `--env-file /path/to/.env` to load keys from an explicit
+file (this is how the 42 evaluation scripts pass keys):
+
+```bash
+uv run python -m agent_mbpp --env-file /path/to/.env --task-file ... --output ... \
+  --model-name "openai/gpt-oss-120b:free" --provider-url "https://openrouter.ai/api/v1"
+```
+
+### Recommended model
+
+For both MBPP and SWE-bench the verified, free, end-to-end-passing combo is
+**`openai/gpt-oss-120b:free` via OpenRouter** (`https://openrouter.ai/api/v1`).
+It is the only free model that reaches `RESOLVED_FULL` on SWE-bench within the
+hard limits. Groq (`llama-4-scout`) and Cerebras free models run the pipeline
+but rate-limit (HTTP 429) or fail to converge on SWE-bench — use them only for
+quick MBPP smoke tests.
+
+### Evaluation scripts (42 moulinette)
+
+The grader runs three scripts; each takes the student path, the moulinette path,
+and a `.env` with the API keys:
+
+```bash
+./exam_mbpp.sh     --student-path ./student --moulinette-path ./moulinette --env-file /path/to/.env
+./exam_swebench.sh --student-path ./student --moulinette-path ./moulinette --env-file /path/to/.env
+./exam_sandbox.sh  --student-path ./student --moulinette-path ./moulinette --env-file /path/to/.env
+```
+
+Pass thresholds: MBPP **4/5** random tasks, SWE-bench **2/3** random tasks,
+sandbox security tests **all**. Hard limits — MBPP: 10 iters / 6k input / 1.5k
+output / 120 s. SWE-bench: 30 iters / 300k input / 10k output / 900 s.
 
 Run the sandbox:
 
