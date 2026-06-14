@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAP — The Answer Protocol</title>
+<style>
+  :root { --bg:#0b0f0b; --panel:#111711; --fg:#9fe89f; --dim:#5a7a5a; --accent:#caffca; --warn:#ffcf6b; --err:#ff7b7b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:"DejaVu Sans Mono",Consolas,monospace; font-size:14px; }
+  header { padding:8px 14px; border-bottom:1px solid #1d2a1d; display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+  header h1 { font-size:16px; margin:0; color:var(--accent); letter-spacing:2px; }
+  .stat { color:var(--dim); } .stat b { color:var(--fg); }
+  #grid { display:grid; grid-template-columns: 1.4fr 1fr 1fr; gap:10px; padding:10px; height:calc(100vh - 52px); }
+  .panel { background:var(--panel); border:1px solid #1d2a1d; border-radius:6px; padding:10px; overflow:auto; display:flex; flex-direction:column; }
+  .panel h2 { font-size:12px; text-transform:uppercase; letter-spacing:2px; color:var(--dim); margin:0 0 8px; border-bottom:1px dashed #1d2a1d; padding-bottom:6px; }
+  .roomname { color:var(--accent); font-weight:bold; font-size:15px; }
+  .desc { color:var(--fg); margin:6px 0; }
+  .list { list-style:none; margin:4px 0; padding:0; }
+  .list li { display:flex; align-items:center; gap:6px; margin:3px 0; }
+  .tag { color:var(--dim); min-width:62px; }
+  button { background:#16241a; color:var(--fg); border:1px solid #2a402a; border-radius:4px; padding:3px 8px; cursor:pointer; font-family:inherit; font-size:12px; }
+  button:hover { background:#21351f; color:var(--accent); }
+  .row { display:flex; gap:6px; flex-wrap:wrap; margin:6px 0; }
+  .log, .chat { flex:1; overflow:auto; white-space:pre-wrap; word-break:break-word; }
+  .log div, .chat div { margin:1px 0; }
+  .evt { color:#7fd0ff; } .ok { color:var(--fg); } .errline { color:var(--err); }
+  .sys { color:var(--warn); }
+  input, select { background:#0e140e; color:var(--fg); border:1px solid #2a402a; border-radius:4px; padding:4px; font-family:inherit; }
+  #connectbar { padding:6px 14px; border-bottom:1px solid #1d2a1d; }
+  .pill { background:#16241a; border:1px solid #2a402a; border-radius:10px; padding:1px 8px; color:var(--accent); }
+  .chatbox { display:flex; gap:6px; margin-top:6px; }
+  .chatbox input { flex:1; }
+  .hpbar { height:8px; background:#2a0f0f; border:1px solid #402020; border-radius:4px; overflow:hidden; width:120px; display:inline-block; vertical-align:middle; }
+  .hpfill { height:100%; background:linear-gradient(90deg,#3fae3f,#9fe89f); }
+</style>
+</head>
+<body>
+<header>
+  <h1>TAP</h1>
+  <span class="stat">player <b id="me">—</b></span>
+  <span class="stat">HP <span class="hpbar"><span class="hpfill" id="hpfill" style="width:100%"></span></span> <b id="hp">100/100</b></span>
+  <span class="stat">in room <b id="cntRoom">0</b></span>
+  <span class="stat">on server <b id="cntServer">0</b></span>
+  <span class="stat">group <b id="grp">none</b></span>
+</header>
+
+<div id="connectbar">
+  <input id="name" placeholder="username" value="">
+  <button onclick="doConnect()">CONNECT</button>
+  <span class="pill" id="connstate">disconnected</span>
+</div>
+
+<div id="grid">
+  <!-- Room view -->
+  <section class="panel">
+    <h2>Room</h2>
+    <div class="roomname" id="roomName">—</div>
+    <div class="desc" id="roomDesc"></div>
+    <div><span class="tag">exits</span><span id="exits"></span></div>
+    <h2 style="margin-top:10px">Items here</h2>
+    <ul class="list" id="roomItems"></ul>
+    <h2>NPCs</h2>
+    <ul class="list" id="roomNpcs"></ul>
+    <h2>Players</h2>
+    <div id="roomPlayers" class="desc"></div>
+    <div class="row" style="margin-top:auto">
+      <button onclick="send('LOOK')">LOOK</button>
+      <button onclick="send('STATUS')">STATUS</button>
+      <button onclick="send('WHO')">WHO</button>
+      <button onclick="send('QUESTS')">QUESTS</button>
+      <button onclick="send('DEFEND')">DEFEND</button>
+      <button onclick="send('FLEE')">FLEE</button>
+      <button onclick="send('GROUP CREATE')">GROUP CREATE</button>
+      <button onclick="send('GROUP LEAVE')">GROUP LEAVE</button>
+      <button onclick="send('QUIT')">QUIT</button>
+    </div>
+  </section>
+
+  <!-- Inventory + chat -->
+  <section class="panel">
+    <h2>Inventory</h2>
+    <ul class="list" id="inv"></ul>
+    <div class="row"><button onclick="send('INVENTORY')">REFRESH</button></div>
+
+    <h2 style="margin-top:10px">Chat — Global</h2>
+    <div class="chat" id="chatGlobal" style="max-height:120px"></div>
+    <h2>Chat — Room</h2>
+    <div class="chat" id="chatRoom" style="max-height:120px"></div>
+    <h2>Chat — Group</h2>
+    <div class="chat" id="chatGroup" style="max-height:90px"></div>
+    <div class="chatbox">
+      <select id="scope"><option>GLOBAL</option><option>ROOM</option><option>GROUP</option></select>
+      <input id="chatmsg" placeholder="message…" onkeydown="if(event.key==='Enter')doChat()">
+      <button onclick="doChat()">SEND</button>
+    </div>
+  </section>
+
+  <!-- Protocol log -->
+  <section class="panel">
+    <h2>Protocol log</h2>
+    <div class="log" id="log"></div>
+    <div class="chatbox">
+      <input id="raw" placeholder="raw command (e.g. MOVE north)" onkeydown="if(event.key==='Enter')doRaw()">
+      <button onclick="doRaw()">SEND</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const pending = [];           // FIFO of command verbs awaiting a response
+let connected = false;
+
+function logLine(text, cls) {
+  const el = document.getElementById('log');
+  const d = document.createElement('div');
+  d.className = cls || ''; d.textContent = text;
+  el.appendChild(d); el.scrollTop = el.scrollHeight;
+}
+function chatLine(panel, text) {
+  const el = document.getElementById(panel);
+  const d = document.createElement('div'); d.textContent = text;
+  el.appendChild(d); el.scrollTop = el.scrollHeight;
+}
+
+function send(cmd) {
+  const verb = cmd.trim().split(/\s+/)[0].toUpperCase();
+  pending.push(verb);
+  logLine('C> ' + cmd, 'sys');
+  fetch('/cmd', { method:'POST', body: cmd });
+}
+
+function doConnect() {
+  const n = document.getElementById('name').value.trim();
+  if (!n) { alert('enter a username'); return; }
+  document.getElementById('me').textContent = n;
+  send('CONNECT ' + n);
+}
+function doChat() {
+  const m = document.getElementById('chatmsg').value;
+  if (!m) return;
+  send('CHAT ' + document.getElementById('scope').value + ' ' + m);
+  document.getElementById('chatmsg').value = '';
+}
+function doRaw() {
+  const m = document.getElementById('raw').value.trim();
+  if (!m) return;
+  send(m); document.getElementById('raw').value = '';
+}
+function refresh() { send('LOOK'); send('INVENTORY'); send('STATUS'); send('WHO'); }
+
+function setHP(hp, max) {
+  document.getElementById('hp').textContent = hp + '/' + max;
+  document.getElementById('hpfill').style.width = Math.max(0, 100*hp/max) + '%';
+}
+
+function renderRoom(j) {
+  document.getElementById('roomName').textContent = j.room.name + '  [' + j.room.id + ']';
+  document.getElementById('roomDesc').textContent = j.room.description;
+  const ex = document.getElementById('exits'); ex.innerHTML = '';
+  for (const dir in j.room.exits) {
+    const b = document.createElement('button');
+    b.textContent = dir; b.onclick = () => send('MOVE ' + dir);
+    ex.appendChild(b);
+  }
+  const items = document.getElementById('roomItems'); items.innerHTML = '';
+  (j.items||[]).forEach(it => {
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="tag">item</span><span>'+it+'</span>';
+    const b = document.createElement('button'); b.textContent='TAKE'; b.onclick=()=>send('TAKE '+it);
+    li.appendChild(b); items.appendChild(li);
+  });
+  const npcs = document.getElementById('roomNpcs'); npcs.innerHTML = '';
+  (j.npcs||[]).forEach(n => {
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="tag">npc</span><span>'+n+'</span>';
+    const t = document.createElement('button'); t.textContent='TALK'; t.onclick=()=>send('TALK '+n);
+    const a = document.createElement('button'); a.textContent='ATTACK'; a.onclick=()=>send('ATTACK '+n);
+    const q = document.createElement('button'); q.textContent='QUEST'; q.onclick=()=>send('QUEST '+n);
+    li.appendChild(t); li.appendChild(a); li.appendChild(q); npcs.appendChild(li);
+  });
+  document.getElementById('roomPlayers').textContent = (j.players||[]).join(', ') || '(only you)';
+  document.getElementById('cntRoom').textContent = (j.players||[]).length;
+}
+
+function renderInv(arr) {
+  const inv = document.getElementById('inv'); inv.innerHTML = '';
+  if (!arr.length) { inv.innerHTML = '<li class="tag">(empty)</li>'; return; }
+  arr.forEach(it => {
+    const li = document.createElement('li');
+    li.innerHTML = '<span>'+it+'</span>';
+    const b = document.createElement('button'); b.textContent='DROP'; b.onclick=()=>send('DROP '+it);
+    li.appendChild(b); inv.appendChild(li);
+  });
+}
+
+function handleResponse(line) {
+  const verb = pending.shift();
+  const isErr = line.startsWith('ERR');
+  logLine('S< ' + line, isErr ? 'errline' : 'ok');
+  if (isErr) return;
+  const payload = line.replace(/^OK\s?/, '');
+  try {
+    switch (verb) {
+      case 'CONNECT':
+        connected = true;
+        document.getElementById('connstate').textContent = 'connected';
+        refresh();
+        break;
+      case 'LOOK':      renderRoom(JSON.parse(payload)); break;
+      case 'INVENTORY': renderInv(JSON.parse(payload)); break;
+      case 'STATUS': { const s=JSON.parse(payload); setHP(s.hp,s.max_hp); } break;
+      case 'WHO': { const w=JSON.parse(payload); document.getElementById('cntServer').textContent=w.server; document.getElementById('cntRoom').textContent=(w.room||[]).length; } break;
+      case 'TALK': { const t=JSON.parse(payload); chatLine('chatRoom','['+t.npc+'] '+t.dialogue); } break;
+      case 'ATTACK': { const a=JSON.parse(payload); setHP(a.attacker_hp,100); logLine('  combat: you '+a.damage+' dmg, enemy hp '+a.target_hp+' ('+a.status+')','sys'); } break;
+      case 'MOVE':  refresh(); break;
+      case 'TAKE':  send('LOOK'); send('INVENTORY'); break;
+      case 'DROP':  send('LOOK'); send('INVENTORY'); break;
+      case 'GROUP': if (payload.startsWith('group=')) document.getElementById('grp').textContent = payload.slice(6); break;
+    }
+  } catch (e) { /* non-JSON OK payloads are fine */ }
+}
+
+function handleEvent(line) {
+  logLine('S< ' + line, 'evt');
+  const parts = line.split(/\s+/);          // EVT <cat> <type> ...
+  const cat = parts[1], type = parts[2];
+  if (cat === 'GLOBAL' && type === 'CHAT') chatLine('chatGlobal', parts.slice(3).join(' '));
+  else if (cat === 'ROOM' && type === 'CHAT') chatLine('chatRoom', parts.slice(3).join(' '));
+  else if (cat === 'GROUP' && type === 'CHAT') chatLine('chatGroup', parts.slice(3).join(' '));
+  else if (cat === 'STATS' && type === 'PLAYERS') {
+    const m = line.match(/players=(\d+)/); if (m) document.getElementById('cntServer').textContent = m[1];
+  }
+  else if (cat === 'ROOM' && (type === 'PRESENCE' || type === 'ITEM' || type === 'COMBAT')) {
+    if (connected) send('LOOK');           // refresh room view on world changes
+  }
+  else if (cat === 'GROUP') { /* INVITE/JOIN/LEAVE shown in log */ }
+}
+
+const es = new EventSource('/events');
+es.onmessage = (e) => {
+  const line = e.data;
+  if (line.startsWith('EVT ')) handleEvent(line);
+  else if (line.startsWith('OK') || line.startsWith('ERR')) handleResponse(line);
+  else logLine('S< ' + line, 'sys');       // greeting etc.
+};
+es.onerror = () => logLine('[event stream error]', 'errline');
+</script>
+</body>
+</html>

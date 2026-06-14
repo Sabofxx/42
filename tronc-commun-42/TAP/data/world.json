@@ -1,0 +1,167 @@
+{
+  "start": "loc.square",
+  "respawn": "loc.square",
+  "rooms": {
+    "loc.square": {
+      "name": "Village Square",
+      "description": "A bustling square with cobblestone paths. A weathered guard watches the comings and goings.",
+      "exits": { "north": "loc.bakery", "east": "loc.market", "west": "loc.tavern", "south": "loc.well" },
+      "items": [],
+      "npcs": ["npc.guard"]
+    },
+    "loc.bakery": {
+      "name": "Village Bakery",
+      "description": "A warm bakery filled with the scent of fresh bread.",
+      "exits": { "south": "loc.square", "east": "loc.north_gate" },
+      "items": ["item.bread"],
+      "npcs": ["npc.baker"]
+    },
+    "loc.market": {
+      "name": "Market Row",
+      "description": "Stalls line a busy street. A merchant calls out bargains to passers-by.",
+      "exits": { "west": "loc.square", "north": "loc.north_gate", "east": "loc.forest_path" },
+      "items": [],
+      "npcs": ["npc.merchant"]
+    },
+    "loc.north_gate": {
+      "name": "North Gate",
+      "description": "A heavy timber gate marking the northern edge of the village.",
+      "exits": { "west": "loc.bakery", "south": "loc.market", "east": "loc.watchtower" },
+      "items": [],
+      "npcs": []
+    },
+    "loc.watchtower": {
+      "name": "Old Watchtower",
+      "description": "A crumbling stone tower overlooking the forest. A torch rests in a wall bracket.",
+      "exits": { "west": "loc.north_gate", "south": "loc.forest_path" },
+      "items": ["item.torch"],
+      "npcs": []
+    },
+    "loc.forest_path": {
+      "name": "Forest Path",
+      "description": "A narrow dirt path winding between tall pines. The air feels dangerous here.",
+      "exits": { "west": "loc.market", "north": "loc.watchtower", "east": "loc.clearing" },
+      "items": [],
+      "npcs": ["npc.bandit"]
+    },
+    "loc.clearing": {
+      "name": "Forest Clearing",
+      "description": "A sunlit clearing where wild healing herbs grow. A dark stairway descends into the earth.",
+      "exits": { "west": "loc.forest_path", "down": "loc.crypt" },
+      "items": ["item.herbs"],
+      "npcs": []
+    },
+    "loc.crypt": {
+      "name": "Forgotten Crypt",
+      "description": "A cold, damp crypt. Bones litter the floor and something stirs in the shadows.",
+      "exits": { "up": "loc.clearing" },
+      "items": [],
+      "npcs": ["npc.goblin", "npc.skeleton"]
+    },
+    "loc.tavern": {
+      "name": "The Prancing Pony",
+      "description": "A cozy tavern filled with warmth and laughter. Mugs of ale clink at every table.",
+      "exits": { "north": "loc.square" },
+      "items": ["item.ale"],
+      "npcs": ["npc.barkeep"]
+    },
+    "loc.well": {
+      "name": "Wishing Well",
+      "description": "An old stone well at the edge of the square. Coins glint at the bottom.",
+      "exits": { "north": "loc.square" },
+      "items": [],
+      "npcs": []
+    }
+  },
+  "items": {
+    "item.bread": { "name": "Loaf of Bread", "description": "A crusty loaf, still warm.", "obtainable": true },
+    "item.ale": { "name": "Frothy Ale", "description": "A refreshing drink that restores energy.", "obtainable": true },
+    "item.herbs": { "name": "Healing Herbs", "description": "Bundled wild herbs with healing properties.", "obtainable": true },
+    "item.torch": { "name": "Old Torch", "description": "A pitch torch that lights dark places.", "obtainable": true },
+    "item.gold_coin": { "name": "Gold Coin", "description": "A shining coin of pure gold. A quest reward.", "obtainable": false },
+    "item.iron_sword": { "name": "Iron Sword", "description": "A sturdy blade. Grants +5 attack in combat.", "obtainable": false }
+  },
+  "npcs": {
+    "npc.guard": {
+      "name": "Village Guard",
+      "description": "A stern-looking guard watching over the square.",
+      "role": "quest-giver",
+      "dialogue": ["Stay safe, traveler.", "The crypt to the east has been overrun. Someone should deal with that goblin."],
+      "hp": 40,
+      "attack": 10,
+      "hostile": false
+    },
+    "npc.baker": {
+      "name": "Village Baker",
+      "description": "A cheerful baker dusted with flour.",
+      "role": "dialogue",
+      "dialogue": ["Welcome to my bakery!", "Fresh bread, baked this morning. Help yourself."],
+      "hp": 20,
+      "attack": 0,
+      "hostile": false
+    },
+    "npc.barkeep": {
+      "name": "Tavern Barkeep",
+      "description": "A burly barkeep polishing a mug.",
+      "role": "dialogue",
+      "dialogue": ["What'll it be?", "Mind the rowdy ones in the corner."],
+      "hp": 25,
+      "attack": 0,
+      "hostile": false
+    },
+    "npc.merchant": {
+      "name": "Travelling Merchant",
+      "description": "A friendly merchant eager to trade.",
+      "role": "quest-giver",
+      "dialogue": ["Welcome! What can I get for you today?", "Bring me healing herbs and I'll reward you well."],
+      "hp": 15,
+      "attack": 0,
+      "hostile": false
+    },
+    "npc.bandit": {
+      "name": "Forest Bandit",
+      "description": "A masked bandit blocking the path, blade drawn.",
+      "role": "enemy",
+      "dialogue": ["Your coin or your life!"],
+      "hp": 25,
+      "attack": 6,
+      "hostile": true
+    },
+    "npc.goblin": {
+      "name": "Crypt Goblin",
+      "description": "A snarling goblin guarding the crypt.",
+      "role": "enemy",
+      "dialogue": ["Grrraah!"],
+      "hp": 30,
+      "attack": 8,
+      "hostile": true
+    },
+    "npc.skeleton": {
+      "name": "Restless Skeleton",
+      "description": "A rattling skeleton animated by dark magic.",
+      "role": "enemy",
+      "dialogue": ["..."],
+      "hp": 20,
+      "attack": 5,
+      "hostile": true
+    }
+  },
+  "quests": {
+    "fetch_herbs": {
+      "giver": "npc.merchant",
+      "description": "Bring healing herbs to the merchant.",
+      "type": "fetch",
+      "target": "item.herbs",
+      "count": 1,
+      "reward": "item.gold_coin"
+    },
+    "slay_goblin": {
+      "giver": "npc.guard",
+      "description": "Defeat the goblin haunting the crypt.",
+      "type": "defeat",
+      "target": "npc.goblin",
+      "count": 1,
+      "reward": "item.iron_sword"
+    }
+  }
+}
