@@ -1,0 +1,5 @@
+# Ne JAMAIS versionner les mots de passe / secrets
+secrets/
+
+# (optionnel) données locales des volumes si jamais présentes dans le repo
+data/
