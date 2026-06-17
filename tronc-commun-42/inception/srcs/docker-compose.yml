@@ -1,0 +1,78 @@
+services:
+  mariadb:
+    build:
+      context: requirements/mariadb
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    env_file: .env
+    secrets:
+      - db_root_password
+      - db_password
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - inception
+    expose:
+      - "3306"
+
+  wordpress:
+    build:
+      context: requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    secrets:
+      - db_password
+      - credentials
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - inception
+    expose:
+      - "9000"
+    depends_on:
+      - mariadb
+
+  nginx:
+    build:
+      context: requirements/nginx
+    image: nginx
+    container_name: nginx
+    restart: always
+    env_file: .env
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - inception
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/omischle/data/db
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/omischle/data/wp
+
+networks:
+  inception:
+    driver: bridge
+
+secrets:
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  db_password:
+    file: ../secrets/db_password.txt
+  credentials:
+    file: ../secrets/credentials.txt

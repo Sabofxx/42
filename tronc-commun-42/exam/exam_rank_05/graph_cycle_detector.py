@@ -24,3 +24,4 @@ def py_graph_cycle_detector(graph: dict[int, list[int]]) -> bool:
             if has_cycle(node):
                 return True
     return False
+ 
