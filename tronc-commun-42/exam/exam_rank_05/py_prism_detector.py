@@ -26,8 +26,10 @@ def prism_detector(grid: list[str], pattern: str):
                     ny = y + dy * i
 
                     if (
-                        nx < 0 or ny < 0
-                        or nx >= w or ny >= h
+                        nx < 0
+                        or ny < 0
+                        or nx >= w
+                        or ny >= h
                         or grid[ny][nx] != pattern[i]
                     ):
                         ok = False
@@ -37,18 +39,3 @@ def prism_detector(grid: list[str], pattern: str):
                     return (x, y, name)
 
     return None
-
-
-if __name__ == "__main__":
-    grid = [
-        "ABCDE",
-        "FGHIJ",
-        "KLMNO",
-        "PQRST",
-        "UVWXY"
-    ]
-
-    print(prism_detector(grid, "GHI"))
-    print(prism_detector(grid, "QLG"))
-    print(prism_detector(grid, "AGMSY"))
-    print(prism_detector(grid, "XYZ"))
