@@ -46,7 +46,7 @@ C track completed; now focused on advanced Python (AI / LLM / information retrie
 | [**pacman**](tronc-commun-42/pacman) 🤝 | Pac-Man remake in pygame — engine/UI separation, four ghost AI behaviours (chase/ambush/random/scatter), state machines, persistent highscores, 18/18 tests | `Python` | **100/100** |
 | [**TAP**](tronc-commun-42/TAP) 🤝 | Multiplayer text-adventure MUD over TCP — authoritative server + CLI + web GUI, RFC 42TAP line protocol, Go standard library only | `Go` | **100/100** |
 
-> 🤝 = team project (with [lel-ouaz](https://github.com/Sabofxx)).
+> 🤝 = team project (with [lel-ouaz](https://github.com/lel-ouaz)).
 
 ## Python Modules
 
@@ -84,6 +84,8 @@ Flagship projects are also published as **standalone repositories** (pinned on m
 - [**A-Maze-ing**](https://github.com/Sabofxx/A-Maze-ing) — Maze generator, DFS + ANSI terminal UI
 - [**push-swap**](https://github.com/Sabofxx/push-swap) — Stack sorting in C, radix + chunk strategies
 - [**codexion**](https://github.com/Sabofxx/codexion) — Concurrent dining philosophers in C, deadlock-free
+- [**tap-42**](https://github.com/Sabofxx/tap-42) — Multiplayer text-adventure MUD over TCP in Go, RFC 42TAP protocol, stdlib only
+- [**agent-smith-42**](https://github.com/Sabofxx/agent-smith-42) — LLM code-agent framework, Thought→Code→Observation loop, MBPP + SWE-bench
 
 ## Piscine
 
