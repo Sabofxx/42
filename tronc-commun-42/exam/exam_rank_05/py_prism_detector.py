@@ -1,6 +1,6 @@
 def prism_detector(grid: list[str], pattern: str):
     if not grid or not pattern:
-        return None
+        return []
 
     h = len(grid)
     w = len(grid[0])
@@ -15,9 +15,10 @@ def prism_detector(grid: list[str], pattern: str):
         (-1, 1, "D2"),
         (1, -1, "D2-"),
     ]
+    okay = []
 
-    for y in range(h):
-        for x in range(w):
+    for x in range(w):
+        for y in range(h):
             for dx, dy, name in directions:
                 ok = True
 
@@ -36,6 +37,6 @@ def prism_detector(grid: list[str], pattern: str):
                         break
 
                 if ok:
-                    return (x, y, name)
+                    okay.append((x, y, name))
 
-    return None
+    return okay
