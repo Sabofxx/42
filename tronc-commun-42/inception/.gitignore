@@ -3,3 +3,7 @@ secrets/
 
 # (optionnel) données locales des volumes si jamais présentes dans le repo
 data/
+
+# Notes perso / prépa soutenance — gardées sur disque, jamais poussées
+EXPLANATION.md
+TUTO.md
