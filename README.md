@@ -48,7 +48,7 @@ C track completed, Python track completed (all 11 modules + the full AI / LLM / 
 | [**pacman**](tronc-commun-42/pacman) 🤝 | Pac-Man remake in pygame — engine/UI separation, four ghost AI behaviours (chase/ambush/random/scatter), state machines, persistent highscores, 18/18 tests | `Python` | **100/100** |
 | [**TAP**](tronc-commun-42/TAP) 🤝 | Multiplayer text-adventure MUD over TCP — authoritative server + CLI + web GUI, RFC 42TAP line protocol, Go standard library only | `Go` | **100/100** |
 
-> 🤝 = team project (with [lel-ouaz](https://github.com/lel-ouaz)).
+> 🤝 = team project, built with **lel-ouaz** (42 intra login).
 
 ## Python Modules
 
