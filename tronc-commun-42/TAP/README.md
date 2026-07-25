@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by omischle [, <login2>[, <login3>]].*
+*This project has been created as part of the 42 curriculum by omischle, lel-ouaz.*
 
 # TAP — The Answer Protocol
 
@@ -297,14 +297,12 @@ Manual / multiplayer testing:
 
 ## Group Contributions
 
-This is a group project (2–3 learners). Suggested division of responsibilities
-(fill in real logins/names):
+This is a group project, built by two learners:
 
 - **omischle** — server core (`internal/game`, `internal/server`,
   `internal/protocol`, logging), CLI client, protocol compliance and tests.
-- **<login2>** — GUI client (`cmd/gui` bridge + web UI), world design
+- **lel-ouaz** — GUI client (`cmd/gui` bridge + web UI), world design
   (`data/world.json`), combat/quest tuning.
-- **<login3>** — (if applicable) world content, testing, documentation.
 
 > Each member must be able to explain any part of the code during evaluation.
 
