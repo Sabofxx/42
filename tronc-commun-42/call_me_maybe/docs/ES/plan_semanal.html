@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>call me maybe — Plan Semanal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --text: #e8e8f0;
+    --muted: #5a5a7a;
+    --accent: #7c6af7;
+    --accent2: #f76a8a;
+    --accent3: #6af7c8;
+    --accent4: #f7c46a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+    overflow-x: hidden;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 56px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .header-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-size: clamp(36px, 7vw, 64px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .header h1 span {
+    color: var(--accent);
+  }
+
+  .header-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Timeline */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent3), var(--accent4), var(--accent));
+    opacity: 0.3;
+  }
+
+  /* Day card */
+  .day {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0 24px;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  .day:nth-child(1) { animation-delay: 0.1s; }
+  .day:nth-child(2) { animation-delay: 0.18s; }
+  .day:nth-child(3) { animation-delay: 0.26s; }
+  .day:nth-child(4) { animation-delay: 0.34s; }
+  .day:nth-child(5) { animation-delay: 0.42s; }
+  .day:nth-child(6) { animation-delay: 0.50s; }
+  .day:nth-child(7) { animation-delay: 0.58s; }
+
+  /* Node */
+  .node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .node-dot {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 18px;
+    border: 1px solid;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .node-dot:hover { transform: scale(1.08); }
+
+  .node-line {
+    width: 1px;
+    flex: 1;
+    min-height: 24px;
+    margin-top: 4px;
+  }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    cursor: default;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .card:hover {
+    transform: translateX(4px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .card-day-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .card-goal {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-family: var(--mono);
+  }
+
+  /* Tasks */
+  .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .task-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .task-text {
+    color: #c8c8d8;
+  }
+
+  .task-text code {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    color: inherit;
+  }
+
+  /* Hours badge */
+  .hours-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+    opacity: 0.7;
+  }
+
+  /* Tags */
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid;
+    opacity: 0.6;
+  }
+
+  /* Color themes per day */
+  .d1 { --c: #7c6af7; --clight: rgba(124,106,247,0.12); }
+  .d2 { --c: #6af7c8; --clight: rgba(106,247,200,0.10); }
+  .d3 { --c: #f76a8a; --clight: rgba(247,106,138,0.12); }
+  .d4 { --c: #f7c46a; --clight: rgba(247,196,106,0.10); }
+  .d5 { --c: #6aaef7; --clight: rgba(106,174,247,0.10); }
+  .d6 { --c: #d46af7; --clight: rgba(212,106,247,0.10); }
+  .d7 { --c: #f7f76a; --clight: rgba(247,247,106,0.08); }
+
+  .node-dot {
+    background: var(--clight, rgba(124,106,247,0.12));
+    border-color: var(--c, #7c6af7);
+    color: var(--c, #7c6af7);
+  }
+
+  .node-line { background: var(--c, #7c6af7); opacity: 0.15; }
+
+  .card { border-color: var(--border); }
+  .card:hover { border-color: var(--c, #7c6af7); }
+  .card::before { background: var(--c, #7c6af7); }
+  .hours-badge { border-color: var(--c, #7c6af7); color: var(--c, #7c6af7); }
+  .task-icon { background: var(--clight, rgba(124,106,247,0.12)); color: var(--c, #7c6af7); }
+  .tag { border-color: var(--c, #7c6af7); color: var(--c, #7c6af7); }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 12px;
+    animation: fadeIn 0.5s 0.7s ease both;
+  }
+
+  .footer-stat {
+    text-align: center;
+  }
+
+  .footer-stat-value {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .footer-stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .footer-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  /* Critical badge */
+  .critical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent2);
+    background: rgba(247,106,138,0.1);
+    border: 1px solid rgba(247,106,138,0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+
+  .critical-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 1.5s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header-eyebrow">// 42 Project — Plan de ejecución</div>
+    <h1>call me <span>maybe</span></h1>
+    <div class="header-sub">$ uv run python -m src → JSON válido al 100% en 7 días</div>
+  </header>
+
+  <div class="timeline">
+
+    <!-- DAY 1 -->
+    <div class="day d1">
+      <div class="node">
+        <div class="node-dot">1</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~5h</div>
+        <div class="card-header">
+          <span class="card-day-label">Día 01 — Lunes</span>
+          <span class="card-title">Estructura y Datos</span>
+        </div>
+        <div class="card-goal">Objetivo: El proyecto arranca con <code>uv sync</code> y los datos se cargan y validan correctamente.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">📁</div><div class="task-text">Crear la estructura de carpetas: <code>src/</code>, <code>data/input/</code>, <code>data/output/</code>, <code>llm_sdk/</code></div></div>
+          <div class="task"><div class="task-icon">⚙️</div><div class="task-text">Configurar <code>pyproject.toml</code> con <code>pydantic</code> y <code>numpy</code>, generar <code>uv.lock</code></div></div>
+          <div class="task"><div class="task-icon">🔧</div><div class="task-text">Escribir el <code>Makefile</code> con las reglas: <code>install</code>, <code>run</code>, <code>debug</code>, <code>clean</code>, <code>lint</code></div></div>
+          <div class="task"><div class="task-icon">🧩</div><div class="task-text">Implementar <code>models.py</code>: clases Pydantic <code>FunctionDefinition</code>, <code>FunctionCallTest</code>, <code>FunctionCallResult</code></div></div>
+          <div class="task"><div class="task-icon">📂</div><div class="task-text">Implementar <code>utils.py</code>: <code>load_function_definitions()</code> y <code>load_function_tests()</code> con gestión de errores</div></div>
+          <div class="task"><div class="task-icon">🚫</div><div class="task-text">Crear <code>.gitignore</code> excluyendo <code>__pycache__/</code>, <code>data/output/</code>, <code>.mypy_cache/</code></div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">setup</span>
+          <span class="tag">pydantic</span>
+          <span class="tag">i/o</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day d2">
+      <div class="node">
+        <div class="node-dot">2</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~6h</div>
+        <div class="card-header">
+          <span class="card-day-label">Día 02 — Martes</span>
+          <span class="card-title">Exploración del SDK</span>
+        </div>
+        <div class="card-goal">Objetivo: El modelo carga correctamente y sabes mapear cualquier token_id a su texto real.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">🤖</div><div class="task-text">Integrar <code>llm_sdk</code>: instanciar <code>Small_LLM_Model</code> y verificar que <code>get_logits_from_input_ids()</code> devuelve ~150k logits</div></div>
+          <div class="task"><div class="task-icon">📖</div><div class="task-text">Leer el archivo de vocabulario con <code>get_path_to_vocab_file()</code> y construir el dict <code>{token_id: string}</code></div></div>
+          <div class="task"><div class="task-icon">🔬</div><div class="task-text">Explorar el tokenizador: ¿cómo se divide <code>fn_add_numbers</code>? ¿Cuántos tokens ocupa <code>"{"</code>? Tomar notas</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Crear <code>VocabularyMapper</code> en <code>constrained_dec.py</code> con método <code>token_to_str(id)</code> y <code>find_tokens_with_prefix(prefix)</code></div></div>
+          <div class="task"><div class="task-icon">✅</div><div class="task-text">Verificar que <code>encode()</code> y <code>decode()</code> del SDK funcionan como se espera con frases de prueba simples</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">sdk</span>
+          <span class="tag">vocabulario</span>
+          <span class="tag">tokenización</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day d3">
+      <div class="node">
+        <div class="node-dot">3</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~8h</div>
+        <div class="card-header">
+          <span class="card-day-label">Día 03 — Miércoles</span>
+          <span class="card-title">El "Filtro" — Core</span>
+        </div>
+        <div class="card-goal">Objetivo: La función <code>mask_invalid_tokens()</code> funciona y puedes generar el <code>{</code> inicial de forma restringida.</div>
+        <div class="critical-badge"><span class="critical-dot"></span>día crítico — el núcleo del proyecto</div>
+        <div class="tasks" style="margin-top:14px">
+          <div class="task"><div class="task-icon">🏗️</div><div class="task-text">Diseñar la <code>JSONStateMachine</code>: definir los estados <code>EXPECT_OPEN_BRACE</code>, <code>EXPECT_KEY</code>, <code>EXPECT_COLON</code>, etc.</div></div>
+          <div class="task"><div class="task-icon">⚡</div><div class="task-text">Implementar <code>mask_invalid_tokens(logits, valid_token_ids)</code>: poner <code>-inf</code> a todos los IDs fuera del conjunto válido</div></div>
+          <div class="task"><div class="task-icon">🔁</div><div class="task-text">Implementar el bucle de generación base en <code>generate()</code>: obtener logits → enmascarar → argmax → append → repetir</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Test manual: forzar que el modelo genere solo <code>{</code> como primer token, verificar que funciona con cualquier prompt</div></div>
+          <div class="task"><div class="task-icon">📐</div><div class="task-text">Implementar transición <code>EXPECT_OPEN_BRACE → EXPECT_KEY</code> y restricción a <code>"fn_name"</code> y <code>"args"</code></div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">decoder</span>
+          <span class="tag">state-machine</span>
+          <span class="tag">logits</span>
+          <span class="tag">core</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="day d4">
+      <div class="node">
+        <div class="node-dot">4</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~8h</div>
+        <div class="card-header">
+          <span class="card-day-label">Día 04 — Jueves</span>
+          <span class="card-title">Gramática JSON</span>
+        </div>
+        <div class="card-goal">Objetivo: El decodificador genera <code>{"fn_name": "fn_add_numbers", "args": {"a": ...}}</code> válido al 100%.</div>
+        <div class="critical-badge"><span class="critical-dot"></span>día crítico — el más complejo</div>
+        <div class="tasks" style="margin-top:14px">
+          <div class="task"><div class="task-icon">🔤</div><div class="task-text">Implementar generación restringida de valores <code>string</code>: lookahead de prefijos en el vocabulario, cierre con <code>"</code></div></div>
+          <div class="task"><div class="task-icon">🔢</div><div class="task-text">Implementar generación restringida de valores <code>number</code>: dígitos, <code>.</code>, <code>-</code>, seguimiento del literal parcial</div></div>
+          <div class="task"><div class="task-icon">🗂️</div><div class="task-text">Implementar el objeto anidado <code>args</code>: <code>{</code>, claves del esquema, <code>:</code>, valores tipados, <code>,</code> entre args, <code>}</code> final</div></div>
+          <div class="task"><div class="task-icon">🔗</div><div class="task-text">Conectar todos los estados de la máquina: el JSON completo se genera de principio a fin sin ningún token inválido</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Test con <code>fn_substitute_string_with_regex</code> (3 argumentos string) — el caso más complejo del dataset</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">string</span>
+          <span class="tag">number</span>
+          <span class="tag">nested-json</span>
+          <span class="tag">bpe</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 5 -->
+    <div class="day d5">
+      <div class="node">
+        <div class="node-dot">5</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~6h</div>
+        <div class="card-header">
+          <span class="card-day-label">Día 05 — Viernes</span>
+          <span class="card-title">Selección de Función</span>
+        </div>
+        <div class="card-goal">Objetivo: El LLM elige la función correcta semánticamente, sin heurísticas ni <code>if</code>.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">📝</div><div class="task-text">Implementar <code>build_selection_prompt()</code> en <code>utils.py</code>: incluir el query + las descripciones de todas las funciones</div></div>
+          <div class="task"><div class="task-icon">🎯</div><div class="task-text">En la Fase 1, restringir <code>fn_name</code> al conjunto exacto de nombres del JSON — el modelo elige el de mayor logit</div></div>
+          <div class="task"><div class="task-icon">📝</div><div class="task-text">Implementar <code>build_extraction_prompt()</code>: query + esquema de la función seleccionada para la Fase 2</div></div>
+          <div class="task"><div class="task-icon">🔌</div><div class="task-text">Conectar las dos fases en el pipeline de <code>__main__.py</code>: selección → extracción → resultado</div></div>
+          <div class="task"><div class="task-icon">🧪</div><div class="task-text">Probar los 11 prompts del dataset: verificar que la función elegida es siempre la correcta</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">prompt</span>
+          <span class="tag">selección</span>
+          <span class="tag">pipeline</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div class="day d6">
+      <div class="node">
+        <div class="node-dot">6</div>
+        <div class="node-line"></div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~5h</div>
+        <div class="card-header">
+          <span class="card-day-label">Día 06 — Sábado</span>
+          <span class="card-title">Refinado y Velocidad</span>
+        </div>
+        <div class="card-goal">Objetivo: Los 11 prompts se procesan en menos de 5 minutos y <code>results.json</code> es 100% válido.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">⏱️</div><div class="task-text">Medir el tiempo de procesamiento total — si supera 5 min, optimizar el número de tokens generados por fase</div></div>
+          <div class="task"><div class="task-icon">📤</div><div class="task-text">Implementar <code>write_results()</code> en <code>utils.py</code>: crear <code>data/output/</code> si no existe, escribir JSON bien formateado</div></div>
+          <div class="task"><div class="task-icon">🛡️</div><div class="task-text">Añadir gestión de errores completa: archivo ausente, JSON malformado, fallo del LLM → mensaje claro, sin crash</div></div>
+          <div class="task"><div class="task-icon">🔍</div><div class="task-text">Verificar manualmente el <code>results.json</code>: tipos correctos, claves exactas, sin comas finales</div></div>
+          <div class="task"><div class="task-icon">🧩</div><div class="task-text">Probar con archivos de entrada alternativos: funciones distintas, prompts ambiguos, JSON de entrada inválido</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">rendimiento</span>
+          <span class="tag">output</span>
+          <span class="tag">error-handling</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div class="day d7">
+      <div class="node">
+        <div class="node-dot">7</div>
+      </div>
+      <div class="card">
+        <div class="hours-badge">~4h</div>
+        <div class="card-header">
+          <span class="card-day-label">Día 07 — Domingo</span>
+          <span class="card-title">Calidad y README</span>
+        </div>
+        <div class="card-goal">Objetivo: El proyecto pasa <code>mypy</code> y <code>flake8</code> sin errores, y el README cumple todos los requisitos del subject.</div>
+        <div class="tasks">
+          <div class="task"><div class="task-icon">📋</div><div class="task-text">Añadir type hints completos a todas las funciones y variables — pasar <code>make lint</code> sin errores</div></div>
+          <div class="task"><div class="task-icon">📚</div><div class="task-text">Añadir docstrings PEP 257 a todas las clases y funciones (Google o NumPy style)</div></div>
+          <div class="task"><div class="task-icon">📄</div><div class="task-text">Completar el <code>README.md</code>: algoritmo, decisiones de diseño, análisis de rendimiento, retos, ejemplos de uso</div></div>
+          <div class="task"><div class="task-icon">✅</div><div class="task-text">Revisión final: ejecutar <code>uv sync</code> desde cero, <code>make run</code>, validar <code>results.json</code>, push al repositorio</div></div>
+          <div class="task"><div class="task-icon">🚫</div><div class="task-text">Confirmar que <code>data/output/</code> no está en el repo Git — será generado por los evaluadores</div></div>
+        </div>
+        <div class="tags">
+          <span class="tag">mypy</span>
+          <span class="tag">flake8</span>
+          <span class="tag">readme</span>
+          <span class="tag">entrega</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end timeline -->
+
+  <footer class="footer">
+    <div class="footer-stat">
+      <div class="footer-stat-value">7</div>
+      <div class="footer-stat-label">Días</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat">
+      <div class="footer-stat-value">~42h</div>
+      <div class="footer-stat-label">Horas estimadas</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat">
+      <div class="footer-stat-value">100%</div>
+      <div class="footer-stat-label">JSON válido</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat">
+      <div class="footer-stat-value">Días 3–4</div>
+      <div class="footer-stat-label">Núcleo crítico</div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
