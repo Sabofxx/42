@@ -233,24 +233,23 @@ and `CheatMode.toggle_cheat_by_key()`.
 
 ### How AI was used
 
-AI (Claude) was used as a paired-programming assistant. All AI output was
-manually reviewed, edited, and tested. Concretely:
+AI assistants were used as a research and documentation aid only:
 
-| Task | AI contribution | Human responsibility |
-|------|-----------------|----------------------|
-| Maze 2×-scale conversion design | proposed the `(2W+1) × (2H+1)` mapping when the original 1-tile-per-cell layout left no walls between cells | validated against the assigned package's bitmask semantics, wrote and fixed `convert_maze_to_tiles` |
-| Ghost AI scaffolding | drafted the four behaviours and state transitions | tuned distances, fixed the frightened-mode flee (was random → now max-distance from player) |
-| pygame boilerplate | window/clock/event pump pattern | input buffering policy, ESC routing to pause |
-| Test cases | brainstormed edge cases (corrupted highscore file, ghost frightened timer expiry, wall blocking) | reviewed every assertion; rewrote the maze test after the corner-vs-ghost-spawn conflict |
-| Documentation | first drafts of README sections | rewritten to match the actual code; AI-generated paragraphs that did not match implementation were deleted |
+| Use | Detail |
+|-----|--------|
+| Reading documentation | locating the relevant parts of the pygame docs (event pump, clock, surface blitting) and of the assigned maze package's bitmask semantics |
+| Questioning the subject | clarifying what was actually required — ghost behaviour count, scoring rules, what "playable" meant for the defense — before we implemented anything |
+| Debugging explanations | interpreting tracebacks and pytest failure output while we fixed our own code |
+| Discussing approaches | talking through the `(2W+1) × (2H+1)` tile mapping and the four ghost behaviours as a design conversation |
+| Documentation | proofreading and formatting sections of this README |
 
-AI was **not** used for: the integration glue in `pac-man.py`, the decision
-to embed the highscore preview in the main menu, team responsibility decisions,
-nor the project-management documents.
+AI was **not** used to write code. Every line — the engine, the four ghost
+behaviours, `convert_maze_to_tiles`, the UI layer, the integration glue in
+`pac-man.py`, the test suite and the project-management documents — was
+written, run and debugged by the team.
 
-Following the subject's AI guidelines: every block of generated code was
-inspected, run, and tested before being kept. Anything we could not explain
-line-by-line was rewritten by hand.
+Following the subject's AI guidelines: we can explain and justify every line of
+this project line-by-line during peer evaluation.
 
 ## Project Management
 

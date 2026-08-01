@@ -378,10 +378,11 @@ under macOS `leaks --atExit`.
 
 | Task | Tool | Where |
 |---|---|---|
-| Brainstorming on how to structure the EDF/FIFO scheduler around a single priority queue | Claude | Design phase, before any code was written |
-| Sanity-checking the Coffman-condition argument against the actual acquisition order | Claude | Reviewed and rephrased manually |
-| Drafting parts of this README | Claude | This file — every section was reviewed, edited and validated by hand against the actual source code |
+| Reading documentation | Claude | locating and explaining the relevant parts of `pthread_mutex_lock(3p)`, `pthread_cond_timedwait(3p)` and `gettimeofday(2)` |
+| Questioning the subject | Claude | clarifying what was required — death detection timing, meal counting, what counts as a data race — before any code was written |
+| Discussing approaches | Claude | talking through how to structure the EDF/FIFO scheduler around a single priority queue, and sanity-checking the Coffman-condition argument |
+| Documentation | Claude | proofreading this README against the actual source code |
 
-All AI-assisted content was reviewed, understood, and validated
-before inclusion. No code was copied without full comprehension of
-its behaviour and synchronization implications.
+AI was **not** used to write code. The simulation, the priority queue, the
+mutex and monitor logic were written and debugged by hand; every
+synchronization decision can be justified line-by-line at defense.

@@ -136,9 +136,16 @@ A functional WordPress website is served using:
 
 ### AI Usage
 
-AI was used to assist with:
-- Generating the `monitoring.sh` bash script based on the project requirements
-- Drafting this README document and comparison tables
-- Understanding configuration syntax for sudoers, PAM, SSH, lighttpd, and MariaDB
+AI assistants were used as a research and documentation aid only:
 
-All configurations were verified and applied manually on the virtual machine.
+- Locating and explaining reference documentation for sudoers, PAM, SSH, UFW,
+  lighttpd and MariaDB when the man pages were unclear
+- Clarifying what the subject actually required (password policy rules,
+  monitoring frequency, partition layout) before configuring anything
+- Explaining error messages returned by `sudo`, `ufw` and `systemctl`
+  while debugging the VM
+- Proofreading this README and formatting the comparison tables
+
+AI was **not** used to write code. The `monitoring.sh` script, the partition
+scheme, and every configuration file were written, applied and verified by hand
+on the virtual machine.

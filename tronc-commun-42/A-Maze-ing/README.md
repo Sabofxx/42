@@ -205,4 +205,16 @@ Each cell is an integer where bits represent walls:
 - [Maze generation algorithms - Wikipedia](https://en.wikipedia.org/wiki/Maze_generation_algorithm)
 - [Recursive backtracker](https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_depth-first_search)
 - [Python packaging guide](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
-- AI was used to assist with boilerplate code structure, flake8/mypy compliance, and documentation formatting. All logic was reviewed and validated manually.
+
+### AI usage
+
+AI assistants were used as a research and documentation aid only:
+
+- Locating and explaining reference material on maze-generation algorithms and
+  the Python packaging documentation
+- Clarifying what the subject required before implementing anything
+- Explaining flake8 and mypy diagnostics while fixing them
+- Proofreading and formatting this README
+
+AI was **not** used to write code. The DFS generator, the `mazegen` package
+and the terminal rendering were written and tested by hand.

@@ -317,11 +317,15 @@ Classic references on the topic:
 - Go standard library: `net`, `bufio`, `encoding/json`, `net/http`
   (Server-Sent Events), `embed`.
 
-**How AI was used.** AI assistance was used to help scaffold the project
-structure, draft boilerplate (logging, the JSON world loader, the SSE bridge)
-and this documentation, and to cross-check the implementation against the RFC
-and subject examples. Every generated piece was reviewed, tested (unit tests +
-manual multiplayer sessions) and adjusted by the team; we only kept code we
-fully understand and can justify during peer evaluation. AI was **not** used to
-make design decisions blindly — combat/quest mechanics and the world layout
-were decided by the team and then implemented with AI as a drafting aid.
+**How AI was used.** AI assistants were used as a research and documentation
+aid only: locating and explaining the relevant parts of the Go standard library
+documentation (`net`, `bufio`, `net/http` Server-Sent Events, `embed`),
+clarifying what the RFC 42TAP line protocol and the subject examples actually
+required before we implemented anything, explaining compiler and runtime errors
+while debugging, and proofreading this documentation.
+
+AI was **not** used to write code. The protocol layer, the authoritative
+server, the world loader, the logging package, the CLI and the web GUI bridge
+were written by the team and validated with unit tests and manual multiplayer
+sessions. Combat and quest mechanics and the world layout were designed and
+implemented by the team; we can justify every line during peer evaluation.

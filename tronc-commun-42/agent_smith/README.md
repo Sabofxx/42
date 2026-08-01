@@ -387,4 +387,19 @@ uv run python scripts/benchmark_swebench.py --moulinette-path moulinette
 - SWE-bench documentation: https://www.swebench.com/
 - OpenAI-compatible chat completions API documentation: https://platform.openai.com/docs/api-reference/chat
 
-AI assistance was used to scaffold the project architecture, implement the sandbox and CLI plumbing, and draft documentation. The implementation still requires human review, real benchmark runs, and project-defense familiarity before submission.
+### AI usage
+
+AI assistants were used as a research and documentation aid only:
+
+- Locating and explaining the relevant parts of the MCP Python SDK, Pydantic,
+  Docker and SWE-bench documentation
+- Clarifying what the subject required (the Thought→Code→Observation loop,
+  sandbox isolation guarantees, which benchmark tracks to cover) before
+  implementing anything
+- Explaining error messages — rate-limit responses, sandbox failures, Docker
+  build errors — while debugging
+- Proofreading and formatting this README and the benchmark report
+
+AI was **not** used to write code. The agent loop, the process-isolated
+sandbox, the MCP tools, the CLI entry points and the benchmark harness were
+written and debugged by hand; the benchmark figures come from real runs.

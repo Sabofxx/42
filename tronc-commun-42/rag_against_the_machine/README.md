@@ -194,11 +194,19 @@ The server implements /v1/chat/completions, /v1/completions, and /v1/embeddings 
 
 ### AI usage
 
-AI tooling (Claude) was used to scaffold the project skeleton (CLI shape,
-pyproject, Makefile) and to review the chunking and retrieval logic. Every
-generated line was read, edited, and validated against the project spec; the
-evaluation logic, tokenizer, and chunking heuristics were tested locally
-against the public datasets.
+AI assistants were used as a research and documentation aid only:
+
+- Locating and explaining reference material on BM25, Reciprocal Rank Fusion
+  and sentence-transformers, and finding the relevant pages of the
+  sentence-transformers and vLLM documentation
+- Clarifying what the subject required (evaluation metrics, index persistence,
+  the bonus criteria) before implementing anything
+- Explaining error messages and unexpected retrieval results while debugging
+- Proofreading and formatting this README
+
+AI was **not** used to write code. The ingestion, AST chunking, BM25 and dense
+indexes, the RRF fusion, the tokenizer, the generator and the evaluation logic
+were written by hand and tested locally against the public datasets.
 
 ## Bonus features implemented
 

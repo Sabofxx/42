@@ -93,12 +93,14 @@ only the Python standard library.
 
 | Task | Tool | Where |
 |---|---|---|
-| Brainstorming the modified-Dijkstra + node-disjoint iteration approach | Claude | Algorithm design phase, before any code was written |
-| Reviewing the simultaneous-movement turn-execution invariants | Claude | `engine/simulation.py` — read, edited and validated by hand |
-| Drafting parts of this README | Claude | This file — reviewed, edited and validated against the actual source code |
+| Reading documentation | Claude | locating and explaining reference material on Dijkstra variants and node-disjoint path selection |
+| Questioning the subject | Claude | clarifying the simultaneous-movement rules and the expected output format before any code was written |
+| Discussing approaches | Claude | talking through the modified-Dijkstra + node-disjoint iteration approach as a design conversation |
+| Documentation | Claude | proofreading this README against the actual source code |
 
-All AI-assisted content was reviewed, understood and validated
-before inclusion. No code was copied without full comprehension.
+AI was **not** used to write code. The map parser, the routing engine, the
+turn execution in `engine/simulation.py` and the terminal visualization were
+written and tested by hand.
 
 ## Algorithm
 

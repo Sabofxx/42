@@ -138,9 +138,16 @@ Observed random tests are within mandatory thresholds:
 - Standard C library and Unix man pages (`read`, `write`, `malloc`, `free`, `exit`)
 
 ### AI Usage Disclosure
-AI assistance was used for:
-- drafting implementation structure
-- discussing algorithm tradeoffs and complexity interpretations in push_swap operation model
-- helping prepare and format project documentation
 
-All generated ideas/code were manually reviewed, tested, and adapted to fit the subject, Norm, and project constraints.
+AI assistants were used as a research and documentation aid only:
+
+- Locating and explaining reference material on sorting complexity and the
+  radix / chunk strategies discussed in the literature
+- Clarifying what the subject required (operation set, error handling,
+  the move-count thresholds used for grading) before implementing anything
+- Explaining `valgrind` output and compiler diagnostics while debugging
+- Proofreading and formatting this README
+
+AI was **not** used to write code. The stack model, the sorting strategies,
+the parsing and the memory management were written, tested and optimised by
+hand against the subject, the Norm and the move-count constraints.

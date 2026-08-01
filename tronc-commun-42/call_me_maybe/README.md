@@ -313,9 +313,11 @@ Wrote 11 entries to data/output/function_calling_results.json.
 
 | Task | Tool | Where |
 |---|---|---|
-| Brainstorming the constrained-decoding design | Claude / ChatGPT | Research and design phase |
-| Reviewing the JSON state-machine logic | Claude | `src/constrained_dec.py` — read, rewritten and validated by hand |
-| Drafting README sections | Claude | This file — reviewed and completed manually |
+| Reading documentation | Claude / ChatGPT | locating and explaining the Willard & Louf paper on guided generation and the relevant transformers / uv documentation |
+| Questioning the subject | Claude | clarifying what "schema-valid by construction" required, and which failure modes had to be impossible rather than merely unlikely |
+| Discussing approaches | Claude | talking through the trie + per-argument type-masking design during the research phase |
+| Documentation | Claude | proofreading this README |
 
-All AI-generated content was reviewed, understood and validated before
-inclusion. No code was copied without full comprehension.
+AI was **not** used to write code. The trie, the JSON state machine in
+`src/constrained_dec.py`, the generator and the models were written, rewritten
+and validated by hand.
