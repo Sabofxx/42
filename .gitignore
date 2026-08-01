@@ -23,3 +23,30 @@ tronc-commun-42/exam/exam_rank_03/grademe03/
 .DS_Store
 .vscode/
 .idea/
+
+# Build artefacts and compiled output
+*.o
+*.a
+*.so
+a.out
+*.pyc
+__pycache__/
+*.egg-info/
+*.whl
+*.swp
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+
+# School material that must not be redistributed
+# (subject PDFs, moulinette binaries)
+*.pdf
+moulinette_pkg/
+moulinette*.zip
+exam_mouli/
+
+# Generated indexes and datasets
+tronc-commun-42/rag_against_the_machine/data/processed/
