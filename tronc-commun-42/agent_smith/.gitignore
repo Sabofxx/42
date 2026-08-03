@@ -43,7 +43,6 @@ pip-wheel-metadata/
 cache/
 evaluations/
 moulinette/
-DEFENSE_42_AGENT_SMITH.md
 
 # Logs and temporary files
 *.log
